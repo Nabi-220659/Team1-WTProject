@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — FUNDBEE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Products_style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+    <ul class="nav-links">
+      <li><a href="Products.html" class="active">Products</a></li>
+      <li><a href="Company.html">Company</a></li>
+      <li><a href="knowledge-hub.html">Knowledge Hub</a></li>
+      <li><a href="partner.html">Partner</a></li>
+      <li><a href="login.html">Login</a></li>
+
+    </ul>
+  </nav>
+<!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="hero-inner">
+      <div class="page-eyebrow">Our Products</div>
+      <h1>Financial Solutions<br>for Every <em>Goal</em></h1>
+      <p>From personal milestones to business ambitions — FUNDBEE has a loan product tailored for every need, with fast approvals and transparent terms.</p>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <button class="filter-btn active" onclick="filterCards('all', this)">All Products</button>
+      <button class="filter-btn" onclick="filterCards('personal', this)">Personal</button>
+      <button class="filter-btn" onclick="filterCards('business', this)">Business</button>
+      <button class="filter-btn" onclick="filterCards('home', this)">Home</button>
+      <button class="filter-btn" onclick="filterCards('instant', this)">Instant</button>
+    </div>
+  </div>
+<script src="nav.js"></script>
+  <script src="Products.js"></script>
+  </body>
+  </html>
