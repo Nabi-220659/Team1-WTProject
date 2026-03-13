@@ -1,69 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<title>FUNDBEE - Home</title>
-<link rel="stylesheet" href="/Frontend/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUNDBEE — Finance That Moves With You</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-<h1>FUNDBEE</h1>
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#" class="nav-logo">FUND<span>BEE</span></a>
+        <ul class="nav-links">
+            <li><a href="Products.html">Products</a></li>
+            <li><a href="Company.html">Company</a></li>
+            <li><a href="knowledge-hub.html">Knowledge Hub</a></li>
+            <li><a href="partner.html">Partner</a></li>
+            <li><a href="login.html">Login</a></li>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="loan.html">Loans</a>
-<a href="login.html">Login</a>
-<a href="register.html">Register</a>
-<a href="contact.html">Contact</a>
-</nav>
-</header>
+        </ul>
+    </nav>
 
-<section class="hero">
+    <!-- HERO -->
+    <section class="hero">
+        <div class="slide active" style="background-image:url('images/bank.jpg')"></div>
+        <div class="slide" style="background-image:url('images/img2.jpg')"></div>
+        <div class="slide" style="background-image:url('images/img3.jpg')"></div>
+        <div class="slide" style="background-image:url('images/img4.jpg')"></div>
+        <div class="hero-overlay"></div>
 
-<h2>Fast & Easy Loans</h2>
+        <div class="hero-content">
+            <div class="hero-tag">RBI Registered NBFC</div>
+            <h1>Scale. Innovate.<br><em>Excel.</em></h1>
+            <p>Flexible and fast financial solutions designed for individuals and businesses ready to grow. Your plans,
+                our support.</p>
+            <div class="hero-actions">
+                <a href="login.html" class="btn-primary">Apply Now</a>
+                <a href="#services" class="btn-ghost">Explore Products</a>
+            </div>
+        </div>
 
-<p>Apply for loans quickly with FUNDBEE</p>
+        <div class="slider-dots">
+            <div class="dot active" data-index="0"></div>
+            <div class="dot" data-index="1"></div>
+            <div class="dot" data-index="2"></div>
+            <div class="dot" data-index="3"></div>
+        </div>
 
-<a href="loan.html" class="btn">Apply Now</a>
+        <div class="scroll-hint">
+            <div class="scroll-line"></div>
+            Scroll
+        </div>
+    </section>
 
-</section>
-<section class="services">
+    <!-- STATS BAND -->
+    <div class="stats-band">
+        <div class="stats-grid" id="statGrid">
+            <div class="stat-item reveal" data-stat-key="experience">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Years of Experience</div>
+            </div>
+            <div class="stat-item reveal" data-stat-key="downloads">
+                <div class="stat-number">2M+</div>
+                <div class="stat-label">App Downloads</div>
+            </div>
+            <div class="stat-item reveal" data-stat-key="loans">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Loans Approved</div>
+            </div>
+            <div class="stat-item reveal" data-stat-key="customers">
+                <div class="stat-number">25K+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+        </div>
+    </div>
 
-<h2>Our Services</h2>
-
-<div class="service-container">
-
-<div class="service-box">
-<img src="C:\xampp\htdocs\Loan_Management_System\Team1-WTProject\Frontend\images\loan.jpg">
-<p>Loan</p>
-</div>
-
-<div class="service-box">
-<img src="/Frontend/personal_loan.jpg">
-<p>Personal Loan</p>
-</div>
-
-<div class="service-box">
-<img src="/Frontend/bussiness_loan.jpg">
-<p>Bussiness Loan</p>
-</div>
-
-<div class="service-box">
-<img src="/Frontend/home_loan.jpg">
-<p>Home Loan</p>
-</div>
-
-</div>
-
-</section>
-
-<footer>
-<p>© 2026-FUNDBEE Finance Limited is an RBI 
-    registered NBFC,which is owned by FUNDBEE
-     Technologies  Pvt.Ltd.</p>
-</footer>
-
+    <script src="nav.js"></script>
+    <script src="style.js"></script>
 </body>
+
 </html>
