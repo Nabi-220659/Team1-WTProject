@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Hub — FUNDBEE</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="knowledge-hub.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+    <ul class="nav-links">
+      <li><a href="Products.html">Products</a></li>
+      <li><a href="Company.html">Company</a></li>
+      <li><a href="knowledge-hub.html" class="active">Knowledge Hub</a></li>
+      <li><a href="partner.html">Partner</a></li>
+      <li><a href="login.html">Login</a></li>
+
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Knowledge Hub</div>
+        <h1>Learn. Plan.<br><em>Succeed.</em></h1>
+        <p>Expert guides, loan calculators, and financial tips — everything you need to make smarter money decisions.
+        </p>
+        <div class="search-wrap">
+          <input type="text" id="searchInput" placeholder="Search articles, guides, tips…">
+          <span class="search-icon">🔍</span>
+        </div>
+      </div>
+      <div class="hero-topics">
+        <div class="hero-topics-label">Browse by Topic</div>
+        <div class="topic-pills">
+          <span class="topic-pill active" data-topic="all">All Topics</span>
+          <span class="topic-pill" data-topic="loans">Loans</span>
+          <span class="topic-pill" data-topic="savings">Savings</span>
+          <span class="topic-pill" data-topic="credit">Credit Score</span>
+          <span class="topic-pill" data-topic="tax">Tax</span>
+          <span class="topic-pill" data-topic="invest">Investing</span>
+          <span class="topic-pill" data-topic="guide">Guides</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED ARTICLE -->
+  <section class="featured-section">
+    <div class="section-eyebrow">Editor's Pick</div>
+    <h2 class="section-title">Featured <em>Article</em></h2>
+
+    <!-- Featured article injected by JS -->
+    <div id="featuredArticle"></div>
+  </section>
+
+  <!-- ARTICLES GRID -->
+  <section class="articles-section">
+    <div class="articles-header reveal">
+      <div>
+        <div class="section-eyebrow">Latest Articles</div>
+        <h2 class="section-title" style="margin-bottom:0">All <em>Resources</em></h2>
+      </div>
+      <a href="#" class="view-all-link">View all articles →</a>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="cat-filter reveal">
+      <button class="cat-btn active" data-cat="all">All</button>
+      <button class="cat-btn" data-cat="loans">Loans</button>
+      <button class="cat-btn" data-cat="savings">Savings</button>
+      <button class="cat-btn" data-cat="credit">Credit Score</button>
+      <button class="cat-btn" data-cat="tax">Tax</button>
+      <button class="cat-btn" data-cat="invest">Investing</button>
+      <button class="cat-btn" data-cat="guide">Guides</button>
+    </div>
+
+    <div class="articles-grid" id="articlesGrid">
+      <!-- Articles injected by JS -->
+    </div>
+    <div class="no-results" id="noResults" style="display:none;">
+      No articles found. Try a different keyword or category.
+    </div>
+  </section>
+
+  <!-- CALCULATORS OVERVIEW -->
+  <section class="calc-section">
+    <div class="calc-inner">
+      <div class="calc-header reveal">
+        <div class="section-eyebrow">Tools</div>
+        <h2 class="section-title" style="color:var(--white)">Financial <em style="color:var(--gold)">Calculators</em>
+        </h2>
+      </div>
+      <div class="calc-grid">
+
+        <a href="#emi-calculator" class="calc-card reveal">
+          <div class="calc-icon">🧮</div>
+          <div class="calc-name">EMI Calculator</div>
+          <div class="calc-desc">Find out your exact monthly repayment amount for any loan amount, rate, and tenure
+            combination.</div>
+          <span class="calc-cta">Calculate Now →</span>
+        </a>
+
+        <a href="Frontend\eligibility.html" class="calc-card reveal">
+          <div class="calc-icon">📈</div>
+          <div class="calc-name">Loan Eligibility</div>
+          <div class="calc-desc">Check how much loan you're eligible for based on your income, existing obligations, and
+            credit profile.</div>
+          <span class="calc-cta">Check Eligibility →</span>
+        </a>
+
+        <a href="savings-goal.html" class="calc-card reveal">
+          <div class="calc-icon">💰</div>
+          <div class="calc-name">Savings Goal Planner</div>
+          <div class="calc-desc">Set a financial goal and work backwards to find out how much you need to save every
+            month to reach it.</div>
+          <span class="calc-cta">Plan Now →</span>
+        </a>
+
+        <a href="#" class="calc-card reveal">
+          <div class="calc-icon">🏠</div>
+          <div class="calc-name">Home Affordability</div>
+          <div class="calc-desc">Discover the maximum home price you can afford without stretching your finances thin.
+          </div>
+          <span class="calc-cta">Calculate →</span>
+        </a>
+
+        <a href="#" class="calc-card reveal">
+          <div class="calc-icon">📊</div>
+          <div class="calc-name">Part-Payment Savings</div>
+          <div class="calc-desc">See how making lump-sum part-payments reduces your outstanding tenure and total
+            interest paid.</div>
+          <span class="calc-cta">Explore →</span>
+        </a>
+
+        <a href="#" class="calc-card reveal">
+          <div class="calc-icon">🔄</div>
+          <div class="calc-name">Balance Transfer</div>
+          <div class="calc-desc">Calculate the exact savings from transferring your existing high-interest loan to
+            FUNDBEE.</div>
+          <span class="calc-cta">Compare →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EMI CALCULATOR (interactive) -->
+  <section class="emi-section" id="emi-calculator">
+    <div class="emi-header reveal">
+      <div class="section-eyebrow">Interactive Tool</div>
+      <h2 class="section-title">EMI <em>Calculator</em></h2>
+    </div>
+    <div class="emi-box reveal">
+      <div class="emi-inputs">
+        <h3>Adjust Your Loan</h3>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span>Loan Amount</span>
+            <span class="input-value" id="loanAmountVal">₹5L</span>
+          </div>
+          <input type="range" id="loanAmount" min="10000" max="5000000" step="10000" value="500000">
+          <div class="range-labels"><span>₹10K</span><span>₹50L</span></div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span>Interest Rate</span>
+            <span class="input-value" id="interestVal">10.5% p.a.</span>
+          </div>
+          <input type="range" id="interestRate" min="7" max="24" step="0.5" value="10.5">
+          <div class="range-labels"><span>7%</span><span>24%</span></div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
+            <span>Tenure</span>
+            <span class="input-value" id="tenureVal">24 months</span>
+          </div>
+          <input type="range" id="tenure" min="3" max="84" step="3" value="24">
+          <div class="range-labels"><span>3 months</span><span>84 months</span></div>
+        </div>
+      </div>
+
+      <div class="emi-result">
+        <h3>Monthly EMI</h3>
+        <div class="emi-amount" id="emiAmount">₹0</div>
+        <div class="emi-label">per month</div>
+        <div class="emi-breakdown">
+          <div class="breakdown-row">
+            <span class="breakdown-label">Total Amount Payable</span>
+            <span class="breakdown-val" id="totalPayable">—</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Total Interest</span>
+            <span class="breakdown-val" id="totalInterest">—</span>
+          </div>
+        </div>
+        <a href="login.html" class="apply-now-btn">Apply for This Loan →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="newsletter-inner reveal">
+      <div class="section-eyebrow">Stay Informed</div>
+      <h2>Get Financial Tips in Your Inbox</h2>
+      <p>Join 50,000+ Indians who receive our weekly newsletter — expert insights, loan updates, and money-saving tips
+        every Tuesday.</p>
+      <form class="newsletter-form" id="newsletterForm">
+        <input type="email" id="newsletterEmail" placeholder="Enter your email address" required>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="newsletter-note" id="newsletterMsg">No spam, ever. Unsubscribe any time.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+        <p>FUNDBEE Finance Limited is an RBI Registered NBFC providing fast, secure, and flexible financial solutions to
+          individuals and businesses across India.</p>
+        <div class="footer-reg">🏦 RBI Registered NBFC — Lic. No. N-14.03215</div>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="products.html">Personal Loan</a>
+        <a href="products.html">Business Loan</a>
+        <a href="products.html">Home Loan</a>
+        <a href="products.html">Instant Loan</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="company.html">About Us</a>
+        <a href="knowledge-hub.html">Knowledge Hub</a>
+        <a href="#">Partner With Us</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Contact</h4>
+        <p>✉ support@fundbee.com</p>
+        <p>📞 +91 9876 543 210</p>
+        <p>📍 Nariman Point, Mumbai</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 FUNDBEE Finance Limited. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Grievance Redressal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script src="knowledge-hub.js?v=20260310b"></script>
+</body>
+
+</html>
