@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — FUNDBEE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Products_style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+    <ul class="nav-links">
+      <li><a href="Products.html" class="active">Products</a></li>
+      <li><a href="Company.html">Company</a></li>
+      <li><a href="knowledge-hub.html">Knowledge Hub</a></li>
+      <li><a href="partner.html">Partner</a></li>
+      <li><a href="login.html">Login</a></li>
+
+    </ul>
+  </nav>
+<!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="hero-inner">
+      <div class="page-eyebrow">Our Products</div>
+      <h1>Financial Solutions<br>for Every <em>Goal</em></h1>
+      <p>From personal milestones to business ambitions — FUNDBEE has a loan product tailored for every need, with fast approvals and transparent terms.</p>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <button class="filter-btn active" onclick="filterCards('all', this)">All Products</button>
+      <button class="filter-btn" onclick="filterCards('personal', this)">Personal</button>
+      <button class="filter-btn" onclick="filterCards('business', this)">Business</button>
+      <button class="filter-btn" onclick="filterCards('home', this)">Home</button>
+      <button class="filter-btn" onclick="filterCards('instant', this)">Instant</button>
+    </div>
+  </div>
+
+  <!-- PRODUCTS GRID -->
+  <section class="products-section">
+    <div class="products-grid" id="productsGrid">
+
+      <!-- Personal Loan — Featured -->
+      <div class="product-card featured" data-category="personal">
+        <div class="card-img">
+          <img src="images/img2.jpg" alt="Personal Loan">
+          <div class="card-img-overlay"></div>
+          <span class="card-badge badge-popular">Most Popular</span>
+        </div>
+        <div class="card-body">
+          <div class="card-icon">👤</div>
+          <div class="card-title">Personal Loan</div>
+          <div class="card-desc">Whether it's a dream vacation, a wedding, medical expenses or debt consolidation — our personal loan is designed to meet your unique life moments with speed and ease.</div>
+          <div class="card-features">
+            <div class="card-feature">Loan amount up to ₹25 Lakhs</div>
+            <div class="card-feature">No collateral required</div>
+            <div class="card-feature">Approval in under 2 hours</div>
+          </div>
+          <div class="card-meta">
+            <div>
+              <div class="card-rate">From 10.5% p.a.</div>
+              <div class="card-tenure">Tenure: 12 – 60 months</div>
+            </div>
+            <a href="login.html" class="card-cta">Apply Now →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business Loan -->
+      <div class="product-card" data-category="business">
+        <div class="card-img">
+          <img src="images/img3.jpg" alt="Business Loan">
+          <div class="card-img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-icon">🏢</div>
+          <div class="card-title">Business Loan</div>
+          <div class="card-desc">Scale your operations, buy equipment, or manage cash flow. Flexible capital solutions for SMEs and growing enterprises.</div>
+          <div class="card-features">
+            <div class="card-feature">Up to ₹2 Crore funding</div>
+            <div class="card-feature">Minimal documentation</div>
+          </div>
+          <div class="card-meta">
+            <div>
+              <div class="card-rate">From 12% p.a.</div>
+              <div class="card-tenure">Tenure: 12 – 84 months</div>
+            </div>
+            <a href="login.html" class="card-cta">Apply →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Loan -->
+      <div class="product-card" data-category="home">
+        <div class="card-img">
+          <img src="images/img4.jpg" alt="Home Loan">
+          <div class="card-img-overlay"></div>
+          <span class="card-badge badge-low">Lowest Rate</span>
+        </div>
+        <div class="card-body">
+          <div class="card-icon">🏠</div>
+          <div class="card-title">Home Loan</div>
+          <div class="card-desc">Turn the key on your dream home. Long tenures, competitive rates and zero prepayment penalty after 12 months.</div>
+          <div class="card-features">
+            <div class="card-feature">Up to ₹5 Crore</div>
+            <div class="card-feature">Tenure up to 30 years</div>
+          </div>
+          <div class="card-meta">
+            <div>
+              <div class="card-rate">From 8.5% p.a.</div>
+              <div class="card-tenure">Tenure: up to 30 years</div>
+            </div>
+            <a href="login.html" class="card-cta">Apply →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instant Loan -->
+      <div class="product-card" data-category="instant">
+        <div class="card-img">
+          <img src="images/bank.jpg" alt="Instant Loan">
+          <div class="card-img-overlay"></div>
+          <span class="card-badge badge-fast">24h Disbursal</span>
+        </div>
+        <div class="card-body">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">Instant Loan</div>
+          <div class="card-desc">For emergencies that can't wait. Apply, get approved, and receive funds — all within 24 hours.</div>
+          <div class="card-features">
+            <div class="card-feature">Up to ₹5 Lakhs</div>
+            <div class="card-feature">100% online process</div>
+          </div>
+          <div class="card-meta">
+            <div>
+              <div class="card-rate">From 14% p.a.</div>
+              <div class="card-tenure">Tenure: 3 – 24 months</div>
+            </div>
+            <a href="login.html" class="card-cta">Apply →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loan Against Property -->
+      <div class="product-card" data-category="business">
+        <div class="card-img">
+          <img src="images/img2.jpg" alt="Loan Against Property">
+          <div class="card-img-overlay"></div>
+          <span class="card-badge badge-new">New</span>
+        </div>
+        <div class="card-body">
+          <div class="card-icon">🏗️</div>
+          <div class="card-title">Loan Against Property</div>
+          <div class="card-desc">Unlock the value of your property for business expansion, higher education or major life events.</div>
+          <div class="card-features">
+            <div class="card-feature">Up to 75% of property value</div>
+            <div class="card-feature">Residential & commercial</div>
+          </div>
+          <div class="card-meta">
+            <div>
+              <div class="card-rate">From 9.5% p.a.</div>
+              <div class="card-tenure">Tenure: up to 15 years</div>
+            </div>
+            <a href="login.html" class="card-cta">Apply →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- ELIGIBILITY -->
+  <section class="eligibility">
+    <div class="elig-inner">
+      <div class="elig-text">
+        <div class="eyebrow">How It Works</div>
+        <h2>Apply in Minutes,<br>Get Funded Fast</h2>
+        <p>Our fully digital process eliminates paperwork and branch visits. From application to disbursal, everything happens on your phone or laptop.</p>
+      </div>
+      <div class="elig-steps">
+        <div class="elig-step">
+          <div class="step-num">01</div>
+          <div class="step-info">
+            <h4>Choose Your Loan</h4>
+            <p>Select the product that best matches your need and check your eligibility instantly online.</p>
+          </div>
+        </div>
+        <div class="elig-step">
+          <div class="step-num">02</div>
+          <div class="step-info">
+            <h4>Submit Documents</h4>
+            <p>Upload KYC, income proof, and bank statements digitally — no physical visits required.</p>
+          </div>
+        </div>
+        <div class="elig-step">
+          <div class="step-num">03</div>
+          <div class="step-info">
+            <h4>Get Approved</h4>
+            <p>Our AI-powered underwriting reviews your application and provides a decision within hours.</p>
+          </div>
+        </div>
+        <div class="elig-step">
+          <div class="step-num">04</div>
+          <div class="step-info">
+            <h4>Funds Disbursed</h4>
+            <p>Money is transferred directly to your bank account — often within the same business day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARE TABLE -->
+  <section class="compare-section">
+    <div class="compare-header">
+      <div class="eyebrow">Compare</div>
+      <h2>Find the Right Fit</h2>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Personal Loan</th>
+          <th>Business Loan</th>
+          <th>Home Loan</th>
+          <th>Instant Loan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="highlight">Max Amount</td>
+          <td>₹25 Lakhs</td>
+          <td>₹2 Crore</td>
+          <td>₹5 Crore</td>
+          <td>₹5 Lakhs</td>
+        </tr>
+        <tr>
+          <td class="highlight">Interest Rate</td>
+          <td>10.5% p.a.</td>
+          <td>12% p.a.</td>
+          <td>8.5% p.a.</td>
+          <td>14% p.a.</td>
+        </tr>
+        <tr>
+          <td class="highlight">Tenure</td>
+          <td>12–60 months</td>
+          <td>12–84 months</td>
+          <td>Up to 30 years</td>
+          <td>3–24 months</td>
+        </tr>
+        <tr>
+          <td class="highlight">Collateral</td>
+          <td><span class="cross">✗</span> Not Required</td>
+          <td><span class="cross">✗</span> Not Required</td>
+          <td><span class="check">✓</span> Property</td>
+          <td><span class="cross">✗</span> Not Required</td>
+        </tr>
+        <tr>
+          <td class="highlight">Disbursal Time</td>
+          <td>2–4 hours</td>
+          <td>2–3 days</td>
+          <td>7–10 days</td>
+          <td>Under 24 hours</td>
+        </tr>
+        <tr>
+          <td class="highlight">100% Online</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="highlight">Prepayment Penalty</td>
+          <td>None after 6 months</td>
+          <td>2% after 12 months</td>
+          <td>None after 12 months</td>
+          <td>None</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <div>
+      <h2>Not sure which loan is right for you?</h2>
+      <p>Talk to our loan advisors — free, no obligation guidance in under 5 minutes.</p>
+    </div>
+    <div class="cta-btns">
+      <a href="login.html" class="btn-white">Apply Now</a>
+      <a href="#" class="btn-ghost-white" onclick="openAdvisorModal(event)">Talk to an Advisor</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+        <p>FUNDBEE Finance Limited is an RBI Registered NBFC providing fast, secure, and flexible financial solutions to individuals and businesses across India.</p>
+        <div class="footer-reg">🏦 RBI Registered NBFC — Lic. No. N-14.03215</div>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#">Personal Loan</a>
+        <a href="#">Business Loan</a>
+        <a href="#">Home Loan</a>
+        <a href="#">Instant Loan</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Knowledge Hub</a>
+        <a href="#">Partner With Us</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p style="font-size:14px;margin-bottom:8px;">✉ support@fundbee.com</p>
+        <p style="font-size:14px;margin-bottom:8px;">📞 +91 9876 543 210</p>
+        <p style="font-size:14px;">📍 Nariman Point, Mumbai</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 FUNDBEE Finance Limited. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Grievance Redressal</a>
+      </div>
+    </div>
+  </footer>
+  <!-- APPLY NOW MODAL -->
+  <div class="apply-modal-overlay" id="applyModalOverlay" onclick="closeApplyModal(event)">
+    <div class="apply-modal" id="applyModal">
+      <button class="modal-close" onclick="closeApplyModal()">&times;</button>
+      <div class="modal-icon" id="modalIcon">👤</div>
+      <h2 class="modal-title">Apply for <span id="modalLoanName">Loan</span></h2>
+      <p class="modal-subtitle">Fill in your details and we'll get back to you within 24 hours.</p>
+
+      <form id="applyForm" onsubmit="submitApplication(event)" novalidate>
+        <input type="hidden" id="modalLoanType" value="">
+
+        <div class="modal-field">
+          <label for="applyName">Full Name *</label>
+          <input type="text" id="applyName" placeholder="e.g. Raju Sharma" required>
+        </div>
+        <div class="modal-field">
+          <label for="applyPhone">Mobile Number *</label>
+          <input type="tel" id="applyPhone" placeholder="10-digit Indian number" maxlength="10" required>
+        </div>
+        <div class="modal-field">
+          <label for="applyEmail">Email Address *</label>
+          <input type="email" id="applyEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="modal-field">
+          <label for="applyAmount">Loan Amount Needed (₹)</label>
+          <input type="number" id="applyAmount" placeholder="e.g. 500000 (optional)" min="1">
+        </div>
+        <div class="modal-field">
+          <label for="applyMessage">Any message? (optional)</label>
+          <textarea id="applyMessage" rows="2" placeholder="Tell us more about your need..."></textarea>
+        </div>
+
+        <div class="modal-error" id="modalError"></div>
+
+        <button type="submit" class="modal-submit-btn" id="modalSubmitBtn">
+          Submit Application →
+        </button>
+      </form>
+
+      <div class="modal-success" id="modalSuccess" style="display:none;">
+        <div class="success-icon">✅</div>
+        <h3>Application Received!</h3>
+        <p id="modalSuccessMsg"></p>
+        <button class="modal-submit-btn" onclick="closeApplyModal()">Close</button>
+      </div>
+    </div>
+  </div>
+  <script src="nav.js"></script>
+  <script src="Products.js"></script>
+  </body>
+  </html>
