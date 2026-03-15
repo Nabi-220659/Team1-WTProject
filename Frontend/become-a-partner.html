@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become a Partner — FUNDBEE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="become-a-partner.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+    <ul class="nav-links">
+      <li><a href="Products.html">Products</a></li>
+      <li><a href="Company.html">Company</a></li>
+      <li><a href="knowledge-hub.html">Knowledge Hub</a></li>
+      <li><a href="partner.html">Partner</a></li>
+      <li><a href="login.html">Login</a></li>
+
+    </ul>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Partner Application</div>
+        <h1>Start Earning<br>with <em>FUNDBEE</em></h1>
+        <p class="hero-desc">Join India's fastest-growing lending partner network. Refer loans, earn commissions up to 1.5%, and build a sustainable income stream — all from your phone.</p>
+        <div class="hero-ctas">
+          <a href="#formAnchor" class="btn-gold">Begin Application ↓</a>
+          <a href="partner.html" class="btn-ghost">Learn More</a>
+        </div>
+        <div class="hero-microstats">
+          <div class="microstat-item">
+            <div class="microstat-num">5K+</div>
+            <div class="microstat-label">Active Partners</div>
+          </div>
+          <div class="microstat-item">
+            <div class="microstat-num">₹12Cr+</div>
+            <div class="microstat-label">Commissions Paid</div>
+          </div>
+          <div class="microstat-item">
+            <div class="microstat-num">48h</div>
+            <div class="microstat-label">Payout Speed</div>
+          </div>
+          <div class="microstat-item">
+            <div class="microstat-num">1.5%</div>
+            <div class="microstat-label">Max Commission</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Income Cards -->
+      <div class="hero-right">
+        <div class="income-card">
+          <div class="income-card-label">Estimated Monthly Earnings</div>
+          <div class="income-card-amount" id="heroMonthlyAmount">₹0</div>
+          <div class="income-card-sub">Based on 10 referrals/month @ ₹3L avg loan</div>
+          <div class="income-card-row">
+            <span>Commission Rate</span>
+            <span>1.5%</span>
+          </div>
+          <div class="income-card-row">
+            <span>Per Referral</span>
+            <span>₹4,500</span>
+          </div>
+        </div>
+        <div class="income-card">
+          <div class="income-card-label">Annual Potential</div>
+          <div class="income-card-amount" id="heroAnnualAmount">₹0</div>
+          <div class="income-card-sub">If you maintain 10 referrals every month</div>
+          <div style="margin-top:14px;">
+            <div class="live-badge">
+              <span class="live-dot"></span>
+              5,000+ partners earning right now
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP PROGRESS BAR ── -->
+  <div class="progress-bar-section" id="formAnchor">
+    <div class="progress-inner">
+      <div class="progress-step active">
+        <div class="step-circle">1</div>
+        <div class="step-info-text">
+          <span class="step-step-label">Step 1</span>
+          <span class="step-title-label">Personal Info</span>
+        </div>
+      </div>
+      <div class="progress-step">
+        <div class="step-circle">2</div>
+        <div class="step-info-text">
+          <span class="step-step-label">Step 2</span>
+          <span class="step-title-label">Business Info</span>
+        </div>
+      </div>
+      <div class="progress-step">
+        <div class="step-circle">3</div>
+        <div class="step-info-text">
+          <span class="step-step-label">Step 3</span>
+          <span class="step-title-label">KYC Documents</span>
+        </div>
+      </div>
+      <div class="progress-step">
+        <div class="step-circle">4</div>
+        <div class="step-info-text">
+          <span class="step-step-label">Step 4</span>
+          <span class="step-title-label">Review & Submit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MULTI-STEP FORM ── -->
+  <div class="form-section" id="formSection">
+
+    <!-- ═══ STEP 1: PERSONAL INFO ═══ -->
+    <div class="form-step active" id="step1">
+      <h2 class="step-heading">Personal <em>Information</em></h2>
+      <p class="step-subheading">Tell us about yourself. This will be used for your partner profile and payout verification.</p>
+
+      <!-- Basic Details -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Basic Details</div>
+        <div class="form-grid-2">
+          <div class="form-group full">
+            <label class="form-label" for="fullName">Full Name (as per PAN) <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input type="text" id="fullName" class="form-input" placeholder="Rajesh Kumar" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="mobile">Mobile Number <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">📱</span>
+              <input type="tel" id="mobile" class="form-input" placeholder="10-digit number" maxlength="10" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">✉️</span>
+              <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="whatsapp">WhatsApp Number</label>
+            <div class="input-wrap">
+              <span class="input-icon">💬</span>
+              <input type="tel" id="whatsapp" class="form-input" placeholder="Same as mobile or different" maxlength="10">
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="dob">Date of Birth</label>
+            <div class="input-wrap no-icon">
+              <input type="date" id="dob" class="form-input" style="padding-left:16px;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Address</div>
+        <div class="form-grid-2">
+          <div class="form-group full">
+            <label class="form-label" for="address">Street Address <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">📍</span>
+              <input type="text" id="address" class="form-input" placeholder="House/Flat No., Street, Area" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="city">City <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">🏙️</span>
+              <input type="text" id="city" class="form-input" placeholder="Mumbai" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="state">State</label>
+            <div class="input-wrap no-icon" style="position:relative;">
+              <select id="state" class="form-select" style="padding-left:16px;">
+                <option value="">Select State</option>
+                <option>Maharashtra</option><option>Delhi</option><option>Karnataka</option>
+                <option>Tamil Nadu</option><option>Gujarat</option><option>Rajasthan</option>
+                <option>West Bengal</option><option>Uttar Pradesh</option><option>Telangana</option>
+                <option>Andhra Pradesh</option><option>Kerala</option><option>Madhya Pradesh</option>
+                <option>Punjab</option><option>Haryana</option><option>Other</option>
+              </select>
+              <span class="select-arrow">▾</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pincode">PIN Code <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">📮</span>
+              <input type="text" id="pincode" class="form-input" placeholder="400001" maxlength="6" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partner Type -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Select Partner Type <span class="req">*</span></div>
+        <div class="option-cards">
+          <label class="option-card">
+            <input type="radio" name="partnerType" value="dsa">
+            <div class="option-card-body">
+              <div class="option-card-icon">🤝</div>
+              <div class="option-card-label">DSA Partner</div>
+              <div class="option-card-desc">Up to 1.5% commission</div>
+            </div>
+            <div class="option-check"></div>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="partnerType" value="connector">
+            <div class="option-card-body">
+              <div class="option-card-icon">🔗</div>
+              <div class="option-card-label">Loan Connector</div>
+              <div class="option-card-desc">Up to 1.0% commission</div>
+            </div>
+            <div class="option-check"></div>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="partnerType" value="corporate">
+            <div class="option-card-body">
+              <div class="option-card-icon">🏢</div>
+              <div class="option-card-label">Corporate Partner</div>
+              <div class="option-card-desc">Bulk referrals + bonuses</div>
+            </div>
+            <div class="option-check"></div>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="partnerType" value="digital">
+            <div class="option-card-body">
+              <div class="option-card-icon">💻</div>
+              <div class="option-card-label">Digital Affiliate</div>
+              <div class="option-card-desc">Up to 1.2% per conversion</div>
+            </div>
+            <div class="option-check"></div>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="partnerType" value="banking">
+            <div class="option-card-body">
+              <div class="option-card-icon">🏦</div>
+              <div class="option-card-label">Banking Correspondent</div>
+              <div class="option-card-desc">Fee share + 1.5%</div>
+            </div>
+            <div class="option-check"></div>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="partnerType" value="community">
+            <div class="option-card-body">
+              <div class="option-card-icon">🏘️</div>
+              <div class="option-card-label">Community Agent</div>
+              <div class="option-card-desc">Rural area bonuses</div>
+            </div>
+            <div class="option-check"></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <div></div>
+        <button class="btn-next" data-step="1">
+          <span class="btn-label">Next: Business Info →</span>
+          <span class="btn-spinner"><span class="spinner-ring"></span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 2: BUSINESS INFO ═══ -->
+    <div class="form-step" id="step2">
+      <h2 class="step-heading">Business <em>Information</em></h2>
+      <p class="step-subheading">Help us understand your professional background and earning potential.</p>
+
+      <!-- Professional Details -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Professional Background</div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="profession">Current Profession <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">💼</span>
+              <input type="text" id="profession" class="form-input" placeholder="e.g. Insurance Agent, CA, Real Estate" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="experience">Years of Experience <span class="req">*</span></label>
+            <div class="input-wrap no-icon" style="position:relative;">
+              <select id="experience" class="form-select" style="padding-left:16px;" required>
+                <option value="">Select experience</option>
+                <option>Less than 1 year</option>
+                <option>1 – 3 years</option>
+                <option>3 – 5 years</option>
+                <option>5 – 10 years</option>
+                <option>10+ years</option>
+              </select>
+              <span class="select-arrow">▾</span>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="referrals">Expected Monthly Referrals <span class="req">*</span></label>
+            <div class="input-wrap no-icon" style="position:relative;">
+              <select id="referrals" class="form-select" style="padding-left:16px;" required>
+                <option value="">Select range</option>
+                <option>1 – 5</option>
+                <option>6 – 15</option>
+                <option>16 – 30</option>
+                <option>30+</option>
+              </select>
+              <span class="select-arrow">▾</span>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="existingPartner">Currently a Partner Elsewhere?</label>
+            <div class="input-wrap no-icon" style="position:relative;">
+              <select id="existingPartner" class="form-select" style="padding-left:16px;">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+              <span class="select-arrow">▾</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products to Refer -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Products You Want to Refer</div>
+        <div class="checkbox-grid">
+          <label class="check-item">
+            <input type="checkbox" checked> 👤 Personal Loan
+          </label>
+          <label class="check-item">
+            <input type="checkbox"> 🏢 Business Loan
+          </label>
+          <label class="check-item">
+            <input type="checkbox"> 🏠 Home Loan
+          </label>
+          <label class="check-item">
+            <input type="checkbox"> ⚡ Instant Loan
+          </label>
+          <label class="check-item">
+            <input type="checkbox"> 🏗️ Loan Against Property
+          </label>
+          <label class="check-item">
+            <input type="checkbox"> 🔄 Balance Transfer
+          </label>
+        </div>
+      </div>
+
+      <!-- Bank Details -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Bank Details for Payout</div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="bankName">Bank Name <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">🏦</span>
+              <input type="text" id="bankName" class="form-input" placeholder="e.g. HDFC Bank" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="accountHolder">Account Holder Name</label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input type="text" id="accountHolder" class="form-input" placeholder="As per bank records">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="accountNo">Account Number <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">🔢</span>
+              <input type="text" id="accountNo" class="form-input" placeholder="Your account number" maxlength="18" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ifsc">IFSC Code <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">🏧</span>
+              <input type="text" id="ifsc" class="form-input" placeholder="e.g. HDFC0001234" maxlength="11" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-prev" data-step="2">← Back</button>
+        <button class="btn-next" data-step="2">
+          <span class="btn-label">Next: KYC Documents →</span>
+          <span class="btn-spinner"><span class="spinner-ring"></span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 3: KYC DOCUMENTS ═══ -->
+    <div class="form-step" id="step3">
+      <h2 class="step-heading">KYC <em>Documents</em></h2>
+      <p class="step-subheading">Upload clear, legible copies. Accepted formats: JPG, PNG, PDF (max 5MB each).</p>
+
+      <!-- PAN -->
+      <div class="form-card reveal">
+        <div class="form-card-title">PAN Card (Mandatory)</div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="panNumber">PAN Number <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="input-icon">🪪</span>
+              <input type="text" id="panNumber" class="form-input" placeholder="ABCDE1234F" maxlength="10" required>
+            </div>
+            <span class="field-error"></span>
+          </div>
+          <div></div>
+          <div class="form-group full">
+            <label class="form-label">Upload PAN Card <span class="req">*</span></label>
+            <div class="upload-area" id="panUploadArea">
+              <div class="upload-icon">📄</div>
+              <div class="upload-title">Click or drag to upload PAN Card</div>
+              <div class="upload-sub">Front side of your PAN card</div>
+              <div class="upload-hint">JPG, PNG, PDF — Max 5MB</div>
+              <input type="file" id="panFile" accept=".jpg,.jpeg,.png,.pdf" style="display:none;">
+            </div>
+            <div class="upload-preview" id="panPreview">
+              <span>✅</span>
+              <span class="upload-preview-name"></span>
+              <button class="upload-preview-remove" type="button">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aadhaar -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Aadhaar Card</div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="aadhaarNo">Aadhaar Number</label>
+            <div class="input-wrap">
+              <span class="input-icon">🪪</span>
+              <input type="text" id="aadhaarNo" class="form-input" placeholder="XXXX XXXX XXXX" maxlength="14">
+            </div>
+          </div>
+          <div></div>
+          <div class="form-group full">
+            <label class="form-label">Upload Aadhaar Card</label>
+            <div class="upload-area" id="aadhaarUploadArea">
+              <div class="upload-icon">🪪</div>
+              <div class="upload-title">Click or drag to upload Aadhaar</div>
+              <div class="upload-sub">Both front and back (or a combined PDF)</div>
+              <div class="upload-hint">JPG, PNG, PDF — Max 5MB</div>
+              <input type="file" id="aadhaarFile" accept=".jpg,.jpeg,.png,.pdf" style="display:none;">
+            </div>
+            <div class="upload-preview" id="aadhaarPreview">
+              <span>✅</span>
+              <span class="upload-preview-name"></span>
+              <button class="upload-preview-remove" type="button">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photo & Bank Cheque -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Photo & Bank Document</div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Passport Photo</label>
+            <div class="upload-area" id="photoUploadArea">
+              <div class="upload-icon">🤳</div>
+              <div class="upload-title">Upload Passport Photo</div>
+              <div class="upload-sub">Clear, recent photo with white background</div>
+              <div class="upload-hint">JPG, PNG — Max 2MB</div>
+              <input type="file" id="photoFile" accept=".jpg,.jpeg,.png" style="display:none;">
+            </div>
+            <div class="upload-preview" id="photoPreview">
+              <span>✅</span>
+              <span class="upload-preview-name"></span>
+              <button class="upload-preview-remove" type="button">✕</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cancelled Cheque / Bank Statement</label>
+            <div class="upload-area" id="bankUploadArea">
+              <div class="upload-icon">🏦</div>
+              <div class="upload-title">Upload Bank Document</div>
+              <div class="upload-sub">Cancelled cheque or last 3 months statement</div>
+              <div class="upload-hint">JPG, PNG, PDF — Max 5MB</div>
+              <input type="file" id="bankFile" accept=".jpg,.jpeg,.png,.pdf" style="display:none;">
+            </div>
+            <div class="upload-preview" id="bankPreview">
+              <span>✅</span>
+              <span class="upload-preview-name"></span>
+              <button class="upload-preview-remove" type="button">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-prev" data-step="3">← Back</button>
+        <button class="btn-next" data-step="3">
+          <span class="btn-label">Next: Review & Submit →</span>
+          <span class="btn-spinner"><span class="spinner-ring"></span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 4: REVIEW & SUBMIT ═══ -->
+    <div class="form-step" id="step4">
+      <h2 class="step-heading">Review &amp; <em>Submit</em></h2>
+      <p class="step-subheading">You're almost there! Please read and accept the declarations before submitting.</p>
+
+      <!-- Summary Card -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Application Summary</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <div>
+            <p style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Full Name</p>
+            <p id="summaryName" style="font-size:15px;font-weight:700;color:var(--navy);">—</p>
+          </div>
+          <div>
+            <p style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Mobile</p>
+            <p id="summaryMobile" style="font-size:15px;font-weight:700;color:var(--navy);">—</p>
+          </div>
+          <div>
+            <p style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Email</p>
+            <p id="summaryEmail" style="font-size:15px;font-weight:700;color:var(--navy);">—</p>
+          </div>
+          <div>
+            <p style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Partner Type</p>
+            <p id="summaryPartnerType" style="font-size:15px;font-weight:700;color:var(--navy);">—</p>
+          </div>
+          <div>
+            <p style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">City</p>
+            <p id="summaryCity" style="font-size:15px;font-weight:700;color:var(--navy);">—</p>
+          </div>
+          <div>
+            <p style="font-size:12px;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">PAN</p>
+            <p id="summaryPan" style="font-size:15px;font-weight:700;color:var(--navy);">—</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Declarations -->
+      <div class="form-card reveal">
+        <div class="form-card-title">Declarations &amp; Consent</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+
+          <div class="consent-box">
+            <input type="checkbox" id="consent1">
+            <p>I declare that all information provided in this application is true, accurate, and complete to the best of my knowledge. I understand that providing false information may result in rejection of my application and termination of the partner agreement.</p>
+          </div>
+
+          <div class="consent-box">
+            <input type="checkbox" id="consent2">
+            <p>I agree to the <a href="#">FUNDBEE Partner Terms &amp; Conditions</a>, <a href="#">Code of Conduct</a>, and <a href="#">Privacy Policy</a>. I consent to FUNDBEE contacting me via phone, WhatsApp, and email regarding my partner account and commissions.</p>
+          </div>
+
+          <div class="consent-box">
+            <input type="checkbox" id="consent3">
+            <p>I consent to FUNDBEE verifying my KYC documents with relevant government databases for onboarding purposes. (Optional but recommended for faster approval)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-prev" data-step="4">← Back</button>
+        <button class="btn-submit-final" id="submitBtn">
+          <span class="btn-label">🎉 Submit Application</span>
+          <span class="btn-spinner"><span class="spinner-ring"></span></span>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /form-section -->
+
+  <!-- ── SUCCESS SCREEN ── -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-ring">🎉</div>
+    <h2>Application Submitted!</h2>
+    <p>Welcome to the FUNDBEE Partner Network! Your application has been received and is being reviewed by our team.</p>
+    <div class="success-ref" id="refNumber">Reference: FBP-000000</div>
+    <p style="font-size:14px;">Our team will contact you within <strong>24 hours</strong> to complete your onboarding and activate your partner account.</p>
+
+    <div class="success-steps">
+      <div class="success-step">
+        <div class="success-step-icon">📞</div>
+        <h4>Step 1 — Call Confirmation</h4>
+        <p>Our relationship manager will call within 24 hours to verify your details.</p>
+      </div>
+      <div class="success-step">
+        <div class="success-step-icon">✅</div>
+        <h4>Step 2 — KYC Approval</h4>
+        <p>Documents reviewed and approved. Typically completed within 1–2 business days.</p>
+      </div>
+      <div class="success-step">
+        <div class="success-step-icon">🚀</div>
+        <h4>Step 3 — Go Live!</h4>
+        <p>Receive your unique referral link, dashboard access, and start earning immediately.</p>
+      </div>
+    </div>
+
+    <a href="index.html" class="btn-home">← Back to Homepage</a>
+  </div>
+
+  <!-- ── TRUST BAND ── -->
+  <div class="trust-band">
+    <div class="trust-band-inner">
+      <div class="trust-item"><span class="trust-item-icon">🏦</span> RBI Registered NBFC</div>
+      <div class="trust-item"><span class="trust-item-icon">🔐</span> 256-bit Encrypted</div>
+      <div class="trust-item"><span class="trust-item-icon">⚡</span> 24-Hour Activation</div>
+      <div class="trust-item"><span class="trust-item-icon">💸</span> Payouts in 48 Hours</div>
+      <div class="trust-item"><span class="trust-item-icon">🤝</span> 5,000+ Active Partners</div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+        <p>FUNDBEE Finance Limited is an RBI Registered NBFC providing fast, secure, and flexible financial solutions to individuals and businesses across India.</p>
+        <div class="footer-reg">🏦 RBI Registered NBFC — Lic. No. N-14.03215</div>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="products.html">Personal Loan</a>
+        <a href="products.html">Business Loan</a>
+        <a href="products.html">Home Loan</a>
+        <a href="products.html">Instant Loan</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="company.html">About Us</a>
+        <a href="knowledge-hub.html">Knowledge Hub</a>
+        <a href="partner.html">Partner With Us</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p style="font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:8px;">✉ support@fundbee.com</p>
+        <p style="font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:8px;">📞 +91 9876 543 210</p>
+        <p style="font-size:14px;color:rgba(255,255,255,0.4);">📍 Nariman Point, Mumbai</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 FUNDBEE Finance Limited. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Grievance Redressal</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="nav.js"></script>
+  <script src="become-a-partner.js"></script>
+
+  <!-- Summary auto-fill on step 4 -->
+  <script>
+    document.querySelector('[data-step="3"].btn-next')?.addEventListener('click', () => {
+      setTimeout(() => {
+        document.getElementById('summaryName').textContent        = document.getElementById('fullName')?.value  || '—';
+        document.getElementById('summaryMobile').textContent      = document.getElementById('mobile')?.value    || '—';
+        document.getElementById('summaryEmail').textContent       = document.getElementById('email')?.value     || '—';
+        document.getElementById('summaryCity').textContent        = document.getElementById('city')?.value      || '—';
+        document.getElementById('summaryPan').textContent         = document.getElementById('panNumber')?.value || '—';
+        const pt = document.querySelector('input[name="partnerType"]:checked');
+        document.getElementById('summaryPartnerType').textContent = pt ? pt.value.toUpperCase() : '—';
+      }, 700);
+    });
+  </script>
+</body>
+</html>
