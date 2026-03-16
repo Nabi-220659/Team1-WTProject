@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savings Goal Planner — FUNDBEE</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="knowledge-hub.css">
+  <link rel="stylesheet" href="savings-goal.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+    <ul class="nav-links">
+      <li><a href="Products.html">Products</a></li>
+      <li><a href="Company.html">Company</a></li>
+      <li><a href="knowledge-hub.html">Knowledge Hub</a></li>
+      <li><a href="partner.html">Partner</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="planner-hero">
+    <h1>Savings Goal <em>Planner</em></h1>
+    <p>Set a goal, choose your timeline, and find out exactly how much you need to save to make it happen.</p>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="planner-content">
+    <div class="info-section">
+      <h2>Plan Your Future</h2>
+      <p>Whether it's for a down payment on a house, a dream vacation, or an emergency fund, predicting what you need to
+        save each month is the first step.</p>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your Goal</label>
+        <select id="goalType">
+          <option value="emergency">Emergency Fund</option>
+          <option value="vacation">Dream Vacation</option>
+          <option value="house">House Down Payment</option>
+          <option value="car">New Car</option>
+          <option value="wedding">Wedding</option>
+          <option value="other">Other Goal</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Target Amount (₹)</label>
+        <input type="number" id="targetAmount" placeholder="e.g. 500000">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Current Savings (₹)</label>
+        <input type="number" id="currentSavings" placeholder="e.g. 50000" value="0">
+      </div>
+      <div class="form-group">
+        <label>Timeline (Months)</label>
+        <input type="number" id="timeline" placeholder="e.g. 24">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Expected Annual Return (%)</label>
+      <input type="number" id="returnRate" placeholder="e.g. 7" value="7" step="0.1">
+    </div>
+
+    <button class="calc-btn" onclick="calculateSavings()">Calculate Monthly Savings</button>
+
+    <div class="result-box" id="resultBox">
+      <h3>Your Action Plan</h3>
+      <p class="result-desc">To reach your goal of <strong id="resTarget">₹0</strong> in <strong
+          id="resMonths">0</strong> months, you need to save:</p>
+      <div class="monthly-saving" id="monthlyAmount">₹0</div>
+      <p>per month</p>
+      <br>
+      <a href="products.html" class="calc-btn"
+        style="display: inline-block; text-decoration: none; width: auto; padding: 15px 40px; background: var(--white); color: var(--dark);">Explore
+        Investment Products</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+        <p>FUNDBEE Finance Limited is an RBI Registered NBFC providing fast, secure, and flexible financial solutions.
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 FUNDBEE Finance Limited. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    function calculateSavings() {
+      const targetAmount = Number(document.getElementById('targetAmount').value);
+      const currentSavings = Number(document.getElementById('currentSavings').value);
+      const timelineMonths = Number(document.getElementById('timeline').value);
+      const returnRate = Number(document.getElementById('returnRate').value);
+
+      if (!targetAmount || !timelineMonths) {
+        return alert("Please enter your target amount and timeline in months.");
+      }
+
+      if (currentSavings >= targetAmount) {
+        return alert("You have already reached your goal!");
+      }
+
+      // Monthly interest rate calculation
+      const r = returnRate / 100 / 12;
+      const n = timelineMonths;
+
+      // Future value of current savings
+      const futureValueOfCurrent = currentSavings * Math.pow((1 + r), n);
+
+      // Amount left to save
+      const amountToSave = targetAmount - futureValueOfCurrent;
+
+      let monthlyContribution = 0;
+
+      if (r === 0) {
+        monthlyContribution = amountToSave / n;
+      } else {
+        // PMT formula: PMT = FV * r / (((1 + r)^n) - 1)
+        monthlyContribution = amountToSave * r / (Math.pow((1 + r), n) - 1);
+      }
+
+      // Format number
+      const formattedMonthly = monthlyContribution > 0
+        ? "₹" + Math.ceil(monthlyContribution).toLocaleString('en-IN')
+        : "₹0";
+
+      document.getElementById('resTarget').innerText = "₹" + targetAmount.toLocaleString('en-IN');
+      document.getElementById('resMonths').innerText = timelineMonths;
+      document.getElementById('monthlyAmount').innerText = formattedMonthly;
+      document.getElementById('resultBox').style.display = 'block';
+    }
+  </script>
+</body>
+
+</html>
