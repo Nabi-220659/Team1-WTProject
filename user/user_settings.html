@@ -14,6 +14,7 @@
             background: var(--cream);
         }
 
+<<<<<<< HEAD
         /* TOP BAR */
         .topbar {
             position: sticky;
@@ -106,6 +107,8 @@
             cursor: pointer;
         }
 
+=======
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         .settings-grid {
             display: grid;
             grid-template-columns: 220px 1fr;
@@ -380,6 +383,7 @@
         <nav class="sidebar-nav">
             <div class="nav-section-label">Main</div>
             <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+<<<<<<< HEAD
             <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span
                     class="nav-item-icon">📋</span> Apply for Loan</a>
             <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
@@ -391,6 +395,18 @@
             <div class="nav-section-label" style="margin-top:10px">More</div>
             <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
             <a class="nav-item" href="advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
+=======
+            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
+            <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+            <div class="nav-section-label" style="margin-top:10px">Account</div>
+            <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+            <a class="nav-item" href="Notificatons.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+            <a class="nav-item active-gold" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+            <div class="nav-section-label" style="margin-top:10px">More</div>
+            <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
+            <a class="nav-item" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
@@ -401,6 +417,7 @@
         <div class="topbar topbar-light">
             <div class="topbar-title topbar-title-light">Settings</div>
             <div class="topbar-right">
+<<<<<<< HEAD
                 <a href="user1.html" style="text-decoration:none" class="apply-btn">← Dashboard</a>
                 <a href="user_settings.html" style="text-decoration:none">
                     <div class="avatar">{{ session.user.initials }}</div>
@@ -409,6 +426,13 @@
         </div>
 
 
+=======
+                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
+                <div class="avatar avatar-gold">AS</div>
+            </div>
+        </div>
+
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         <div class="content">
             <div class="page-header">
                 <div class="page-eyebrow page-eyebrow-gold">Account Settings</div>
@@ -433,6 +457,7 @@
                             <div class="panel-title">Personal Information</div>
                             <div class="panel-sub">Update your personal details and profile photo.</div>
                             <div class="avatar-upload">
+<<<<<<< HEAD
                                 <div class="big-avatar">{{ initials }}</div>
                                 <div>
                                     <button class="upload-avatar-btn">Change Photo</button>
@@ -461,6 +486,36 @@
                             <div class="save-bar">
                                 <button class="btn-secondary btn-sec-light">Cancel</button>
                                 <button class="btn-primary-light" onclick="saveProfile()">Save Changes</button>
+=======
+                                <div class="big-avatar">AS</div>
+                                <div>
+                                    <button class="upload-avatar-btn">Change Photo</button>
+                                    <div style="font-size:12px;color:var(--muted);margin-top:6px">JPG or PNG, max 2MB
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row-2">
+                                <div class="form-group"><label class="form-label">First Name</label><input
+                                        class="form-input fi-light" value="Arjun"></div>
+                                <div class="form-group"><label class="form-label">Last Name</label><input
+                                        class="form-input fi-light" value="Sharma"></div>
+                                <div class="form-group"><label class="form-label">Email Address</label><input
+                                        class="form-input fi-light" value="arjun.sharma@email.com" type="email"></div>
+                                <div class="form-group"><label class="form-label">Mobile Number</label><input
+                                        class="form-input fi-light" value="+91 98765 43210"></div>
+                                <div class="form-group"><label class="form-label">Date of Birth</label><input
+                                        class="form-input fi-light" value="1992-08-14" type="date"></div>
+                                <div class="form-group"><label class="form-label">City</label><input
+                                        class="form-input fi-light" value="Bengaluru"></div>
+                            </div>
+                            <div class="form-group"><label class="form-label">Address</label><input
+                                    class="form-input fi-light" value="12, MG Road, Bengaluru, Karnataka — 560001">
+                            </div>
+                            <div class="save-bar">
+                                <button class="btn-secondary btn-sec-light">Cancel</button>
+                                <button class="btn-primary-light"
+                                    onclick="showToast('Profile updated successfully!')">Save Changes</button>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                             </div>
                         </div>
                     </div>
@@ -607,24 +662,37 @@
                                     <div style="font-size:22px;margin-bottom:8px">✅</div>
                                     <div style="font-weight:700;color:var(--navy);font-size:14px">Identity Verified
                                     </div>
+<<<<<<< HEAD
                                     <div style="font-size:12px;color:var(--muted);margin-top:3px">Aadhaar + PAN
                                         matched
+=======
+                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Aadhaar + PAN matched
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                                     </div>
                                 </div>
                                 <div
                                     style="padding:16px;background:var(--green-light);border-radius:12px;border:1px solid rgba(16,185,129,0.2)">
                                     <div style="font-size:22px;margin-bottom:8px">✅</div>
+<<<<<<< HEAD
                                     <div style="font-weight:700;color:var(--navy);font-size:14px">Address Verified
                                     </div>
                                     <div style="font-size:12px;color:var(--muted);margin-top:3px">Utility bill
                                         accepted
+=======
+                                    <div style="font-weight:700;color:var(--navy);font-size:14px">Address Verified</div>
+                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Utility bill accepted
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                                     </div>
                                 </div>
                                 <div
                                     style="padding:16px;background:var(--green-light);border-radius:12px;border:1px solid rgba(16,185,129,0.2)">
                                     <div style="font-size:22px;margin-bottom:8px">✅</div>
+<<<<<<< HEAD
                                     <div style="font-weight:700;color:var(--navy);font-size:14px">Bank Verified
                                     </div>
+=======
+                                    <div style="font-weight:700;color:var(--navy);font-size:14px">Bank Verified</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                                     <div style="font-size:12px;color:var(--muted);margin-top:3px">Penny drop success
                                     </div>
                                 </div>
@@ -632,8 +700,12 @@
                                     style="padding:16px;background:rgba(245,166,35,0.08);border-radius:12px;border:1px solid rgba(245,166,35,0.2)">
                                     <div style="font-size:22px;margin-bottom:8px">⏳</div>
                                     <div style="font-weight:700;color:var(--navy);font-size:14px">Video KYC</div>
+<<<<<<< HEAD
                                     <div style="font-size:12px;color:var(--muted);margin-top:3px">Required for
                                         Business
+=======
+                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Required for Business
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                                         Loan</div>
                                 </div>
                             </div>
@@ -647,6 +719,7 @@
     </main>
     <div class="toast" id="toast">Settings saved!</div>
     <script>
+<<<<<<< HEAD
         function renderSettings(data) {
             const u = data.user;
             const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
@@ -677,6 +750,8 @@
                 .catch(err => console.error(err));
         });
 
+=======
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         function switchTab(id, el) {
             document.querySelectorAll('.sn-item').forEach(i => i.classList.remove('active')); el.classList.add('active');
             document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
@@ -686,6 +761,7 @@
             const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 2500);
         }
+<<<<<<< HEAD
         function saveProfile() {
             const data = {
                 firstName: document.getElementById('set-fname').value,
@@ -720,6 +796,8 @@
                     showToast('An error occurred');
                 });
         }
+=======
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     </script>
 </body>
 

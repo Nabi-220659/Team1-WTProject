@@ -1229,6 +1229,7 @@
 
 <body>
 
+<<<<<<< HEAD
   <!-- ═══════════════════════ LOADING OVERLAY ═══════════════════════ -->
   <div class="overlay" id="overlay" style="background: var(--navy); z-index: 9999;">
     <div style="color: white; font-family: 'Playfair Display', serif; font-size: 24px; text-align: center;">
@@ -1237,15 +1238,23 @@
     </div>
   </div>
 
+=======
+  <!-- Login overlay removed -->
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
   <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
   <aside class="sidebar">
     <div class="sidebar-logo">FUND<span>BEE</span></div>
     <div class="sidebar-user">
+<<<<<<< HEAD
       <div class="sidebar-user-name">{{ session.user.name }}</div>
+=======
+      <div class="sidebar-user-name">Arjun Sharma</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
       <span class="sidebar-user-tag">Verified User</span>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
+<<<<<<< HEAD
       <a class="nav-item active" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
       <a class="nav-item" href="javascript:void(0)" onclick="openLoanModal()"><span class="nav-item-icon">📋</span>
         Apply for Loan</a>
@@ -1257,6 +1266,31 @@
       <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
       <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
       <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+=======
+      <a class="nav-item active" href="user1.html">
+        <span class="nav-item-icon">📊</span> Dashboard
+      </a>
+      <a class="nav-item" href="#" onclick="openLoanModal(); return false;">
+        <span class="nav-item-icon">📋</span> Apply for Loan
+      </a>
+      <a class="nav-item" href="My_loans.html">
+        <span class="nav-item-icon">🔄</span> My Loans
+      </a>
+      <a class="nav-item" href="Emi_Schedule.html">
+        <span class="nav-item-icon">📅</span> EMI Schedule
+      </a>
+
+      <div class="nav-section-label" style="margin-top:10px">Account</div>
+      <a class="nav-item" href="Documents.html">
+        <span class="nav-item-icon">📁</span> Documents
+      </a>
+      <a class="nav-item" href="Notificatons.html">
+        <span class="nav-item-icon">🔔</span> Notifications
+      </a>
+      <a class="nav-item" href="user_settings.html">
+        <span class="nav-item-icon">⚙️</span> Settings
+      </a>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
 
       <div class="nav-section-label" style="margin-top:10px">More</div>
       <a class="nav-item" href="loan_products.html">
@@ -1267,7 +1301,11 @@
       </a>
     </nav>
     <div class="sidebar-footer">
+<<<<<<< HEAD
       <div class="logout-btn" onclick="window.location.href='logout.php'">
+=======
+      <div class="logout-btn" onclick="window.location.href='login.html'">
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         <span>🚪</span> Sign Out
       </div>
     </div>
@@ -1280,6 +1318,7 @@
     <div class="topbar">
       <div class="topbar-title">User Dashboard</div>
       <div class="topbar-right">
+<<<<<<< HEAD
         <button class="apply-btn" onclick="openLoanModal()">
           ＋ Apply for Loan
         </button>
@@ -1287,6 +1326,11 @@
         <a href="user_settings.html" style="text-decoration:none">
           <div class="avatar">{{ session.user.initials }}</div>
         </a>
+=======
+        <div class="notif-btn">🔔<div class="notif-dot"></div>
+        </div>
+        <div class="avatar">AS</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
       </div>
     </div>
 
@@ -1297,7 +1341,11 @@
       <div class="welcome-banner">
         <div class="welcome-inner">
           <div class="welcome-text">
+<<<<<<< HEAD
             <p>Happy to see you here</p>
+=======
+            <p>Good morning</p>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
             <h2>Welcome back, <em>Arjun</em> 👋</h2>
             <p style="color:rgba(255,255,255,0.45); font-size:13px; margin-top:8px;">Here's your financial overview for
               today.</p>
@@ -1321,17 +1369,29 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon navy">🏦</div>
+<<<<<<< HEAD
             <span class="kpi-badge up" id="kpi-badge-active">—</span>
           </div>
           <div class="kpi-value" id="kpi-active-loans">—</div>
+=======
+            <span class="kpi-badge up">+1 new</span>
+          </div>
+          <div class="kpi-value">3</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
           <div class="kpi-label">Active Loans</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon gold">💰</div>
+<<<<<<< HEAD
             <span class="kpi-badge neutral" id="kpi-badge-borrowed">Total</span>
           </div>
           <div class="kpi-value" id="kpi-total-borrowed">—</div>
+=======
+            <span class="kpi-badge neutral">Total</span>
+          </div>
+          <div class="kpi-value">₹2.5L</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
           <div class="kpi-label">Total Borrowed</div>
         </div>
         <div class="kpi-card">
@@ -1339,21 +1399,35 @@
             <div class="kpi-icon green">✅</div>
             <span class="kpi-badge up">On track</span>
           </div>
+<<<<<<< HEAD
           <div class="kpi-value" id="kpi-total-repaid">—</div>
+=======
+          <div class="kpi-value">₹1.2L</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
           <div class="kpi-label">Total Repaid</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon blue">📅</div>
+<<<<<<< HEAD
             <span class="kpi-badge neutral">Due this month</span>
           </div>
           <div class="kpi-value" id="kpi-emi-due">—</div>
+=======
+            <span class="kpi-badge neutral">Due soon</span>
+          </div>
+          <div class="kpi-value">₹12,000</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
           <div class="kpi-label">EMI Due This Month</div>
         </div>
       </div>
 
       <!-- My Loans Table -->
+<<<<<<< HEAD
       <div class="section-header" id="my-loans-section">
+=======
+      <div class="section-header">
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         <div class="section-title">My Loans</div>
         <a class="section-link" href="#">View All →</a>
       </div>
@@ -1370,9 +1444,64 @@
               <th>Action</th>
             </tr>
           </thead>
+<<<<<<< HEAD
           <tbody id="loans-tbody">
             <tr>
               <td colspan="7" style="text-align:center;padding:30px;color:#6b7a8d;">Loading your loans...</td>
+=======
+          <tbody>
+            <tr>
+              <td>
+                <div class="loan-type">
+                  <div class="loan-dot active"></div>Personal Loan
+                </div>
+              </td>
+              <td style="color:var(--muted); font-size:13px">#FB-20241</td>
+              <td>₹1,00,000</td>
+              <td>₹5,200</td>
+              <td>Apr 05, 2026</td>
+              <td><span class="status-pill active">Active</span></td>
+              <td><button class="action-link">View Details</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="loan-type">
+                  <div class="loan-dot active"></div>Home Loan
+                </div>
+              </td>
+              <td style="color:var(--muted); font-size:13px">#FB-20189</td>
+              <td>₹8,00,000</td>
+              <td>₹6,800</td>
+              <td>Apr 01, 2026</td>
+              <td><span class="status-pill active">Active</span></td>
+              <td><button class="action-link">View Details</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="loan-type">
+                  <div class="loan-dot pending"></div>Business Loan
+                </div>
+              </td>
+              <td style="color:var(--muted); font-size:13px">#FB-20312</td>
+              <td>₹2,50,000</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="status-pill pending">Under Review</span></td>
+              <td><button class="action-link">Track Status</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="loan-type">
+                  <div class="loan-dot closed"></div>Education Loan
+                </div>
+              </td>
+              <td style="color:var(--muted); font-size:13px">#FB-19874</td>
+              <td>₹75,000</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="status-pill closed">Closed</span></td>
+              <td><button class="action-link">Download NOC</button></td>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
             </tr>
           </tbody>
         </table>
@@ -1385,10 +1514,52 @@
         <div class="emi-card">
           <div class="section-header">
             <div class="section-title" style="font-size:16px">Upcoming EMIs</div>
+<<<<<<< HEAD
             <a class="section-link" href="Emi_Schedule.html">Schedule →</a>
           </div>
           <div id="emi-list">
             <div style="padding:30px;text-align:center;color:var(--muted);">Loading EMIs...</div>
+=======
+            <a class="section-link" href="#">Schedule →</a>
+          </div>
+          <div class="emi-item">
+            <div class="emi-left">
+              <div class="emi-icon">🏠</div>
+              <div>
+                <div class="emi-name">Home Loan</div>
+                <div class="emi-date">Due: Apr 01, 2026</div>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div class="emi-amount">₹6,800</div>
+              <span class="emi-due-tag">Due in 11 days</span>
+            </div>
+          </div>
+          <div class="emi-item">
+            <div class="emi-left">
+              <div class="emi-icon">👤</div>
+              <div>
+                <div class="emi-name">Personal Loan</div>
+                <div class="emi-date">Due: Apr 05, 2026</div>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div class="emi-amount">₹5,200</div>
+              <span class="emi-due-tag">Due in 15 days</span>
+            </div>
+          </div>
+          <div class="emi-item" style="opacity:0.5">
+            <div class="emi-left">
+              <div class="emi-icon">🚗</div>
+              <div>
+                <div class="emi-name">Vehicle Loan</div>
+                <div class="emi-date">Due: Apr 15, 2026</div>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div class="emi-amount">₹3,400</div>
+            </div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
           </div>
         </div>
 
@@ -1406,7 +1577,11 @@
               <div class="qa-icon">💳</div>
               <div class="qa-label">Pay EMI</div>
             </div>
+<<<<<<< HEAD
             <div class="qa-btn" onclick="window.location.href='Documents.html'">
+=======
+            <div class="qa-btn">
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
               <div class="qa-icon">📄</div>
               <div class="qa-label">Upload Documents</div>
             </div>
@@ -1497,12 +1672,21 @@
         <!-- Form Fields -->
         <div class="form-row">
           <div class="form-group">
+<<<<<<< HEAD
             <label class="form-label" for="inp-amount">Loan Amount (₹)</label>
             <input id="inp-amount" class="form-input" type="number" placeholder="e.g. 100000">
           </div>
           <div class="form-group">
             <label class="form-label" for="inp-tenure">Tenure</label>
             <select id="inp-tenure" class="form-select">
+=======
+            <label class="form-label">Loan Amount (₹)</label>
+            <input class="form-input" type="number" placeholder="e.g. 100000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tenure</label>
+            <select class="form-select">
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
               <option>12 Months</option>
               <option>24 Months</option>
               <option>36 Months</option>
@@ -1511,6 +1695,7 @@
             </select>
           </div>
           <div class="form-group">
+<<<<<<< HEAD
             <label class="form-label" for="inp-fullname">Full Name</label>
             <input id="inp-fullname" class="form-input" type="text" placeholder="As per PAN card">
           </div>
@@ -1529,6 +1714,26 @@
           <div class="form-group">
             <label class="form-label" for="inp-employment">Employment Type</label>
             <select id="inp-employment" class="form-select">
+=======
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" placeholder="As per PAN card">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number</label>
+            <input class="form-input" type="tel" placeholder="+91 XXXXX XXXXX">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Purpose of Loan</label>
+            <input class="form-input" type="text" placeholder="Brief description of your loan purpose">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly Income (₹)</label>
+            <input class="form-input" type="number" placeholder="e.g. 50000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Employment Type</label>
+            <select class="form-select">
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
               <option>Salaried</option>
               <option>Self-Employed</option>
               <option>Business Owner</option>
@@ -1540,12 +1745,17 @@
       </div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeLoanModal()">Cancel</button>
+<<<<<<< HEAD
         <button id="loan-submit-btn" class="btn-submit" onclick="submitLoanApplication()">Submit Application →</button>
+=======
+        <button class="btn-submit" onclick="submitLoanApplication()">Submit Application →</button>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
       </div>
     </div>
   </div>
 
   <script>
+<<<<<<< HEAD
     /* ── Status Label Map ── */
     const STATUS_LABELS = {
       active: { label: 'Active', badge: 'active' },
@@ -1703,10 +1913,14 @@
         });
     });
 
+=======
+    /* ── Utilities ── */
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     function goToPartner() {
       window.location.href = 'partner1.html';
     }
 
+<<<<<<< HEAD
     /* ── Smooth scroll to My Loans section ── */
     function scrollToLoans() {
       const el = document.getElementById('my-loans-section');
@@ -1852,6 +2066,12 @@
       if (e.target === this) closeLoanModal();
     });
 
+=======
+    /* ── Loan Modal Redirection ── */
+    function openLoanModal() {
+      window.location.href = '../Frontend/become-a-partner.html';
+    }
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
   </script>
 </body>
 

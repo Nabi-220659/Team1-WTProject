@@ -1280,6 +1280,7 @@
 
 <body>
 
+<<<<<<< HEAD
   <!-- ═══════════════════════ OVERLAY ═══════════════════════ -->
   <div class="overlay" id="overlay">
 
@@ -1331,6 +1332,9 @@
 
   </div>
 
+=======
+  <!-- Overlay removed -->
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
   <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
   <aside class="sidebar">
     <div class="sidebar-logo">FUND<span>BEE</span></div>
@@ -1391,10 +1395,56 @@
     <!-- TOPBAR -->
     <div class="topbar">
       <div class="topbar-title">Partner Dashboard</div>
+<<<<<<< HEAD
       <div class="topbar-right">
         <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
         <div class="notif-btn">🔔<div class="notif-dot"></div>
         </div>
+=======
+      <div class="topbar-right" style="position:relative;">
+        <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
+        <div class="notif-btn" id="notifTarget" style="cursor:pointer;" onclick="toggleNotifDropdown()">
+          🔔<div class="notif-dot"></div>
+        </div>
+        
+        <!-- Dropdown Component -->
+        <div id="notifDropdown" style="display:none;position:absolute;top:50px;right:-10px;width:320px;background:#0d1f38;border:1px solid rgba(255,255,255,0.1);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.6);z-index:9999;flex-direction:column;overflow:hidden;">
+            <div style="padding:16px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center;">
+                <div style="font-weight:700;color:white;font-family:'Playfair Display',serif">Notifications</div>
+                <div style="font-size:12px;color:rgba(16,185,129,1);cursor:pointer;" onclick="toggleNotifDropdown()">Mark all read</div>
+            </div>
+            <div style="max-height:300px;overflow-y:auto;" id="notifList">
+                <div style="padding:16px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:12px;cursor:pointer;background:rgba(255,255,255,0.02);" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
+                    <div style="font-size:20px;">📄</div>
+                    <div>
+                        <div style="font-size:13px;color:white;font-weight:600;margin-bottom:4px;line-height:1.2">New Application</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4">Rahul V. submitted a Personal Loan application.</div>
+                        <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;">2 min ago</div>
+                    </div>
+                </div>
+                <div style="padding:16px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:12px;cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background=''">
+                    <div style="font-size:20px;">💰</div>
+                    <div>
+                        <div style="font-size:13px;color:white;font-weight:600;margin-bottom:4px;line-height:1.2">Yield Target Hit</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4">Portfolio yield crossed 14% this month!</div>
+                        <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;">2 hrs ago</div>
+                    </div>
+                </div>
+                <div style="padding:16px;display:flex;gap:12px;cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background=''">
+                    <div style="font-size:20px;">⚠️</div>
+                    <div>
+                        <div style="font-size:13px;color:white;font-weight:600;margin-bottom:4px;line-height:1.2">Doc Missing</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4">Arjun S. is missing IT Returns.</div>
+                        <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;">1 day ago</div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding:12px;text-align:center;border-top:1px solid rgba(255,255,255,0.08);font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.5)'" onclick="window.location.href='partner_settings.html'">
+                View Notification Settings
+            </div>
+        </div>
+        
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         <div class="avatar">PN</div>
       </div>
     </div>
@@ -1719,6 +1769,7 @@
   </div>
 
   <script>
+<<<<<<< HEAD
     /* ── Overlay ── */
     function handleLogin() {
       const id = document.getElementById('authId').value.trim();
@@ -1739,6 +1790,11 @@
 
     function goToUser() {
       window.location.href = 'user1.html';
+=======
+    /* ── Utilities ── */
+    function goToUser() {
+      window.location.href = '../user/user1.html';
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     }
 
     /* ── Withdraw Modal ── */
@@ -1754,15 +1810,39 @@
       setTimeout(closeWithdrawModal, 2500);
     }
 
+<<<<<<< HEAD
+=======
+    /* Close dropdown on outside click */
+    function toggleNotifDropdown() {
+        const dropdown = document.getElementById('notifDropdown');
+        if (dropdown.style.display === 'none') {
+            dropdown.style.display = 'flex';
+        } else {
+            dropdown.style.display = 'none';
+        }
+    }
+    
+    document.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('notifDropdown');
+        const notifBtn = document.getElementById('notifTarget');
+        if (dropdown && dropdown.style.display !== 'none' && !dropdown.contains(e.target) && !notifBtn.contains(e.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     /* Close on backdrop click */
     document.getElementById('withdrawModal').addEventListener('click', function (e) {
       if (e.target === this) closeWithdrawModal();
     });
+<<<<<<< HEAD
 
     /* Enter key */
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') handleLogin();
     });
+=======
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
   </script>
 </body>
 

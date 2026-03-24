@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdrawals — FUNDBEE Partner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: #070f1e;
+        }
+
+        .withdraw-hero {
+            background: linear-gradient(145deg, #071a0e, #0a2218);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .withdraw-hero::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1), transparent 60%);
+            border-radius: 50%;
+        }
+
+        .wh-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .avail-amt {
+            font-family: 'Playfair Display', serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: var(--green);
+        }
+
+        .avail-lbl {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 13px;
+            margin-top: 4px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .wh-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .wdr-btn {
+            padding: 13px 28px;
+            background: linear-gradient(135deg, var(--green), #34d399);
+            color: #070f1e;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .wdr-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .stmt-btn {
+            padding: 13px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.55);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .stmt-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .wh-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ws-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+
+        .ws-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .ws-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .ws-change {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .wch-up {
+            color: var(--green);
+        }
+
+        .wch-dn {
+            color: #fc8181;
+        }
+
+        /* History */
+        .txn-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .txn-item:last-child {
+            border-bottom: none;
+        }
+
+        .txn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .ti-green {
+            background: rgba(16, 185, 129, 0.12);
+        }
+
+        .ti-gold {
+            background: rgba(245, 166, 35, 0.12);
+        }
+
+        .txn-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        .txn-date {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 2px;
+        }
+
+        .txn-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .ta-green {
+            color: var(--green);
+        }
+
+        .ta-gold {
+            color: var(--gold);
+        }
+
+        /* Modal */
+        .modal-dark-bg {
+            background: #0d1f38;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+
+    <aside class="sidebar sidebar-dark">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Priya Nair</div><span class="sidebar-user-tag tag-green">Premium
+                Partner</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Overview</div>
+            <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
+            <a class="nav-item" href="portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
+            <a class="nav-item" href="analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
+            <div class="nav-section-label" style="margin-top:10px">Management</div>
+            <a class="nav-item" href="borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
+            <a class="nav-item" href="applications.html"><span class="nav-item-icon">📋</span> Applications</a>
+            <a class="nav-item active-green" href="withdrawals.html"><span class="nav-item-icon">🏦</span>
+                Withdrawals</a>
+            <a class="nav-item" href="statements.html"><span class="nav-item-icon">📄</span> Statements</a>
+            <div class="nav-section-label" style="margin-top:10px">Premium</div>
+            <a class="nav-item" href="risk-insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
+            <a class="nav-item" href="deal-matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
+            <a class="nav-item" href="partner-settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+            <div class="topbar-title topbar-title-dark">Withdrawals</div>
+            <div class="topbar-right">
+                <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
+                <div class="avatar avatar-green">PN</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-green">Fund Management</div>
+                <div class="page-heading" style="color:white">Withdraw Your <em style="color:var(--gold)">Earnings</em>
+                </div>
+                <div class="page-sub">Transfer your settled funds to your registered bank account.</div>
+            </div>
+
+            <!-- Hero -->
+            <div class="withdraw-hero">
+                <div class="wh-inner">
+                    <div
+                        style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:10px">
+                        Available Balance</div>
+                    <div class="avail-amt">₹8,24,500</div>
+                    <div class="avail-lbl">Settled funds · Updated 9:00 AM today</div>
+                    <div class="wh-actions">
+                        <button class="wdr-btn" onclick="openModal()">Withdraw Funds</button>
+                        <button class="stmt-btn" href="statements.html">View Statement</button>
+                    </div>
+                </div>
+                <div class="wh-stats">
+                    <div class="ws-item">
+                        <div class="ws-label">This Month</div>
+                        <div class="ws-val">₹3.20 Cr</div>
+                        <div class="ws-change wch-up">↑ 7.4%</div>
+                    </div>
+                    <div class="ws-item">
+                        <div class="ws-label">Last Month</div>
+                        <div class="ws-val">₹2.98 Cr</div>
+                        <div class="ws-change wch-up">↑ 3.1%</div>
+                    </div>
+                    <div class="ws-item">
+                        <div class="ws-label">Pending Settle</div>
+                        <div class="ws-val">₹1.40 Cr</div>
+                        <div class="ws-change wch-dn">T+2 days</div>
+                    </div>
+                    <div class="ws-item">
+                        <div class="ws-label">Total Withdrawn</div>
+                        <div class="ws-val">₹34.26 Cr</div>
+                        <div class="ws-change wch-up">↑ YTD</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Linked accounts -->
+            <div class="section-header" style="margin-bottom:16px">
+                <div class="section-title-dark">Linked Bank Accounts</div><a class="section-link section-link-green"
+                    href="partner-settings.html">Manage →</a>
+            </div>
+            <div style="display:flex;gap:14px;margin-bottom:28px;flex-wrap:wrap">
+                <div
+                    style="background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.25);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;min-width:240px">
+                    <div
+                        style="width:40px;height:40px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:18px">
+                        🏦</div>
+                    <div>
+                        <div style="font-weight:600;font-size:14px;color:white">HDFC Bank ****4821</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.35)">Savings · Primary Account</div>
+                    </div>
+                    <span class="pill pill-green" style="margin-left:auto">Primary</span>
+                </div>
+                <div
+                    style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;min-width:240px">
+                    <div
+                        style="width:40px;height:40px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:18px">
+                        🏦</div>
+                    <div>
+                        <div style="font-weight:600;font-size:14px;color:#e2e8f0">ICICI Bank ****9234</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.35)">Current Account</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction history -->
+            <div class="section-header">
+                <div class="section-title-dark">Withdrawal History</div>
+                <div class="filter-tabs"><button class="filter-tab ft-dark active"
+                        onclick="filterTxn('all',this)">All</button><button class="filter-tab ft-dark"
+                        onclick="filterTxn('completed',this)">Completed</button><button class="filter-tab ft-dark"
+                        onclick="filterTxn('pending',this)">Pending</button></div>
+            </div>
+            <div class="card-dark" style="padding:0;overflow:hidden">
+                <div class="txn-item" data-status="completed">
+                    <div class="txn-icon ti-green">↑</div>
+                    <div style="flex:1;margin-left:14px">
+                        <div class="txn-title">Withdrawal — HDFC Bank ****4821</div>
+                        <div class="txn-date">Mar 15, 2026 · Ref: WD20260315001</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div class="txn-amount ta-green">₹5,00,000</div><span class="pill pill-green"
+                            style="margin-top:4px;display:block">Completed</span>
+                    </div>
+                </div>
+                <div class="txn-item" data-status="completed">
+                    <div class="txn-icon ti-green">↑</div>
+                    <div style="flex:1;margin-left:14px">
+                        <div class="txn-title">Withdrawal — HDFC Bank ****4821</div>
+                        <div class="txn-date">Mar 01, 2026 · Ref: WD20260301001</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div class="txn-amount ta-green">₹10,00,000</div><span class="pill pill-green"
+                            style="margin-top:4px;display:block">Completed</span>
+                    </div>
+                </div>
+                <div class="txn-item" data-status="pending">
+                    <div class="txn-icon ti-gold">⏳</div>
+                    <div style="flex:1;margin-left:14px">
+                        <div class="txn-title">Settlement — Monthly Earnings</div>
+                        <div class="txn-date">Expected Mar 23, 2026 · T+2</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div class="txn-amount ta-gold">₹1,40,00,000</div><span class="pill pill-gold"
+                            style="margin-top:4px;display:block">Pending</span>
+                    </div>
+                </div>
+                <div class="txn-item" data-status="completed">
+                    <div class="txn-icon ti-green">↑</div>
+                    <div style="flex:1;margin-left:14px">
+                        <div class="txn-title">Withdrawal — HDFC Bank ****4821</div>
+                        <div class="txn-date">Feb 15, 2026 · Ref: WD20260215001</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div class="txn-amount ta-green">₹8,00,000</div><span class="pill pill-green"
+                            style="margin-top:4px;display:block">Completed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal-backdrop modal-backdrop-dark" id="wdrModal">
+        <div class="modal modal-dark-bg" style="max-width:460px">
+            <div class="modal-header mh-dark">
+                <div>
+                    <h3 style="color:white">Withdraw Funds</h3>
+                    <p>Transfer to your registered bank account</p>
+                </div><button class="modal-close mc-dark" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-banner" id="successBanner"
+                    style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.3);color:var(--green)">✅
+                    Withdrawal initiated! Funds in 2 business days.</div>
+                <label class="form-label" style="color:rgba(255,255,255,0.4)">Amount (₹)</label>
+                <input class="form-input fi-dark" type="number" placeholder="Max ₹8,24,500">
+                <label class="form-label" style="color:rgba(255,255,255,0.4);margin-top:16px">Destination
+                    Account</label>
+                <select class="form-select fi-dark">
+                    <option>HDFC Bank — ****4821 (Primary)</option>
+                    <option>ICICI Bank — ****9234</option>
+                </select>
+                <label class="form-label" style="color:rgba(255,255,255,0.4);margin-top:16px">Note (optional)</label>
+                <input class="form-input fi-dark" type="text" placeholder="e.g. Monthly payout">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary btn-sec-dark" onclick="closeModal()">Cancel</button>
+                <button class="btn-primary-dark" onclick="confirmWithdraw()">Confirm Withdrawal →</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openModal() { document.getElementById('wdrModal').classList.add('open'); document.getElementById('successBanner').style.display = 'none'; }
+        function closeModal() { document.getElementById('wdrModal').classList.remove('open'); }
+        function confirmWithdraw() { document.getElementById('successBanner').style.display = 'block'; setTimeout(closeModal, 2500); }
+        document.getElementById('wdrModal').addEventListener('click', e => { if (e.target === document.getElementById('wdrModal')) closeModal(); });
+        function filterTxn(status, btn) {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+            document.querySelectorAll('.txn-item').forEach(item => { item.style.display = (status === 'all' || item.dataset.status === status) ? '' : 'none'; });
+        }
+    </script>
+</body>
+
+</html>

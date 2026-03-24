@@ -1,5 +1,11 @@
 {
     "require": {
+<<<<<<< HEAD
         "mongodb/mongodb": "^2.2"
+=======
+        "google/apiclient": "^2.19",
+        "vlucas/phpdotenv": "^5.6",
+        "mongodb/mongodb": "^1.16"
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     }
 }

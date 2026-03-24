@@ -208,6 +208,7 @@
             <div class="nav-section-label">Overview</div>
             <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
             <a class="nav-item" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
+<<<<<<< HEAD
             <a class="nav-item" href="portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
             <a class="nav-item" href="analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
             <div class="nav-section-label" style="margin-top:10px">Management</div>
@@ -223,12 +224,33 @@
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+=======
+            <a class="nav-item" href="Portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
+            <a class="nav-item" href="Analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
+            <div class="nav-section-label" style="margin-top:10px">Management</div>
+            <a class="nav-item" href="Borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
+            <a class="nav-item active-green" href="Applications.html"><span class="nav-item-icon">📋</span>
+                Applications</a>
+            <a class="nav-item" href="Withdrawls.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
+            <a class="nav-item" href="Statements.html"><span class="nav-item-icon">📄</span> Statements</a>
+            <div class="nav-section-label" style="margin-top:10px">Premium</div>
+            <a class="nav-item" href="Risk_insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
+            <a class="nav-item" href="Deal_matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
+            <a class="nav-item" href="partner_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='../Frontend/login.html'">🚪 Sign Out</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         </div>
     </aside>
     <main class="main">
         <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
             <div class="topbar-title topbar-title-dark">Applications</div>
             <div class="topbar-right">
+<<<<<<< HEAD
+=======
+                <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                 <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
                 <div class="notif-btn nb-dark">🔔<div class="notif-dot-green"></div>
                 </div>
@@ -248,28 +270,44 @@
                     <div class="kpi-header">
                         <div class="kpi-icon ki-gold">📋</div><span class="kpi-badge kb-neutral">Pending</span>
                     </div>
+<<<<<<< HEAD
                     <div class="kpi-value kv-dark">3</div>
+=======
+                    <div class="kpi-value kv-dark">0</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                     <div class="kpi-label">Open Applications</div>
                 </div>
                 <div class="kpi-card card-dark">
                     <div class="kpi-header">
                         <div class="kpi-icon ki-green">✅</div><span class="kpi-badge kb-up">This Month</span>
                     </div>
+<<<<<<< HEAD
                     <div class="kpi-value kv-dark">28</div>
+=======
+                    <div class="kpi-value kv-dark">0</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                     <div class="kpi-label">Approved</div>
                 </div>
                 <div class="kpi-card card-dark">
                     <div class="kpi-header">
                         <div class="kpi-icon ki-red">❌</div>
                     </div>
+<<<<<<< HEAD
                     <div class="kpi-value kv-dark">4</div>
+=======
+                    <div class="kpi-value kv-dark">0</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                     <div class="kpi-label">Rejected</div>
                 </div>
                 <div class="kpi-card card-dark">
                     <div class="kpi-header">
                         <div class="kpi-icon ki-blue">💰</div><span class="kpi-badge kb-up">Funded</span>
                     </div>
+<<<<<<< HEAD
                     <div class="kpi-value kv-green">₹1.24 Cr</div>
+=======
+                    <div class="kpi-value kv-green">₹0</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                     <div class="kpi-label">Disbursed This Month</div>
                 </div>
             </div>
@@ -277,6 +315,7 @@
             <div
                 style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px">
                 <div class="filter-tabs">
+<<<<<<< HEAD
                     <button class="filter-tab ft-dark active" onclick="filterApps('all',this)">All (35)</button>
                     <button class="filter-tab ft-dark" onclick="filterApps('pending',this)">Pending (3)</button>
                     <button class="filter-tab ft-dark" onclick="filterApps('approved',this)">Approved (28)</button>
@@ -460,6 +499,19 @@
                     </div>
                 </div>
 
+=======
+                    <button class="filter-tab ft-dark active" onclick="filterApps('all',this)">All (0)</button>
+                    <button class="filter-tab ft-dark" onclick="filterApps('pending',this)">Pending (0)</button>
+                    <button class="filter-tab ft-dark" onclick="filterApps('approved',this)">Approved (0)</button>
+                    <button class="filter-tab ft-dark" onclick="filterApps('rejected',this)">Rejected (0)</button>
+                </div>
+                <div class="search-wrap"><span class="search-icon" style="color:rgba(255,255,255,0.3)">🔍</span><input
+                        id="appSearch" class="search-input si-dark" placeholder="Search applications..." style="width:220px" oninput="searchApps(this.value)"></div>
+            </div>
+
+            <div id="appList">
+                <!-- Applications will be injected here dynamically by JavaScript loadApplications() -->
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
             </div>
         </div>
     </main>
@@ -468,12 +520,181 @@
         Done</div>
     <script>
         function filterApps(status, btn) {
+<<<<<<< HEAD
             document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active');
             document.querySelectorAll('.app-card').forEach(c => { c.style.display = (status === 'all' || c.dataset.status === status) ? '' : 'none'; });
         }
         function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.style.transform = 'translateY(0)'; setTimeout(() => t.style.transform = 'translateY(80px)', 3000); }
         function approveApp(btn) { const card = btn.closest('.app-card'); card.dataset.status = 'approved'; card.style.borderColor = 'rgba(16,185,129,0.25)'; toast('✅ Application approved and funded!'); }
         function rejectApp(btn) { const card = btn.closest('.app-card'); card.dataset.status = 'rejected'; card.style.borderColor = 'rgba(239,68,68,0.2)'; toast('Application declined.'); }
+=======
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); 
+            if(btn) btn.classList.add('active');
+            
+            const list = document.getElementById('appList');
+            list.classList.remove('slide-up');
+            void list.offsetWidth; // trigger reflow
+            list.classList.add('slide-up');
+            
+            document.querySelectorAll('.app-card').forEach(c => { 
+                c.style.display = (status === 'all' || c.dataset.status === status) ? '' : 'none'; 
+            });
+        }
+        
+        function toast(msg) { 
+            const t = document.getElementById('toast'); 
+            t.textContent = msg; 
+            t.style.transform = 'translateY(0)'; 
+            setTimeout(() => t.style.transform = 'translateY(80px)', 3000); 
+        }
+        
+        async function updateStatus(btn, appId, newStatus) {
+            try {
+                // Optimistic UI updates
+                const card = btn.closest('.app-card');
+                const originalStatus = card.dataset.status;
+                
+                card.dataset.status = newStatus;
+                if(newStatus === 'approved') {
+                    card.style.borderColor = 'rgba(16,185,129,0.25)';
+                    toast('✅ Application approved and funded!');
+                } else {
+                    card.style.borderColor = 'rgba(239,68,68,0.2)';
+                    toast('Application declined.');
+                }
+                
+                // Hide buttons
+                const actionsBlock = card.querySelector('.app-actions');
+                if(actionsBlock) actionsBlock.style.display = 'none';
+
+                // API call to backend
+                const response = await fetch('../Backend/partner/api_applications.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ app_id: appId, status: newStatus })
+                });
+                
+                const res = await response.json();
+                if(!res.success) {
+                    toast('Error: ' + res.message);
+                    card.dataset.status = originalStatus; // revert optimistic update
+                }
+            } catch (err) {
+                console.error(err);
+                toast('Network Error');
+            }
+        }
+        
+        function approveApp(btn, appId) { updateStatus(btn, appId, 'approved'); }
+        function rejectApp(btn, appId) { updateStatus(btn, appId, 'rejected'); }
+        
+        async function loadApplications() {
+            try {
+                const response = await fetch('../Backend/partner/api_applications.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update KPIs
+                    const kpiValues = document.querySelectorAll('.kpi-value');
+                    kpiValues[0].textContent = data.kpis.pending;
+                    kpiValues[1].textContent = data.kpis.approved;
+                    kpiValues[2].textContent = data.kpis.rejected;
+                    kpiValues[3].textContent = '₹' + data.kpis.disbursed + ' Cr';
+                    
+                    // Update filter tabs text
+                    const filterTabs = document.querySelectorAll('.filter-tab');
+                    const totalApps = data.kpis.pending + data.kpis.approved + data.kpis.rejected;
+                    filterTabs[0].textContent = `All (${totalApps})`;
+                    filterTabs[1].textContent = `Pending (${data.kpis.pending})`;
+                    filterTabs[2].textContent = `Approved (${data.kpis.approved})`;
+                    filterTabs[3].textContent = `Rejected (${data.kpis.rejected})`;
+                    
+                    // Render Applications
+                    const appList = document.getElementById('appList');
+                    appList.innerHTML = '';
+                    
+                    data.applications.forEach(app => {
+                        let html = `<div class="app-card" data-status="${app.status}" ${app.status === 'approved' ? 'style="border-color:rgba(16,185,129,0.15)"' : ''}>
+                    <div class="app-top">
+                        <div class="app-applicant">
+                            <div class="app-avatar ${app.color_class}">${app.initials}</div>
+                            <div>
+                                <div class="app-name">${app.applicant}</div>
+                                <div class="app-id">#${app.id} · ${app.type} · ${app.date}</div>
+                            </div>
+                        </div>`;
+                        
+                        if(app.status === 'approved') {
+                            html += `<div><span class="pill pill-green">✓ ${app.status_label}</span></div></div>`;
+                            html += `<div class="app-details">
+                                <div><div class="ad-item-label">Approved</div><div class="ad-item-val" style="color:var(--green);font-family:'Playfair Display',serif">₹${app.approved_amount}</div></div>
+                                <div><div class="ad-item-label">Tenure</div><div class="ad-item-val">${app.tenure} months</div></div>
+                                <div><div class="ad-item-label">Your Yield</div><div class="ad-item-val" style="color:var(--green)">${app.yield}% p.a.</div></div>
+                                <div><div class="ad-item-label">CIBIL</div><div class="ad-item-val">${app.cibil}</div></div>
+                                <div><div class="ad-item-label">Disbursed</div><div class="ad-item-val">${app.disbursed_date}</div></div>
+                            </div>`;
+                        } else {
+                            html += `<div style="display:flex;align-items:center;gap:10px">
+                            <div class="score-ring ${app.cibil_class}">${app.cibil}<br><span style="font-size:8px">CIBIL</span></div>
+                            <span class="pill pill-gold">${app.status_label}</span>
+                        </div></div>`;
+                            
+                            html += `<div class="app-details">
+                                <div><div class="ad-item-label">Requested</div><div class="ad-item-val" style="color:var(--gold);font-family:'Playfair Display',serif">₹${app.requested}</div></div>
+                                <div><div class="ad-item-label">Tenure</div><div class="ad-item-val">${app.tenure} months</div></div>
+                                <div><div class="ad-item-label">Monthly Income</div><div class="ad-item-val">₹${app.income}</div></div>
+                                <div><div class="ad-item-label">Existing EMIs</div><div class="ad-item-val">₹${app.emi}</div></div>`;
+                            if(app.missing_doc) {
+                                html += `<div><div class="ad-item-label">Missing Doc</div><div class="ad-item-val" style="color:#fc8181">${app.missing_doc}</div></div>`;
+                            } else {
+                                html += `<div><div class="ad-item-label">Risk Grade</div><div class="ad-item-val" style="color:${app.risk_color}">${app.risk}</div></div>`;
+                            }
+                            html += `</div>`;
+                            
+                            html += `<div class="app-actions">
+                                <button class="btn-approve" onclick="approveApp(this, '${app.id}')">✓ Approve${app.missing_doc ? ' Conditionally' : ' & Fund'}</button>
+                                <button class="btn-reject" onclick="rejectApp(this, '${app.id}')">✗ Decline</button>
+                                <button class="btn-review">📄 View Documents</button>`;
+                            if(app.missing_doc) {
+                                html += `<button class="btn-review" style="color:#fc8181;border-color:rgba(239,68,68,0.3)">⚠ Request Missing Doc</button>`;
+                            }
+                            html += `</div>`;
+                        }
+                        
+                        html += `</div>`;
+                        appList.innerHTML += html;
+                    });
+                }
+            } catch (err) {
+                console.error("Error fetching applications:", err);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadApplications);
+
+        function searchApps(query) {
+            const q = query.trim().toLowerCase();
+            const cards = document.querySelectorAll('.app-card');
+            
+            // Animate the list
+            const list = document.getElementById('appList');
+            list.classList.remove('slide-up');
+            void list.offsetWidth;
+            list.classList.add('slide-up');
+
+            cards.forEach(card => {
+                // Gather searchable text from the card
+                const name = (card.querySelector('.app-name')?.textContent || '').toLowerCase();
+                const idLine = (card.querySelector('.app-id')?.textContent || '').toLowerCase();
+                const matches = !q || name.includes(q) || idLine.includes(q);
+                card.style.display = matches ? '' : 'none';
+            });
+        }
+
+        function goToUser() {
+            window.location.href = '../user/user1.html';
+        }
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     </script>
 </body>
 
