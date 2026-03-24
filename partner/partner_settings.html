@@ -186,9 +186,6 @@
         .toggle.on::after {
             transform: translateX(18px)
         }
-<<<<<<< HEAD
-=======
-        
         .settings-panel {
             display: none
         }
@@ -202,7 +199,6 @@
             from { opacity: 0; transform: translateY(10px) }
             to { opacity: 1; transform: translateY(0) }
         }
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
 
         .save-bar-dark {
             display: flex;
@@ -224,23 +220,6 @@
             <div class="nav-section-label">Overview</div>
             <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
             <a class="nav-item" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
-<<<<<<< HEAD
-            <a class="nav-item" href="portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
-            <a class="nav-item" href="analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
-            <div class="nav-section-label" style="margin-top:10px">Management</div>
-            <a class="nav-item" href="borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
-            <a class="nav-item" href="applications.html"><span class="nav-item-icon">📋</span> Applications</a>
-            <a class="nav-item" href="withdrawals.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
-            <a class="nav-item" href="statements.html"><span class="nav-item-icon">📄</span> Statements</a>
-            <div class="nav-section-label" style="margin-top:10px">Premium</div>
-            <a class="nav-item" href="risk-insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
-            <a class="nav-item" href="deal-matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
-            <a class="nav-item active-green" href="partner-settings.html"><span class="nav-item-icon">⚙️</span>
-                Settings</a>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
-=======
             <a class="nav-item" href="Portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
             <a class="nav-item" href="Analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
             <div class="nav-section-label" style="margin-top:10px">Management</div>
@@ -251,22 +230,17 @@
             <div class="nav-section-label" style="margin-top:10px">Premium</div>
             <a class="nav-item" href="Risk_insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
             <a class="nav-item" href="Deal_matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
-            <a class="nav-item active-green" href="partner_settings.html"><span class="nav-item-icon">⚙️</span>
-                Settings</a>
+            <a class="nav-item active-green" href="partner_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='../Frontend/login.html'">🚪 Sign Out</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         </div>
     </aside>
     <main class="main">
         <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
             <div class="topbar-title topbar-title-dark">Settings</div>
             <div class="topbar-right">
-<<<<<<< HEAD
-=======
                 <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                 <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
                 <div class="avatar avatar-green">PN</div>
             </div>
@@ -295,18 +269,11 @@
                             <div class="panel-title-dark">Partner Profile</div>
                             <div class="panel-sub-dark">Update your business and personal details.</div>
                             <div style="display:flex;align-items:center;gap:18px;margin-bottom:22px">
-<<<<<<< HEAD
-                                <div class="big-avatar-dark">PN</div>
-                                <div><button class="ghost-btn" onclick="showToast('Uploading...')">Change Photo</button>
-                                    <div style="font-size:12px;color:rgba(255,255,255,0.25);margin-top:5px">PNG or JPG
-                                        up to 2MB</div>
-=======
                                 <div class="big-avatar-dark" id="profile-avatar-display">PN</div>
                                 <div>
                                     <input type="file" id="photo-input" style="display:none" accept="image/jpeg,image/png" onchange="handlePhotoUpload(this)">
                                     <button class="ghost-btn" onclick="document.getElementById('photo-input').click()">Change Photo</button>
                                     <div style="font-size:12px;color:rgba(255,255,255,0.25);margin-top:5px">JPG or PNG up to 2MB</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                                 </div>
                             </div>
                             <div class="form-row-2">
@@ -564,10 +531,6 @@
             document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
             document.getElementById('panel-' + id).classList.add('active');
         }
-<<<<<<< HEAD
-        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.style.transform = 'translateY(0)'; setTimeout(() => t.style.transform = 'translateY(80px)', 2500); }
-        function toggleGrade(btn) { const active = btn.style.color === getComputedStyle(document.documentElement).getPropertyValue('--green').trim() || btn.style.borderColor.includes('185'); if (active) { btn.style.borderColor = 'rgba(255,255,255,0.1)'; btn.style.color = ''; } else { btn.style.borderColor = 'rgba(16,185,129,0.4)'; btn.style.color = '#10b981'; } }
-=======
         function showToast(msg) {
             const t = document.getElementById('toast');
             t.textContent = msg;
@@ -672,31 +635,33 @@
 
                         // Hydrate Bank Accounts
                         if(d.banks && d.banks.length > 0) {
-                            const panelBank = document.getElementById('panel-bank').querySelector('.panel-card-dark');
-                            // Exclude titles/buttons
-                            Array.from(panelBank.children).forEach(child => {
-                                if(child.classList.contains('bank-card-dark')) {
-                                    panelBank.removeChild(child);
-                                }
-                            });
-                            
-                            d.banks.reverse().forEach(b => {
-                                const card = document.createElement('div');
-                                card.className = 'bank-card-dark';
-                                card.innerHTML = `
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div class="bc-icon-dark">🏦</div>
-                                        <div>
-                                            <div style="font-weight:600;font-size:14px;color:white">${b.bank_name}</div>
-                                            <div style="font-size:12px;color:rgba(255,255,255,0.35)">Account ${b.account} · ${b.type}</div>
+                            const panelBank = document.getElementById('panel-bank') ? document.getElementById('panel-bank').querySelector('.panel-card-dark') : null;
+                            if (panelBank) {
+                                // Exclude titles/buttons
+                                Array.from(panelBank.children).forEach(child => {
+                                    if(child.classList.contains('bank-card-dark')) {
+                                        panelBank.removeChild(child);
+                                    }
+                                });
+                                
+                                d.banks.reverse().forEach(b => {
+                                    const card = document.createElement('div');
+                                    card.className = 'bank-card-dark';
+                                    card.innerHTML = `
+                                        <div style="display:flex;align-items:center;gap:12px">
+                                            <div class="bc-icon-dark">🏦</div>
+                                            <div>
+                                                <div style="font-weight:600;font-size:14px;color:white">${b.bank_name}</div>
+                                                <div style="font-size:12px;color:rgba(255,255,255,0.35)">Account ${b.account} · ${b.type}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:10px">
-                                        ${b.is_primary ? '<span class="pill pill-green">Primary</span><button class="ghost-btn">Edit</button>' : '<button class="ghost-btn">Set Primary</button><button class="ghost-btn" onclick="showToast(\\\'Account removed\\\')">Remove</button>'}
-                                    </div>
-                                `;
-                                panelBank.insertBefore(card, panelBank.querySelector('.btn-primary-dark'));
-                            });
+                                        <div style="display:flex;align-items:center;gap:10px">
+                                            ${b.is_primary ? '<span class="pill pill-green">Primary</span><button class="ghost-btn">Edit</button>' : '<button class="ghost-btn">Set Primary</button><button class="ghost-btn" onclick="showToast(\'Account removed\')">Remove</button>'}
+                                        </div>
+                                    `;
+                                    panelBank.insertBefore(card, panelBank.querySelector('.btn-primary-dark'));
+                                });
+                            }
                         }
 
                         // Hydrate Notifications
@@ -719,12 +684,6 @@
                                 invInputs[1].value = d.preferences.min_cibil || '';
                                 invInputs[2].value = d.preferences.max_exposure || '';
                             }
-                        }
-
-                        // Hydrate KYC
-                        if(d.kyc) {
-                            // Can selectively render checks based on boolean fields in d.kyc
-                            // In this iteration we verify it from DB.
                         }
                     }
                 })
@@ -795,7 +754,6 @@
                 };
             }
         });
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     </script>
 </body>
 

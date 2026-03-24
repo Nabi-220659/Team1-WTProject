@@ -1280,7 +1280,6 @@
 
 <body>
 
-<<<<<<< HEAD
   <!-- ═══════════════════════ OVERLAY ═══════════════════════ -->
   <div class="overlay" id="overlay">
 
@@ -1331,10 +1330,6 @@
     </div>
 
   </div>
-
-=======
-  <!-- Overlay removed -->
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
   <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
   <aside class="sidebar">
     <div class="sidebar-logo">FUND<span>BEE</span></div>
@@ -1395,14 +1390,8 @@
     <!-- TOPBAR -->
     <div class="topbar">
       <div class="topbar-title">Partner Dashboard</div>
-<<<<<<< HEAD
-      <div class="topbar-right">
-        <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
-        <div class="notif-btn">🔔<div class="notif-dot"></div>
-        </div>
-=======
       <div class="topbar-right" style="position:relative;">
-        <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
+        <button class="switch-btn" onclick="window.location.href='../user/user1.html'">← Switch to User View</button>
         <div class="notif-btn" id="notifTarget" style="cursor:pointer;" onclick="toggleNotifDropdown()">
           🔔<div class="notif-dot"></div>
         </div>
@@ -1444,7 +1433,6 @@
             </div>
         </div>
         
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         <div class="avatar">PN</div>
       </div>
     </div>
@@ -1769,7 +1757,6 @@
   </div>
 
   <script>
-<<<<<<< HEAD
     /* ── Overlay ── */
     function handleLogin() {
       const id = document.getElementById('authId').value.trim();
@@ -1789,12 +1776,7 @@
     }
 
     function goToUser() {
-      window.location.href = 'user1.html';
-=======
-    /* ── Utilities ── */
-    function goToUser() {
       window.location.href = '../user/user1.html';
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     }
 
     /* ── Withdraw Modal ── */
@@ -1810,8 +1792,6 @@
       setTimeout(closeWithdrawModal, 2500);
     }
 
-<<<<<<< HEAD
-=======
     /* Close dropdown on outside click */
     function toggleNotifDropdown() {
         const dropdown = document.getElementById('notifDropdown');
@@ -1829,20 +1809,14 @@
             dropdown.style.display = 'none';
         }
     });
-
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     /* Close on backdrop click */
     document.getElementById('withdrawModal').addEventListener('click', function (e) {
       if (e.target === this) closeWithdrawModal();
     });
-<<<<<<< HEAD
-
     /* Enter key */
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') handleLogin();
     });
-=======
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
   </script>
 </body>
 

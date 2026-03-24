@@ -291,7 +291,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Fetch user data and update placeholders
@@ -302,7 +301,7 @@
                         // Update sidebar user name
                         const sidebarUserName = document.querySelector('.sidebar-user-name');
                         if (sidebarUserName) {
-                            sidebarUserName.textContent = data.user.name;
+                            sidebarUserName.textContent = (data.user.firstName + ' ' + data.user.lastName).trim();
                         }
 
                         // Update chat message user first name
@@ -310,14 +309,16 @@
                         userFnameSpans.forEach(span => {
                             span.textContent = data.user.firstName;
                         });
+                        
+                        // Update avatar
+                        const initial = ((data.user.firstName || '?')[0] + (data.user.lastName || '?')[0]).toUpperCase();
+                        document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
                     } else {
                         console.error('Failed to fetch user data:', data.message);
-                        // Optionally, keep "Loading..." or set a default name
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);
-                    // Optionally, keep "Loading..." or set a default name
                 });
 
             // Slot selection logic
@@ -384,43 +385,21 @@
     <aside class="sidebar sidebar-light">
         <div class="sidebar-logo">FUND<span>BEE</span></div>
         <div class="sidebar-user">
-            <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified
-=======
-    <aside class="sidebar sidebar-light">
-        <div class="sidebar-logo">FUND<span>BEE</span></div>
-        <div class="sidebar-user">
-            <div class="sidebar-user-name">Arjun Sharma</div><span class="sidebar-user-tag tag-gold">Verified
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
-                User</span>
+            <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified User</span>
         </div>
         <nav class="sidebar-nav">
             <div class="nav-section-label">Main</div>
-<<<<<<< HEAD
-      <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-      <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
-      <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
-      <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
-      <div class="nav-section-label" style="margin-top:10px">Account</div>
-      <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-      <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
-      <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
-            <div class="nav-section-label" style="margin-top:10px">More</div>
-            <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
-            <a class="nav-item active-gold" href="advisor.html"><span class="nav-item-icon">📞</span> Contact
-=======
             <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
             <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
             <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
             <div class="nav-section-label" style="margin-top:10px">Account</div>
             <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-            <a class="nav-item" href="Notificatons.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+            <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
             <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
             <div class="nav-section-label" style="margin-top:10px">More</div>
             <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
-            <a class="nav-item active-gold" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
-                Advisor</a>
+            <a class="nav-item active-gold" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
@@ -432,11 +411,7 @@
             <div class="topbar-title topbar-title-light">Contact Advisor</div>
             <div class="topbar-right">
                 <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
-<<<<<<< HEAD
                 <div class="avatar avatar-gold">?</div>
-=======
-                <div class="avatar avatar-gold">AS</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
             </div>
         </div>
 
@@ -537,11 +512,7 @@
                         </div>
                         <div class="chat-messages" id="chatMessages">
                             <div class="msg msg-advisor">
-<<<<<<< HEAD
-                                <div class="msg-bubble mb-advisor">Hello <span class="user-fname"></span>! 👋 I'm Riya, your dedicated loan advisor
-=======
-                                <div class="msg-bubble mb-advisor">Hello Arjun! 👋 I'm Riya, your dedicated loan advisor
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
+                                <div class="msg-bubble mb-advisor">Hello <span class="user-fname">User</span>! 👋 I'm Riya, your dedicated loan advisor
                                     at FUNDBEE. How can I assist you today?</div>
                                 <div class="msg-time">10:02 AM</div>
                             </div>
@@ -611,27 +582,7 @@
         Done!</div>
 
     <script>
-<<<<<<< HEAD
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch('get_user_data.php')
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.loggedIn) {
-                        window.location.href = '../Frontend/login.html';
-                    } else {
-                        const u = data.user;
-                        const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
-                        const initial = ((u.firstName || '?').charAt(0) + (u.lastName || '?').charAt(0)).toUpperCase();
-                        document.querySelectorAll('.sidebar-user-name, .user-name-placeholder').forEach(el => el.textContent = fullName.trim());
-                        document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
-                        document.querySelectorAll('.user-fname').forEach(el => el.textContent = u.firstName || 'User');
-                    }
-                })
-                .catch(err => console.error(err));
-        });
 
-=======
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         function selSlot(el) { document.querySelectorAll('.slot:not(.taken)').forEach(s => s.classList.remove('sel')); el.classList.add('sel'); }
         function toast(msg) { const t = document.getElementById('toastEl'); t.textContent = msg; t.style.transform = 'translateY(0)'; setTimeout(() => t.style.transform = 'translateY(80px)', 3000); }
         function sendMsg() {

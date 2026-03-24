@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-=======
-
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Loans — FUNDBEE</title>
-<<<<<<< HEAD
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -55,221 +50,6 @@
         .page-sub{color:var(--muted);font-size:14px;margin-bottom:28px}
 
         /* Summary bar */
-=======
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../shared.css">
-    <style>
-        body {
-            background: var(--cream);
-        }
-
-        .loan-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            box-shadow: var(--card-shadow);
-            padding: 24px 26px;
-            margin-bottom: 16px;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
-            align-items: center;
-            gap: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .loan-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(11, 29, 58, 0.12);
-        }
-
-        .loan-type-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .lt-blue {
-            background: rgba(26, 79, 214, 0.1);
-        }
-
-        .lt-green {
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .lt-gold {
-            background: rgba(245, 166, 35, 0.1);
-        }
-
-        .lt-navy {
-            background: rgba(11, 29, 58, 0.08);
-        }
-
-        .loan-name {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--navy);
-        }
-
-        .loan-id {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 3px;
-        }
-
-        .loan-meta-label {
-            font-size: 11px;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-
-        .loan-meta-val {
-            font-family: 'Playfair Display', serif;
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--navy);
-        }
-
-        .detail-btn {
-            padding: 9px 20px;
-            border-radius: 9px;
-            border: 1px solid var(--border);
-            background: white;
-            color: var(--navy);
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .detail-btn:hover {
-            background: var(--navy);
-            color: white;
-            border-color: var(--navy);
-        }
-
-        .progress-section {
-            margin-top: 10px;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--muted);
-            margin-bottom: 6px;
-        }
-
-        /* Modal detail styles */
-        .detail-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 22px;
-        }
-
-        .detail-item {
-            padding: 14px 16px;
-            background: var(--cream);
-            border-radius: 12px;
-        }
-
-        .detail-item-label {
-            font-size: 11px;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .detail-item-val {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--navy);
-        }
-
-        .timeline {
-            margin-top: 8px;
-        }
-
-        .tl-item {
-            display: flex;
-            gap: 14px;
-            padding-bottom: 18px;
-            position: relative;
-        }
-
-        .tl-item:last-child {
-            padding-bottom: 0;
-        }
-
-        .tl-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            left: 9px;
-            top: 20px;
-            bottom: 0;
-            width: 2px;
-            background: var(--border);
-        }
-
-        .tl-dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-        }
-
-        .tl-dot-green {
-            background: var(--green);
-        }
-
-        .tl-dot-gold {
-            background: var(--gold);
-        }
-
-        .tl-dot-gray {
-            background: var(--cream-dark);
-            border: 2px solid var(--border);
-        }
-
-        .tl-content h5 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--navy);
-        }
-
-        .tl-content p {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 2px;
-        }
-
-        .filter-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         .total-bar {
             background: linear-gradient(130deg, var(--navy), #1a3a6e);
             border-radius: 16px;
@@ -280,7 +60,6 @@
             justify-content: space-between;
             gap: 24px;
         }
-<<<<<<< HEAD
         .total-item { text-align: center; }
         .total-item-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 3px; }
         .total-item-label { font-size: 11px; color: rgba(255, 255, 255, 0.45); text-transform: uppercase; letter-spacing: 1px; }
@@ -363,67 +142,20 @@
             .total-bar { flex-direction: column; gap: 16px; }
             .total-divider { width: 100%; height: 1px; }
             .loan-card { grid-template-columns: 1fr; }
-=======
-
-        .total-item {
-            text-align: center;
-        }
-
-        .total-item-val {
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            font-weight: 900;
-            color: white;
-        }
-
-        .total-item-label {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.45);
-            margin-top: 3px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .total-divider {
-            width: 1px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .no-loans {
-            text-align: center;
-            padding: 60px;
-            background: white;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            display: none;
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         }
     </style>
 </head>
-
 <body>
-<<<<<<< HEAD
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-logo">FUND<span>BEE</span></div>
         <div class="sidebar-user">
             <div class="sidebar-user-name" id="sidebarName">Loading...</div>
             <span class="sidebar-user-tag">Verified User</span>
-=======
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar sidebar-light">
-        <div class="sidebar-logo">FUND<span>BEE</span></div>
-        <div class="sidebar-user">
-            <div class="sidebar-user-name">Arjun Sharma</div>
-            <span class="sidebar-user-tag tag-gold">Verified User</span>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         </div>
         <nav class="sidebar-nav">
             <div class="nav-section-label">Main</div>
             <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-<<<<<<< HEAD
             <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
             <a class="nav-item active" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
             <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
@@ -437,45 +169,19 @@
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='logout.php'"><span>🚪</span> Sign Out</div>
-=======
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
-            <a class="nav-item active-gold" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
-            <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
-            <div class="nav-section-label" style="margin-top:10px">Account</div>
-            <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-            <a class="nav-item" href="Notificatons.html"><span class="nav-item-icon">🔔</span> Notifications</a>
-            <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
-            <div class="nav-section-label" style="margin-top:10px">More</div>
-            <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
-            <a class="nav-item" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         </div>
     </aside>
 
     <main class="main">
-<<<<<<< HEAD
         <div class="topbar">
             <div class="topbar-title">My Loans</div>
             <div class="topbar-right">
                 <a href="user1.html" class="back-btn">← Dashboard</a>
                 <div class="avatar" id="avatarEl">?</div>
-=======
-        <div class="topbar topbar-light">
-            <div class="topbar-title topbar-title-light">My Loans</div>
-            <div class="topbar-right">
-                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
-                <div class="notif-btn nb-light">🔔<div class="notif-dot-gold"></div>
-                </div>
-                <div class="avatar avatar-gold">AS</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
             </div>
         </div>
 
         <div class="content">
-<<<<<<< HEAD
             <div class="page-header">
                 <div class="page-eyebrow">Loan Management</div>
                 <div class="page-heading">Your <em>Loans</em></div>
@@ -485,61 +191,30 @@
             <div class="total-bar">
                 <div class="total-item">
                     <div class="total-item-val" id="kpiTotalLoans">—</div>
-=======
-            <!-- Page header -->
-            <div class="page-header">
-                <div class="page-eyebrow page-eyebrow-gold">Loan Management</div>
-                <div class="page-heading page-heading-light">Your <em>Loans</em></div>
-                <div class="page-sub">Track all your active, pending and closed loans in one place.</div>
-            </div>
-
-            <!-- Summary bar -->
-            <div class="total-bar">
-                <div class="total-item">
-                    <div class="total-item-val">4</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                     <div class="total-item-label">Total Loans</div>
                 </div>
                 <div class="total-divider"></div>
                 <div class="total-item">
-<<<<<<< HEAD
                     <div class="total-item-val" id="kpiBorrowed" style="color:var(--gold)">—</div>
-=======
-                    <div class="total-item-val" style="color:var(--gold)">₹11.25L</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                     <div class="total-item-label">Total Borrowed</div>
                 </div>
                 <div class="total-divider"></div>
                 <div class="total-item">
-<<<<<<< HEAD
                     <div class="total-item-val" id="kpiRepaid" style="color:var(--green)">—</div>
-=======
-                    <div class="total-item-val" style="color:var(--green)">₹1.20L</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                     <div class="total-item-label">Total Repaid</div>
                 </div>
                 <div class="total-divider"></div>
                 <div class="total-item">
-<<<<<<< HEAD
                     <div class="total-item-val" id="kpiEmi" style="color:white">—</div>
                     <div class="total-item-label">EMI Due</div>
                 </div>
                 <div class="total-divider"></div>
                 <div class="total-item">
                     <div class="total-item-val" id="kpiOutstanding" style="color:#fc8181">—</div>
-=======
-                    <div class="total-item-val">₹12,000</div>
-                    <div class="total-item-label">EMI This Month</div>
-                </div>
-                <div class="total-divider"></div>
-                <div class="total-item">
-                    <div class="total-item-val" style="color:#fc8181">₹10.05L</div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                     <div class="total-item-label">Outstanding</div>
                 </div>
             </div>
 
-<<<<<<< HEAD
             <div class="filter-bar">
                 <div class="filter-tabs">
                     <button class="filter-tab active" onclick="filterLoans('all',this)" id="tab-all">All</button>
@@ -559,153 +234,10 @@
                     <p>Loading your loans...</p>
                 </div>
             </div>
-=======
-            <!-- Filter bar -->
-            <div class="filter-bar">
-                <div class="filter-tabs">
-                    <button class="filter-tab ft-light active" onclick="filterLoans('all',this)">All (4)</button>
-                    <button class="filter-tab ft-light" onclick="filterLoans('active',this)">Active (2)</button>
-                    <button class="filter-tab ft-light" onclick="filterLoans('pending',this)">Pending (1)</button>
-                    <button class="filter-tab ft-light" onclick="filterLoans('closed',this)">Closed (1)</button>
-                </div>
-                <div class="search-wrap">
-                    <span class="search-icon">🔍</span>
-                    <input class="search-input si-light" placeholder="Search loans..." style="width:220px"
-                        oninput="searchLoans(this.value)">
-                </div>
-            </div>
-
-            <!-- Loan cards -->
-            <div id="loanList">
-
-                <div class="loan-card" data-status="active" data-name="personal loan">
-                    <div style="display:flex;gap:14px;align-items:center">
-                        <div class="loan-type-icon lt-blue">👤</div>
-                        <div>
-                            <div class="loan-name">Personal Loan</div>
-                            <div class="loan-id">#FB-20241 · Disbursed Jan 10, 2026</div>
-                            <div style="margin-top:6px">
-                                <div class="progress-label"><span>Repaid ₹18,200</span><span>of ₹1,00,000</span></div>
-                                <div class="progress-bg pb-light" style="height:6px">
-                                    <div class="progress-fill" style="width:18%;background:var(--green)"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">Amount</div>
-                        <div class="loan-meta-val">₹1,00,000</div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">EMI</div>
-                        <div class="loan-meta-val">₹5,200</div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">Rate</div>
-                        <div class="loan-meta-val">10.5%</div>
-                    </div>
-                    <div><span class="pill pill-green">Active</span></div>
-                    <button class="detail-btn" onclick="openDetail('personal')">View Details</button>
-                </div>
-
-                <div class="loan-card" data-status="active" data-name="home loan">
-                    <div style="display:flex;gap:14px;align-items:center">
-                        <div class="loan-type-icon lt-gold">🏠</div>
-                        <div>
-                            <div class="loan-name">Home Loan</div>
-                            <div class="loan-id">#FB-20189 · Disbursed Nov 1, 2025</div>
-                            <div style="margin-top:6px">
-                                <div class="progress-label"><span>Repaid ₹82,000</span><span>of ₹8,00,000</span></div>
-                                <div class="progress-bg pb-light" style="height:6px">
-                                    <div class="progress-fill" style="width:10%;background:var(--green)"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">Amount</div>
-                        <div class="loan-meta-val">₹8,00,000</div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">EMI</div>
-                        <div class="loan-meta-val">₹6,800</div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">Rate</div>
-                        <div class="loan-meta-val">8.5%</div>
-                    </div>
-                    <div><span class="pill pill-green">Active</span></div>
-                    <button class="detail-btn" onclick="openDetail('home')">View Details</button>
-                </div>
-
-                <div class="loan-card" data-status="pending" data-name="business loan">
-                    <div style="display:flex;gap:14px;align-items:center">
-                        <div class="loan-type-icon lt-navy">💼</div>
-                        <div>
-                            <div class="loan-name">Business Loan</div>
-                            <div class="loan-id">#FB-20312 · Applied Mar 15, 2026</div>
-                            <div style="margin-top:6px">
-                                <div class="progress-label"><span>Application Progress</span><span>60%</span></div>
-                                <div class="progress-bg pb-light" style="height:6px">
-                                    <div class="progress-fill" style="width:60%;background:var(--gold)"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">Amount</div>
-                        <div class="loan-meta-val">₹2,50,000</div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">EMI</div>
-                        <div class="loan-meta-val">TBD</div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">Rate</div>
-                        <div class="loan-meta-val">12.0%</div>
-                    </div>
-                    <div><span class="pill pill-gold">Under Review</span></div>
-                    <button class="detail-btn" onclick="openDetail('business')">Track Status</button>
-                </div>
-
-                <div class="loan-card" data-status="closed" data-name="education loan">
-                    <div style="display:flex;gap:14px;align-items:center">
-                        <div class="loan-type-icon lt-green">🎓</div>
-                        <div>
-                            <div class="loan-name">Education Loan</div>
-                            <div class="loan-id">#FB-19874 · Closed Dec 20, 2025</div>
-                            <div style="margin-top:6px">
-                                <div class="progress-label"><span>Fully Repaid</span><span>100%</span></div>
-                                <div class="progress-bg pb-light" style="height:6px">
-                                    <div class="progress-fill" style="width:100%;background:var(--muted)"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">Amount</div>
-                        <div class="loan-meta-val">₹75,000</div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">EMI</div>
-                        <div class="loan-meta-val">Closed</div>
-                    </div>
-                    <div>
-                        <div class="loan-meta-label">Rate</div>
-                        <div class="loan-meta-val">9.0%</div>
-                    </div>
-                    <div><span class="pill pill-gray">Closed</span></div>
-                    <button class="detail-btn" onclick="openDetail('education')">Download NOC</button>
-                </div>
-
-            </div>
-
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         </div>
     </main>
 
     <!-- LOAN DETAIL MODAL -->
-<<<<<<< HEAD
     <div class="modal-backdrop" id="detailModal">
         <div class="modal">
             <div class="modal-header">
@@ -714,23 +246,12 @@
                     <p id="modalId">#ID</p>
                 </div>
                 <button class="modal-close" onclick="closeDetail()">✕</button>
-=======
-    <div class="modal-backdrop modal-backdrop-light" id="detailModal">
-        <div class="modal modal-light">
-            <div class="modal-header mh-light">
-                <div>
-                    <h3 id="modalTitle">Personal Loan</h3>
-                    <p id="modalId">#FB-20241</p>
-                </div>
-                <button class="modal-close mc-light" onclick="closeDetail()">✕</button>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
             </div>
             <div class="modal-body">
                 <div id="modalStatus" style="margin-bottom:16px"></div>
                 <div class="detail-grid">
                     <div class="detail-item">
                         <div class="detail-item-label">Principal Amount</div>
-<<<<<<< HEAD
                         <div class="detail-item-val" id="dAmt">—</div>
                     </div>
                     <div class="detail-item">
@@ -770,54 +291,11 @@
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeDetail()">Close</button>
                 <button class="btn-primary" id="modalActionBtn">Take Action</button>
-=======
-                        <div class="detail-item-val" id="dAmt">₹1,00,000</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Monthly EMI</div>
-                        <div class="detail-item-val" id="dEmi">₹5,200</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Interest Rate</div>
-                        <div class="detail-item-val" id="dRate">10.5% p.a.</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Tenure</div>
-                        <div class="detail-item-val" id="dTenure">24 Months</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Outstanding</div>
-                        <div class="detail-item-val" id="dOutstanding" style="color:var(--red)">₹81,800</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Next EMI Due</div>
-                        <div class="detail-item-val" id="dNext">Apr 05, 2026</div>
-                    </div>
-                </div>
-                <div style="margin-bottom:16px">
-                    <div
-                        style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px">
-                        <span>Repayment Progress</span><span id="dProgress">18%</span>
-                    </div>
-                    <div class="progress-bg pb-light" style="height:10px">
-                        <div class="progress-fill" id="dBar" style="width:18%;background:var(--green)"></div>
-                    </div>
-                </div>
-                <div
-                    style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:14px">
-                    Loan Timeline</div>
-                <div class="timeline" id="modalTimeline"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary btn-sec-light" onclick="closeDetail()">Close</button>
-                <button class="btn-primary-light" id="modalActionBtn">Pay EMI Now</button>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
             </div>
         </div>
     </div>
 
     <script>
-<<<<<<< HEAD
         const LOAN_ICONS = {
             'Personal Loan':  '👤',
             'Home Loan':      '🏠',
@@ -846,7 +324,6 @@
                     const initial = ((user.firstName || '?')[0] + (user.lastName || '?')[0]).toUpperCase();
                     document.getElementById('sidebarName').textContent = fullName;
                     document.getElementById('avatarEl').textContent = initial;
-                    // Also update any other avatar/name placeholders if they exist
                     document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName);
                     document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
 
@@ -865,7 +342,6 @@
                     allLoans = data.loans || [];
                     renderLoans(allLoans);
 
-                    // Auto-open requested loan from URL via View Details on Dashboard
                     const urlParams = new URLSearchParams(window.location.search);
                     const loanId = urlParams.get('loan');
                     if (loanId) {
@@ -913,72 +389,10 @@
                 </div>`;
             }).join('');
         }
-=======
-        const loanData = {
-            personal: {
-                title: 'Personal Loan', id: '#FB-20241', amt: '₹1,00,000', emi: '₹5,200', rate: '10.5% p.a.', tenure: '24 Months', outstanding: '₹81,800', next: 'Apr 05, 2026', progress: '18%', bar: '18%', status: 'active', action: 'Pay EMI Now', timeline: [
-                    { dot: 'green', title: 'Loan Disbursed', date: 'Jan 10, 2026', note: '₹1,00,000 credited to your account' },
-                    { dot: 'green', title: 'EMI 1 Paid', date: 'Feb 05, 2026', note: '₹5,200 deducted' },
-                    { dot: 'green', title: 'EMI 2 Paid', date: 'Mar 05, 2026', note: '₹5,200 deducted' },
-                    { dot: 'gold', title: 'EMI 3 Due', date: 'Apr 05, 2026', note: '₹5,200 pending' },
-                    { dot: 'gray', title: 'Loan Closure', date: 'Jan 2028', note: 'Projected closure date' },
-                ]
-            },
-            home: {
-                title: 'Home Loan', id: '#FB-20189', amt: '₹8,00,000', emi: '₹6,800', rate: '8.5% p.a.', tenure: '120 Months', outstanding: '₹7,18,000', next: 'Apr 01, 2026', progress: '10%', bar: '10%', status: 'active', action: 'Pay EMI Now', timeline: [
-                    { dot: 'green', title: 'Loan Sanctioned', date: 'Oct 20, 2025', note: 'Property verification complete' },
-                    { dot: 'green', title: 'Disbursement', date: 'Nov 01, 2025', note: '₹8,00,000 transferred to seller' },
-                    { dot: 'green', title: 'EMIs 1–4 Paid', date: 'Feb 2026', note: '₹82,000 total repaid' },
-                    { dot: 'gold', title: 'EMI 5 Due', date: 'Apr 01, 2026', note: '₹6,800 pending' },
-                    { dot: 'gray', title: 'Loan Closure', date: 'Nov 2035', note: 'Projected closure date' },
-                ]
-            },
-            business: {
-                title: 'Business Loan', id: '#FB-20312', amt: '₹2,50,000', emi: 'TBD', rate: '12.0% p.a.', tenure: '36 Months', outstanding: 'Pending', next: 'TBD', progress: '60%', bar: '60%', status: 'pending', action: 'Upload Documents', timeline: [
-                    { dot: 'green', title: 'Application Submitted', date: 'Mar 15, 2026', note: 'All basic documents uploaded' },
-                    { dot: 'green', title: 'Initial KYC Passed', date: 'Mar 17, 2026', note: 'Identity verification complete' },
-                    { dot: 'gold', title: 'Credit Assessment', date: 'In Progress', note: 'Risk team reviewing income proof' },
-                    { dot: 'gray', title: 'Final Approval', date: 'Expected Apr 1', note: 'Pending credit team review' },
-                    { dot: 'gray', title: 'Disbursement', date: 'Expected Apr 3', note: 'Upon approval' },
-                ]
-            },
-            education: {
-                title: 'Education Loan', id: '#FB-19874', amt: '₹75,000', emi: 'Closed', rate: '9.0% p.a.', tenure: '18 Months', outstanding: '₹0', next: 'Closed', progress: '100%', bar: '100%', status: 'closed', action: 'Download NOC', timeline: [
-                    { dot: 'green', title: 'Loan Disbursed', date: 'Jun 05, 2024', note: '₹75,000 to institution' },
-                    { dot: 'green', title: 'All EMIs Paid', date: 'Dec 2025', note: '18 EMIs completed on time' },
-                    { dot: 'green', title: 'Loan Closed', date: 'Dec 20, 2025', note: 'NOC issued, CIBIL updated' },
-                ]
-            },
-        };
-
-        function openDetail(type) {
-            const d = loanData[type];
-            document.getElementById('modalTitle').textContent = d.title;
-            document.getElementById('modalId').textContent = d.id;
-            document.getElementById('dAmt').textContent = d.amt;
-            document.getElementById('dEmi').textContent = d.emi;
-            document.getElementById('dRate').textContent = d.rate;
-            document.getElementById('dTenure').textContent = d.tenure;
-            document.getElementById('dOutstanding').textContent = d.outstanding;
-            document.getElementById('dNext').textContent = d.next;
-            document.getElementById('dProgress').textContent = d.progress;
-            document.getElementById('dBar').style.width = d.bar;
-            document.getElementById('dBar').style.background = d.status === 'closed' ? 'var(--muted)' : d.status === 'pending' ? 'var(--gold)' : 'var(--green)';
-            const statusMap = { active: '<span class="pill pill-green">Active</span>', pending: '<span class="pill pill-gold">Under Review</span>', closed: '<span class="pill pill-gray">Closed</span>' };
-            document.getElementById('modalStatus').innerHTML = statusMap[d.status];
-            document.getElementById('modalActionBtn').textContent = d.action;
-            const tl = d.timeline.map(t => `<div class="tl-item"><div class="tl-dot tl-dot-${t.dot}"></div><div class="tl-content"><h5>${t.title}</h5><p>${t.date} — ${t.note}</p></div></div>`).join('');
-            document.getElementById('modalTimeline').innerHTML = tl;
-            document.getElementById('detailModal').classList.add('open');
-        }
-        function closeDetail() { document.getElementById('detailModal').classList.remove('open'); }
-        document.getElementById('detailModal').addEventListener('click', e => { if (e.target === document.getElementById('detailModal')) closeDetail(); });
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
 
         function filterLoans(status, btn) {
             document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-<<<<<<< HEAD
             const filtered = status === 'all' ? allLoans : allLoans.filter(l => l.status === status);
             renderLoans(filtered);
         }
@@ -1030,22 +444,7 @@
             document.getElementById('detailModal').classList.remove('open'); 
             document.body.style.overflow = '';
         }
+        document.getElementById('detailModal').addEventListener('click', e => { if (e.target === document.getElementById('detailModal')) closeDetail(); });
     </script>
 </body>
 </html>
-=======
-            document.querySelectorAll('.loan-card').forEach(card => {
-                card.style.display = (status === 'all' || card.dataset.status === status) ? '' : 'none';
-            });
-        }
-        function searchLoans(val) {
-            const v = val.toLowerCase();
-            document.querySelectorAll('.loan-card').forEach(card => {
-                card.style.display = card.dataset.name.includes(v) ? '' : 'none';
-            });
-        }
-    </script>
-</body>
-
-</html>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
