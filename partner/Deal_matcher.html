@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deal Matcher — FUNDBEE Partner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: #070f1e
+        }
+
+        .matcher-hero {
+            background: linear-gradient(145deg, #071a10, #0a2015);
+            border: 1px solid rgba(16, 185, 129, 0.18);
+            border-radius: 20px;
+            padding: 30px 34px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .matcher-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -40px;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1), transparent 55%);
+            border-radius: 50%
+        }
+
+        .mh-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px
+        }
+
+        .mh-left h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 5px
+        }
+
+        .mh-left p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            max-width: 400px;
+            line-height: 1.6
+        }
+
+        .mh-stats {
+            display: flex;
+            gap: 20px
+        }
+
+        .mhs {
+            text-align: center;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px
+        }
+
+        .mhs-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 900
+        }
+
+        .mhs-lbl {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 3px
+        }
+
+        .deal-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 22px 24px;
+            margin-bottom: 14px;
+            transition: all 0.2s
+        }
+
+        .deal-card:hover {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2)
+        }
+
+        .deal-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px
+        }
+
+        .deal-borrower {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .deal-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 16px;
+            flex-shrink: 0
+        }
+
+        .da-green {
+            background: rgba(16, 185, 129, 0.18);
+            color: var(--green)
+        }
+
+        .da-gold {
+            background: rgba(245, 166, 35, 0.18);
+            color: var(--gold)
+        }
+
+        .da-blue {
+            background: rgba(59, 130, 246, 0.18);
+            color: #60a5fa
+        }
+
+        .da-purple {
+            background: rgba(139, 92, 246, 0.18);
+            color: #a78bfa
+        }
+
+        .deal-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: white;
+            margin-bottom: 2px
+        }
+
+        .deal-type {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35)
+        }
+
+        .match-score {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0
+        }
+
+        .ms-ring {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 900
+        }
+
+        .ms-high {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+            border: 2px solid rgba(16, 185, 129, 0.4)
+        }
+
+        .ms-mid {
+            background: rgba(245, 166, 35, 0.15);
+            color: var(--gold);
+            border: 2px solid rgba(245, 166, 35, 0.3)
+        }
+
+        .ms-lbl {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 3px;
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .deal-params {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 14px
+        }
+
+        .dp-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.25);
+            margin-bottom: 3px
+        }
+
+        .dp-val {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e2e8f0
+        }
+
+        .deal-actions {
+            display: flex;
+            gap: 10px
+        }
+
+        .fund-btn {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--green), #34d399);
+            color: #070f1e;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .fund-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3)
+        }
+
+        .pass-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .pass-btn:hover {
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fc8181
+        }
+
+        .info-btn {
+            padding: 10px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 9px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .info-btn:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            color: white
+        }
+
+        .ai-reason {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 14px;
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            border-radius: 10px;
+            margin-bottom: 14px
+        }
+
+        .air-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 1px
+        }
+
+        .air-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5
+        }
+
+        .air-text strong {
+            color: rgba(255, 255, 255, 0.8)
+        }
+
+        .pref-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 14px;
+            padding: 20px
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <aside class="sidebar sidebar-dark">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Priya Nair</div><span class="sidebar-user-tag tag-green">Premium
+                Partner</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Overview</div>
+            <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
+            <a class="nav-item" href="Portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
+            <a class="nav-item" href="Analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
+            <div class="nav-section-label" style="margin-top:10px">Management</div>
+            <a class="nav-item" href="Borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
+            <a class="nav-item" href="Applications.html"><span class="nav-item-icon">📋</span> Applications</a>
+            <a class="nav-item" href="Withdrawls.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
+            <a class="nav-item" href="Statements.html"><span class="nav-item-icon">📄</span> Statements</a>
+            <div class="nav-section-label" style="margin-top:10px">Premium</div>
+            <a class="nav-item" href="Risk_insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
+            <a class="nav-item active-green" href="Deal_matcher.html"><span class="nav-item-icon">🎯</span> Deal
+                Matcher</a>
+            <a class="nav-item" href="partner_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+    <main class="main">
+        <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+            <div class="topbar-title topbar-title-dark">Deal Matcher</div>
+            <div class="topbar-right">
+                <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
+                <span class="pill pill-green" style="font-size:11px">⚡ Premium Feature</span>
+                <div class="avatar avatar-green">PN</div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-green">Smart Deal Matcher</div>
+                <div class="page-heading" style="color:white">AI-Matched <em
+                        style="color:var(--gold)">Opportunities</em></div>
+                <div class="page-sub">Our AI engine curates pre-qualified borrowers that best match your yield targets,
+                    risk appetite, and portfolio strategy.</div>
+            </div>
+
+            <!-- Hero -->
+            <div class="matcher-hero">
+                <div class="mh-inner">
+                    <div class="mh-left">
+                        <h2>🎯 12 New Matches Today</h2>
+                        <p>Our AI identified 12 pre-approved borrowers whose profiles perfectly align with your current
+                            portfolio preferences and risk tolerance.</p>
+                        <button class="btn-primary-dark" style="margin-top:16px"
+                            onclick="toast('Refreshing matches...')">Refresh Matches</button>
+                    </div>
+                    <div class="mh-stats">
+                        <div class="mhs">
+                            <div class="mhs-val" style="color:var(--green)">12</div>
+                            <div class="mhs-lbl">New Matches</div>
+                        </div>
+                        <div class="mhs">
+                            <div class="mhs-val" style="color:var(--gold)">11.2%</div>
+                            <div class="mhs-lbl">Avg Yield</div>
+                        </div>
+                        <div class="mhs">
+                            <div class="mhs-val" style="color:white">752</div>
+                            <div class="mhs-lbl">Avg CIBIL</div>
+                        </div>
+                        <div class="mhs">
+                            <div class="mhs-val" style="color:white">₹4.8Cr</div>
+                            <div class="mhs-lbl">Total Pool</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 280px;gap:24px">
+                <!-- Deals -->
+                <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+                        <div class="filter-tabs">
+                            <button class="filter-tab ft-dark active" onclick="filterDeals('all',this)">All
+                                Matches</button>
+                            <button class="filter-tab ft-dark" onclick="filterDeals('high',this)">95%+ Match</button>
+                            <button class="filter-tab ft-dark" onclick="filterDeals('medium',this)">80–95%</button>
+                        </div>
+                        <select
+                            style="padding:9px 13px;border-radius:9px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);font-family:'DM Sans',sans-serif;font-size:13px;outline:none">
+                            <option>Sort: Match Score</option>
+                            <option>Sort: Yield High-Low</option>
+                            <option>Sort: Amount High-Low</option>
+                        </select>
+                    </div>
+
+                    <div id="dealList">
+                        <div class="deal-card" data-match="high">
+                            <div class="deal-top">
+                                <div class="deal-borrower">
+                                    <div class="deal-avatar da-green">PK</div>
+                                    <div>
+                                        <div class="deal-name">Pradeep Kumar</div>
+                                        <div class="deal-type">Business Loan · Pune · 8 yrs in business</div>
+                                    </div>
+                                </div>
+                                <div class="match-score">
+                                    <div class="ms-ring ms-high">97%</div>
+                                    <div class="ms-lbl">Match</div>
+                                </div>
+                            </div>
+                            <div class="ai-reason">
+                                <div class="air-icon">🤖</div>
+                                <div class="air-text"><strong>AI Reason:</strong> High CIBIL (748), strong business cash
+                                    flow, low DBR (32%), and loan type aligns with your Business segment target (30%
+                                    allocation). Projected yield of 15.2% matches your portfolio strategy.</div>
+                            </div>
+                            <div class="deal-params">
+                                <div>
+                                    <div class="dp-label">Amount</div>
+                                    <div class="dp-val" style="color:var(--gold);font-family:'Playfair Display',serif">
+                                        ₹5,00,000</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Tenure</div>
+                                    <div class="dp-val">36 mo</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">CIBIL</div>
+                                    <div class="dp-val" style="color:var(--green)">748</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Your Yield</div>
+                                    <div class="dp-val" style="color:var(--green)">15.2%</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Risk Grade</div>
+                                    <div class="dp-val" style="color:var(--green)">B+</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Income</div>
+                                    <div class="dp-val">₹85K/mo</div>
+                                </div>
+                            </div>
+                            <div class="deal-actions">
+                                <button class="fund-btn" onclick="fundDeal(this)">⚡ Fund This Deal</button>
+                                <button class="pass-btn" onclick="passDeal(this)">Pass</button>
+                                <button class="info-btn">View Full Profile</button>
+                            </div>
+                        </div>
+
+                        <div class="deal-card" data-match="high">
+                            <div class="deal-top">
+                                <div class="deal-borrower">
+                                    <div class="deal-avatar da-gold">AS</div>
+                                    <div>
+                                        <div class="deal-name">Aishwarya Singh</div>
+                                        <div class="deal-type">Personal Loan · Mumbai · Salaried — Tech Sector</div>
+                                    </div>
+                                </div>
+                                <div class="match-score">
+                                    <div class="ms-ring ms-high">94%</div>
+                                    <div class="ms-lbl">Match</div>
+                                </div>
+                            </div>
+                            <div class="ai-reason">
+                                <div class="air-icon">🤖</div>
+                                <div class="air-text"><strong>AI Reason:</strong> CIBIL 761, zero existing EMIs, stable
+                                    tech sector employment (4 yrs). Personal loan fills your 43% segment target. Clean
+                                    repayment history on 1 prior loan. Excellent default risk score.</div>
+                            </div>
+                            <div class="deal-params">
+                                <div>
+                                    <div class="dp-label">Amount</div>
+                                    <div class="dp-val" style="color:var(--gold);font-family:'Playfair Display',serif">
+                                        ₹2,50,000</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Tenure</div>
+                                    <div class="dp-val">24 mo</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">CIBIL</div>
+                                    <div class="dp-val" style="color:var(--green)">761</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Your Yield</div>
+                                    <div class="dp-val" style="color:var(--green)">13.5%</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Risk Grade</div>
+                                    <div class="dp-val" style="color:var(--green)">A-</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Income</div>
+                                    <div class="dp-val">₹72K/mo</div>
+                                </div>
+                            </div>
+                            <div class="deal-actions">
+                                <button class="fund-btn" onclick="fundDeal(this)">⚡ Fund This Deal</button>
+                                <button class="pass-btn" onclick="passDeal(this)">Pass</button>
+                                <button class="info-btn">View Full Profile</button>
+                            </div>
+                        </div>
+
+                        <div class="deal-card" data-match="medium">
+                            <div class="deal-top">
+                                <div class="deal-borrower">
+                                    <div class="deal-avatar da-blue">NM</div>
+                                    <div>
+                                        <div class="deal-name">Nikhil Mehra</div>
+                                        <div class="deal-type">Home Loan · Bengaluru · Property Under ₹80L</div>
+                                    </div>
+                                </div>
+                                <div class="match-score">
+                                    <div class="ms-ring ms-mid">82%</div>
+                                    <div class="ms-lbl">Match</div>
+                                </div>
+                            </div>
+                            <div class="ai-reason">
+                                <div class="air-icon">🤖</div>
+                                <div class="air-text"><strong>AI Reason:</strong> CIBIL 735, moderate match — home
+                                    segment is below your 20% target (currently 19%). Lower yield at 9.4% but offers
+                                    strong collateral security and very low default probability.</div>
+                            </div>
+                            <div class="deal-params">
+                                <div>
+                                    <div class="dp-label">Amount</div>
+                                    <div class="dp-val" style="color:var(--gold);font-family:'Playfair Display',serif">
+                                        ₹18,00,000</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Tenure</div>
+                                    <div class="dp-val">120 mo</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">CIBIL</div>
+                                    <div class="dp-val" style="color:var(--gold)">735</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Your Yield</div>
+                                    <div class="dp-val" style="color:rgba(255,255,255,0.6)">9.4%</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Risk Grade</div>
+                                    <div class="dp-val" style="color:var(--green)">A</div>
+                                </div>
+                                <div>
+                                    <div class="dp-label">Income</div>
+                                    <div class="dp-val">₹95K/mo</div>
+                                </div>
+                            </div>
+                            <div class="deal-actions">
+                                <button class="fund-btn" onclick="fundDeal(this)">⚡ Fund This Deal</button>
+                                <button class="pass-btn" onclick="passDeal(this)">Pass</button>
+                                <button class="info-btn">View Full Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preferences -->
+                <div>
+                    <div class="pref-card" style="margin-bottom:16px">
+                        <div
+                            style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:14px">
+                            My Preferences</div>
+                        <div style="display:flex;flex-direction:column;gap:12px">
+                            <div>
+                                <div
+                                    style="font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">
+                                    Min Yield Target</div><input class="form-input fi-dark" value="11%"
+                                    style="padding:9px 12px;font-size:13px">
+                            </div>
+                            <div>
+                                <div
+                                    style="font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">
+                                    Min CIBIL Score</div><input class="form-input fi-dark" value="700"
+                                    style="padding:9px 12px;font-size:13px">
+                            </div>
+                            <div>
+                                <div
+                                    style="font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">
+                                    Max Single Exposure</div><input class="form-input fi-dark" value="₹20 Lakhs"
+                                    style="padding:9px 12px;font-size:13px">
+                            </div>
+                            <div>
+                                <div
+                                    style="font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">
+                                    Preferred Segments</div>
+                                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+                                    <span
+                                        style="padding:4px 10px;border-radius:20px;background:rgba(16,185,129,0.12);color:var(--green);font-size:11px;font-weight:600">Personal</span>
+                                    <span
+                                        style="padding:4px 10px;border-radius:20px;background:rgba(245,166,35,0.12);color:var(--gold);font-size:11px;font-weight:600">Business</span>
+                                    <span
+                                        style="padding:4px 10px;border-radius:20px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.4);font-size:11px;font-weight:600">Home</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary-dark" style="width:100%;padding:11px;margin-top:4px"
+                                onclick="toast('Preferences saved! AI will re-rank matches.')">Save Preferences</button>
+                        </div>
+                    </div>
+                    <div class="pref-card">
+                        <div
+                            style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:white;margin-bottom:10px">
+                            Auto-Fund Rules</div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                            <span style="font-size:13px;color:rgba(255,255,255,0.5)">Auto-fund 95%+ matches</span>
+                            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center"><span
+                                style="font-size:13px;color:rgba(255,255,255,0.5)">Daily digest email</span>
+                            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="toast"
+        style="position:fixed;bottom:28px;right:28px;background:#0d1f38;border:1px solid rgba(255,255,255,0.1);color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.4);transform:translateY(80px);transition:transform 0.3s;z-index:9999">
+        Done</div>
+    <style>
+        .toggle {
+            width: 42px;
+            height: 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            position: relative;
+            transition: background 0.2s;
+            flex-shrink: 0
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 3px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
+        }
+
+        .toggle.on {
+            background: var(--green)
+        }
+
+        .toggle.on::after {
+            transform: translateX(18px)
+        }
+        
+        /* New Wizard Styles */
+        #dealList {
+            position: relative;
+            min-height: 480px;
+        }
+        .deal-card {
+            display: none;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        .deal-card.active {
+            display: block;
+            margin-top: 10px;
+        }
+        .deal-card.leaving-fund {
+            animation: slideOutRight 0.3s ease-in forwards;
+        }
+        .deal-card.leaving-pass {
+            animation: slideOutLeft 0.3s ease-in forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity:0; transform: translateY(20px) scale(0.95); }
+            to { opacity:1; transform: translateY(0) scale(1); }
+        }
+        @keyframes slideOutRight {
+            to { opacity:0; transform: translateX(50px) rotate(5deg); }
+        }
+        @keyframes slideOutLeft {
+            to { opacity:0; transform: translateX(-50px) rotate(-5deg); }
+        }
+        
+        .all-caught-up {
+            display: none;
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            border: 1px dashed rgba(255,255,255,0.1);
+            margin-top: 20px;
+        }
+        .all-caught-up.active {
+            display: block;
+            animation: slideIn 0.4s ease forwards;
+        }
+    </style>
+    <script>
+        function toast(msg) { 
+            const t = document.getElementById('toast'); 
+            t.textContent = msg; 
+            t.style.transform = 'translateY(0)'; 
+            setTimeout(() => t.style.transform = 'translateY(80px)', 3000); 
+        }
+
+        let currentDealIndex = 0;
+        let deals = [];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            deals = Array.from(document.querySelectorAll('.deal-card'));
+            
+            // Add All Caught Up message element dynamically
+            const endMsg = document.createElement('div');
+            endMsg.className = 'all-caught-up';
+            endMsg.id = 'allCaughtUp';
+            endMsg.innerHTML = '<div style="font-size:48px;margin-bottom:16px;">🎉</div><h3 style="color:white;font-family:\'Playfair Display\',serif;font-size:24px;margin-bottom:8px;">You\'re all caught up!</h3><p style="color:rgba(255,255,255,0.5);font-size:14px;line-height:1.5;">You have reviewed all AI-matched opportunities for today.<br>The engine is scanning for new deals matching your yield target.</p><button onclick="window.location.reload()" style="padding:10px 20px;margin-top:20px;background:rgba(255,255,255,0.05);color:white;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;font-family:\'DM Sans\';">↻ Replay Demo</button>';
+            document.getElementById('dealList').appendChild(endMsg);
+            
+            showNextDeal();
+        });
+
+        function showNextDeal() {
+            deals.forEach(d => d.classList.remove('active'));
+            if (currentDealIndex < deals.length) {
+                deals[currentDealIndex].classList.add('active');
+            } else {
+                // Done
+                document.getElementById('allCaughtUp').classList.add('active');
+                
+                // Hide filters and sorting to keep UI clean
+                const filterSection = document.querySelector('.filter-tabs').parentNode;
+                if(filterSection) filterSection.style.display = 'none';
+                
+                // Update top stats
+                const mhs = document.querySelectorAll('.mhs-val');
+                if(mhs.length > 0) mhs[0].textContent = '0'; // 0 Matches left
+            }
+        }
+
+        async function fundDeal(btn) {
+            const card = btn.closest('.deal-card');
+            const name = card.querySelector('.deal-name').textContent;
+            const amount = card.querySelector('.dp-val').textContent;
+            
+            // Simulated API Post
+            try {
+                await fetch('../Backend/partner/api_matcher.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({action: 'fund_deal', deal_id: currentDealIndex})
+                });
+            } catch(e) { }
+            
+            toast(`✅ Deal Match Accepted! Funded ${name} for ${amount}`);
+            card.classList.add('leaving-fund');
+            
+            currentDealIndex++;
+            setTimeout(showNextDeal, 350);
+        }
+
+        function passDeal(btn) { 
+            const card = btn.closest('.deal-card');
+            toast('⏭️ Passed on matching deal.');
+            card.classList.add('leaving-pass');
+            
+            currentDealIndex++;
+            setTimeout(showNextDeal, 350);
+        }
+        
+        function filterDeals(type, btn) {
+            // Re-use logic for filters if they click it before swiping
+            if(document.getElementById('allCaughtUp').classList.contains('active')) return;
+            
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); 
+            btn.classList.add('active');
+            
+            if (type === 'all') {
+                currentDealIndex = 0;
+            } else {
+                // Find first deal that matches
+                const idx = deals.findIndex(d => d.dataset.match === type);
+                currentDealIndex = (idx !== -1) ? idx : deals.length;
+            }
+            showNextDeal();
+        }
+    </script>
+</body>
+
+</html>

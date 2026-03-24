@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partner Dashboard — FUNDBEE</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0b1d3a;
+      --navy-mid: #112249;
+      --navy-light: #1a3a6e;
+      --gold: #f5a623;
+      --gold-light: #fdd068;
+      --green: #10b981;
+      --green-light: rgba(16, 185, 129, 0.12);
+      --red: #ef4444;
+      --red-light: rgba(239, 68, 68, 0.1);
+      --blue: #3b82f6;
+      --white: #ffffff;
+      --bg: #070f1e;
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface-hover: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e2e8f0;
+      --muted: rgba(255, 255, 255, 0.4);
+      --card-glow: 0 4px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ─── OVERLAY ─── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .overlay::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -150px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.10), transparent 60%);
+      border-radius: 50%;
+    }
+
+    .overlay::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(245, 166, 35, 0.06), transparent 65%);
+      border-radius: 50%;
+    }
+
+    .overlay-panel {
+      position: relative;
+      z-index: 1;
+      width: 440px;
+      animation: panelIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes panelIn {
+      from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .overlay-panel.hidden {
+      display: none;
+    }
+
+    /* Auth card */
+    .auth-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(28px);
+      border-radius: 20px;
+      padding: 44px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle glow ring */
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(245, 166, 35, 0.15), transparent 60%);
+      z-index: -1;
+      filter: blur(1px);
+    }
+
+    .auth-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .auth-logo span {
+      color: var(--gold);
+    }
+
+    .auth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .auth-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .auth-input::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .auth-input:focus {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .auth-btn {
+      width: 100%;
+      margin-top: 28px;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--green), #34d399);
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
+    }
+
+    .auth-error {
+      color: #fc8181;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Role selection */
+    .role-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(28px);
+      border-radius: 20px;
+      padding: 44px 40px;
+      text-align: center;
+    }
+
+    .role-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    .role-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .role-sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 36px;
+    }
+
+    .role-options {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .role-option {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 22px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: left;
+    }
+
+    .role-option:hover {
+      transform: translateY(-2px);
+    }
+
+    .role-option.user-opt:hover {
+      border-color: var(--gold);
+      background: rgba(245, 166, 35, 0.07);
+      box-shadow: 0 0 30px rgba(245, 166, 35, 0.12);
+    }
+
+    .role-option.partner-opt:hover {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.07);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.12);
+    }
+
+    .role-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .ri-gold {
+      background: rgba(245, 166, 35, 0.15);
+    }
+
+    .ri-green {
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .role-info h4 {
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .role-info p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .role-arrow {
+      margin-left: auto;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 18px;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100vh;
+      background: rgba(11, 29, 58, 0.95);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 28px 28px 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: white;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo span {
+      color: var(--gold);
+    }
+
+    .sidebar-user {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-user-name {
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .sidebar-user-tag {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 0;
+      overflow-y: auto;
+    }
+
+    .nav-section-label {
+      padding: 10px 28px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 28px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-item.active {
+      color: var(--green);
+      border-left-color: var(--green);
+      background: rgba(16, 185, 129, 0.07);
+    }
+
+    .nav-item-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      padding: 20px 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 13px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .logout-btn:hover {
+      color: #fc8181;
+    }
+
+    /* ─── MAIN ─── */
+    .main {
+      margin-left: 240px;
+      min-height: 100vh;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7, 15, 30, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .notif-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      position: relative;
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: 6px;
+      right: 7px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--green), #34d399);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .switch-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: rgba(255, 255, 255, 0.6);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .switch-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ─── CONTENT ─── */
+    .content {
+      padding: 32px 40px;
+    }
+
+    /* HERO EARNINGS BANNER */
+    .earnings-banner {
+      background: linear-gradient(130deg, #071a0e 0%, #0a2218 50%, #071a0e 100%);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 20px;
+      padding: 0;
+      margin-bottom: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .earnings-banner::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12), transparent 60%);
+      border-radius: 50%;
+    }
+
+    .earnings-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: 20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(245, 166, 35, 0.06), transparent 65%);
+      border-radius: 50%;
+    }
+
+    .earnings-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      divide-x: 1px solid var(--border);
+    }
+
+    .earn-metric {
+      padding: 32px 30px;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .earn-metric:last-child {
+      border-right: none;
+    }
+
+    .earn-metric-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .earn-metric-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .earn-metric-value.green {
+      color: var(--green);
+    }
+
+    .earn-metric-value.gold {
+      color: var(--gold);
+    }
+
+    .earn-metric-value.white {
+      color: white;
+    }
+
+    .earn-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .earn-change.up {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .earn-change.down {
+      background: var(--red-light);
+      color: var(--red);
+    }
+
+    .earn-change.neutral {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+
+    /* KPI GRID */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 22px;
+      box-shadow: var(--card-glow);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .kpi-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .ki-green {
+      background: rgba(16, 185, 129, 0.12);
+    }
+
+    .ki-gold {
+      background: rgba(245, 166, 35, 0.12);
+    }
+
+    .ki-blue {
+      background: rgba(59, 130, 246, 0.12);
+    }
+
+    .ki-red {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .kpi-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .kb-up {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .kb-down {
+      background: var(--red-light);
+      color: var(--red);
+    }
+
+    .kb-neutral {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+
+    .kpi-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .kpi-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* SECTION HEADER */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .section-link {
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .section-link:hover {
+      text-decoration: underline;
+    }
+
+    /* TABLE */
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .table-card table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table-card th {
+      padding: 14px 22px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-card td {
+      padding: 16px 22px;
+      font-size: 14px;
+      color: var(--text);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .table-card tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table-card tr:hover td {
+      background: rgba(16, 185, 129, 0.02);
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .sp-active {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .sp-pending {
+      background: rgba(245, 166, 35, 0.12);
+      color: #f59e0b;
+    }
+
+    .sp-closed {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+    }
+
+    .action-link {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      background: none;
+    }
+
+    .action-link:hover {
+      text-decoration: underline;
+    }
+
+    /* BOTTOM GRID */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    /* PORTFOLIO CARD */
+    .portfolio-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+    }
+
+    .portfolio-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .portfolio-item:last-child {
+      border-bottom: none;
+    }
+
+    .portfolio-bar-bg {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .portfolio-bar {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    .portfolio-info {
+      width: 130px;
+      flex-shrink: 0;
+    }
+
+    .portfolio-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .portfolio-count {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .portfolio-val {
+      width: 90px;
+      text-align: right;
+      flex-shrink: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .portfolio-pct {
+      width: 50px;
+      text-align: right;
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .pct-up {
+      color: var(--green);
+    }
+
+    .pct-dn {
+      color: var(--red);
+    }
+
+    /* PREMIUM FEATURES */
+    .premium-card {
+      background: linear-gradient(145deg, #071a0e, #0d2818);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 16px;
+      padding: 26px;
+    }
+
+    .premium-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 8px;
+    }
+
+    .premium-item:last-child {
+      border-bottom: none;
+    }
+
+    .premium-item:hover {
+      padding-left: 6px;
+    }
+
+    .premium-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+    }
+
+    .premium-text h5 {
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .premium-text p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .premium-arrow {
+      margin-left: auto;
+      color: var(--green);
+      opacity: 0.5;
+      font-size: 16px;
+    }
+
+    /* WITHDRAW PANEL */
+    .withdraw-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .withdraw-left {}
+
+    .withdraw-left h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .withdraw-left p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .avail-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    .avail-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .withdraw-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-withdraw {
+      flex: 1;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--green), #34d399);
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-withdraw:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-statement {
+      flex: 1;
+      padding: 12px 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: rgba(255, 255, 255, 0.6);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-statement:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .withdraw-right {}
+
+    .withdraw-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .ws-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .ws-item-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .ws-item-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .ws-item-change {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    .ch-up {
+      color: var(--green);
+    }
+
+    .ch-dn {
+      color: var(--red);
+    }
+
+    /* WITHDRAW MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: #0d1f38;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+
+    .modal-backdrop.open .modal {
+      transform: none;
+    }
+
+    .modal-header {
+      padding: 26px 30px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .modal-header p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--muted);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      background: var(--red-light);
+      color: var(--red);
+    }
+
+    .modal-body {
+      padding: 28px 30px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      margin-top: 18px;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 13px 15px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--green);
+    }
+
+    .form-select option {
+      background: #0d1f38;
+    }
+
+    .modal-footer {
+      padding: 16px 30px 26px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-cancel:hover {
+      border-color: white;
+      color: white;
+    }
+
+    .btn-confirm {
+      flex: 2;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--green), #34d399);
+      color: var(--navy);
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-confirm:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .success-banner {
+      display: none;
+      background: var(--green-light);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: var(--green);
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Overlay removed -->
+  <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">FUND<span>BEE</span></div>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name">Priya Nair</div>
+      <span class="sidebar-user-tag">Premium Partner</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a class="nav-item active" href="partner1.html">
+        <span class="nav-item-icon">📊</span> Dashboard
+      </a>
+      <a class="nav-item" href="earnings.html">
+        <span class="nav-item-icon">💰</span> My Earnings
+      </a>
+      <a class="nav-item" href="Portfolio.html">
+        <span class="nav-item-icon">📁</span> Portfolio
+      </a>
+      <a class="nav-item" href="Analytics.html">
+        <span class="nav-item-icon">📈</span> Analytics
+      </a>
+
+      <div class="nav-section-label" style="margin-top:10px">Management</div>
+      <a class="nav-item" href="Borrowers.html">
+        <span class="nav-item-icon">👥</span> My Borrowers
+      </a>
+      <a class="nav-item" href="Applications.html">
+        <span class="nav-item-icon">📋</span> Applications
+      </a>
+      <a class="nav-item" href="Withdrawls.html">
+        <span class="nav-item-icon">🏦</span> Withdrawals
+      </a>
+      <a class="nav-item" href="Statements.html">
+        <span class="nav-item-icon">📄</span> Statements
+      </a>
+
+      <div class="nav-section-label" style="margin-top:10px">Premium</div>
+      <a class="nav-item" href="Risk_insights.html">
+        <span class="nav-item-icon">⚡</span> Risk Insights
+      </a>
+      <a class="nav-item" href="Deal_matcher.html">
+        <span class="nav-item-icon">🎯</span> Deal Matcher
+      </a>
+      <a class="nav-item" href="partner_settings.html">
+        <span class="nav-item-icon">⚙️</span> Settings
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="logout-btn" onclick="window.location.href='login.html'">
+        <span>🚪</span> Sign Out
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════ MAIN ═══════════════════════ -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title">Partner Dashboard</div>
+      <div class="topbar-right" style="position:relative;">
+        <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
+        <div class="notif-btn" id="notifTarget" style="cursor:pointer;" onclick="toggleNotifDropdown()">
+          🔔<div class="notif-dot"></div>
+        </div>
+        
+        <!-- Dropdown Component -->
+        <div id="notifDropdown" style="display:none;position:absolute;top:50px;right:-10px;width:320px;background:#0d1f38;border:1px solid rgba(255,255,255,0.1);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.6);z-index:9999;flex-direction:column;overflow:hidden;">
+            <div style="padding:16px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center;">
+                <div style="font-weight:700;color:white;font-family:'Playfair Display',serif">Notifications</div>
+                <div style="font-size:12px;color:rgba(16,185,129,1);cursor:pointer;" onclick="toggleNotifDropdown()">Mark all read</div>
+            </div>
+            <div style="max-height:300px;overflow-y:auto;" id="notifList">
+                <div style="padding:16px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:12px;cursor:pointer;background:rgba(255,255,255,0.02);" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
+                    <div style="font-size:20px;">📄</div>
+                    <div>
+                        <div style="font-size:13px;color:white;font-weight:600;margin-bottom:4px;line-height:1.2">New Application</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4">Rahul V. submitted a Personal Loan application.</div>
+                        <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;">2 min ago</div>
+                    </div>
+                </div>
+                <div style="padding:16px;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:12px;cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background=''">
+                    <div style="font-size:20px;">💰</div>
+                    <div>
+                        <div style="font-size:13px;color:white;font-weight:600;margin-bottom:4px;line-height:1.2">Yield Target Hit</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4">Portfolio yield crossed 14% this month!</div>
+                        <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;">2 hrs ago</div>
+                    </div>
+                </div>
+                <div style="padding:16px;display:flex;gap:12px;cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background=''">
+                    <div style="font-size:20px;">⚠️</div>
+                    <div>
+                        <div style="font-size:13px;color:white;font-weight:600;margin-bottom:4px;line-height:1.2">Doc Missing</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4">Arjun S. is missing IT Returns.</div>
+                        <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:6px;">1 day ago</div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding:12px;text-align:center;border-top:1px solid rgba(255,255,255,0.08);font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.5)'" onclick="window.location.href='partner_settings.html'">
+                View Notification Settings
+            </div>
+        </div>
+        
+        <div class="avatar">PN</div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- Earnings Banner -->
+      <div class="earnings-banner">
+        <div class="earnings-inner">
+          <div class="earn-metric">
+            <div class="earn-metric-label">Total Earnings</div>
+            <div class="earn-metric-value green">₹42.50 Cr</div>
+            <span class="earn-change up">↑ 5.2% this month</span>
+          </div>
+          <div class="earn-metric">
+            <div class="earn-metric-label">Yield (ROI)</div>
+            <div class="earn-metric-value gold">14.2%</div>
+            <span class="earn-change up">↑ 1.1% vs last month</span>
+          </div>
+          <div class="earn-metric">
+            <div class="earn-metric-label">Active Portfolio</div>
+            <div class="earn-metric-value white">₹237.53 Cr</div>
+            <span class="earn-change neutral">2,072 securities</span>
+          </div>
+          <div class="earn-metric">
+            <div class="earn-metric-label">Repayment Received</div>
+            <div class="earn-metric-value white">₹169.31 Cr</div>
+            <span class="earn-change up">↑ 1% this quarter</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon ki-green">🏦</div>
+            <span class="kpi-badge kb-up">+3% this week</span>
+          </div>
+          <div class="kpi-value">5,408</div>
+          <div class="kpi-label">Active Loans</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon ki-gold">💰</div>
+            <span class="kpi-badge kb-up">+6 this month</span>
+          </div>
+          <div class="kpi-value">264</div>
+          <div class="kpi-label">Closed Loans</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon ki-blue">📋</div>
+            <span class="kpi-badge kb-neutral">Awaiting review</span>
+          </div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-label">Open Applications</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon ki-red">⚠️</div>
+            <span class="kpi-badge kb-down">-1% month</span>
+          </div>
+          <div class="kpi-value">₹62.11 Cr</div>
+          <div class="kpi-label">Write-offs</div>
+        </div>
+      </div>
+
+      <!-- Withdraw / Earnings Panel -->
+      <div class="withdraw-panel">
+        <div class="withdraw-left">
+          <h4>Available to Withdraw</h4>
+          <p>Funds settled and ready for transfer to your linked account</p>
+          <div class="avail-amount">₹8,24,500</div>
+          <div class="avail-label">Last updated: Today, 9:00 AM</div>
+          <div class="withdraw-actions">
+            <button class="btn-withdraw" onclick="openWithdrawModal()">Withdraw Funds</button>
+            <button class="btn-statement">Download Statement</button>
+          </div>
+        </div>
+        <div class="withdraw-right">
+          <div class="withdraw-stats">
+            <div class="ws-item">
+              <div class="ws-item-label">This Month</div>
+              <div class="ws-item-val">₹3.2 Cr</div>
+              <div class="ws-item-change ch-up">↑ 7.4%</div>
+            </div>
+            <div class="ws-item">
+              <div class="ws-item-label">Last Month</div>
+              <div class="ws-item-val">₹2.98 Cr</div>
+              <div class="ws-item-change ch-up">↑ 3.1%</div>
+            </div>
+            <div class="ws-item">
+              <div class="ws-item-label">Q1 Total</div>
+              <div class="ws-item-val">₹9.1 Cr</div>
+              <div class="ws-item-change ch-up">↑ 12%</div>
+            </div>
+            <div class="ws-item">
+              <div class="ws-item-label">Pending Settle</div>
+              <div class="ws-item-val">₹1.4 Cr</div>
+              <div class="ws-item-change ch-dn">T+2 days</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portfolio & Premium Features -->
+      <div class="bottom-grid">
+
+        <!-- Portfolio Breakdown -->
+        <div class="portfolio-card">
+          <div class="section-header">
+            <div class="section-title" style="font-size:16px">Portfolio Breakdown</div>
+            <a class="section-link" href="#">Full View →</a>
+          </div>
+          <div class="portfolio-item">
+            <div class="portfolio-info">
+              <div class="portfolio-name">Personal Loans</div>
+              <div class="portfolio-count">2,104 borrowers</div>
+            </div>
+            <div class="portfolio-bar-bg">
+              <div class="portfolio-bar" style="width:62%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+            </div>
+            <div class="portfolio-val">₹98.4 Cr</div>
+            <div class="portfolio-pct pct-up">+4.2%</div>
+          </div>
+          <div class="portfolio-item">
+            <div class="portfolio-info">
+              <div class="portfolio-name">Business Loans</div>
+              <div class="portfolio-count">841 borrowers</div>
+            </div>
+            <div class="portfolio-bar-bg">
+              <div class="portfolio-bar" style="width:45%; background: linear-gradient(90deg, #f59e0b, #fcd34d);"></div>
+            </div>
+            <div class="portfolio-val">₹71.2 Cr</div>
+            <div class="portfolio-pct pct-up">+6.1%</div>
+          </div>
+          <div class="portfolio-item">
+            <div class="portfolio-info">
+              <div class="portfolio-name">Home Loans</div>
+              <div class="portfolio-count">463 borrowers</div>
+            </div>
+            <div class="portfolio-bar-bg">
+              <div class="portfolio-bar" style="width:30%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
+            </div>
+            <div class="portfolio-val">₹48.3 Cr</div>
+            <div class="portfolio-pct pct-up">+2.8%</div>
+          </div>
+          <div class="portfolio-item">
+            <div class="portfolio-info">
+              <div class="portfolio-name">Education Loans</div>
+              <div class="portfolio-count">310 borrowers</div>
+            </div>
+            <div class="portfolio-bar-bg">
+              <div class="portfolio-bar" style="width:18%; background: linear-gradient(90deg, #8b5cf6, #a78bfa);"></div>
+            </div>
+            <div class="portfolio-val">₹19.6 Cr</div>
+            <div class="portfolio-pct pct-dn">-0.5%</div>
+          </div>
+          <div class="portfolio-item">
+            <div class="portfolio-info">
+              <div class="portfolio-name">Vehicle / Others</div>
+              <div class="portfolio-count">354 borrowers</div>
+            </div>
+            <div class="portfolio-bar-bg">
+              <div class="portfolio-bar" style="width:10%; background: rgba(255,255,255,0.2);"></div>
+            </div>
+            <div class="portfolio-val">₹13.1 Cr</div>
+            <div class="portfolio-pct pct-dn">-1.2%</div>
+          </div>
+        </div>
+
+        <!-- Premium Features -->
+        <div class="premium-card">
+          <div class="section-header">
+            <div class="section-title" style="font-size:16px">Premium Features</div>
+            <span
+              style="font-size:11px; color:var(--green); font-weight:600; padding:3px 10px; background:var(--green-light); border-radius:20px;">Active</span>
+          </div>
+          <div class="premium-item">
+            <div class="premium-icon">⚡</div>
+            <div class="premium-text">
+              <h5>Risk Intelligence Engine</h5>
+              <p>AI-powered default prediction for your portfolio</p>
+            </div>
+            <div class="premium-arrow">›</div>
+          </div>
+          <div class="premium-item">
+            <div class="premium-icon">🎯</div>
+            <div class="premium-text">
+              <h5>Smart Deal Matcher</h5>
+              <p>Auto-match your capital with optimal borrower profiles</p>
+            </div>
+            <div class="premium-arrow">›</div>
+          </div>
+          <div class="premium-item">
+            <div class="premium-icon">📊</div>
+            <div class="premium-text">
+              <h5>Advanced Analytics</h5>
+              <p>Detailed cohort analysis, yield curves & trend reports</p>
+            </div>
+            <div class="premium-arrow">›</div>
+          </div>
+          <div class="premium-item">
+            <div class="premium-icon">🏆</div>
+            <div class="premium-text">
+              <h5>Priority Support</h5>
+              <p>Dedicated relationship manager, 24/7 access</p>
+            </div>
+            <div class="premium-arrow">›</div>
+          </div>
+          <div class="premium-item">
+            <div class="premium-icon">📑</div>
+            <div class="premium-text">
+              <h5>Auto-Generated Reports</h5>
+              <p>Monthly P&L, tax statements & portfolio summaries</p>
+            </div>
+            <div class="premium-arrow">›</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Active Loan Portfolio Table -->
+      <div class="section-header">
+        <div class="section-title">Active Loan Portfolio</div>
+        <a class="section-link" href="#">View All →</a>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Loan ID</th>
+              <th>Borrower</th>
+              <th>Type</th>
+              <th>Principal</th>
+              <th>Interest</th>
+              <th>Your Earning</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--muted); font-size:13px">#FB-22041</td>
+              <td>Rahul Mehta</td>
+              <td>Personal</td>
+              <td>₹2,50,000</td>
+              <td>11.5% p.a.</td>
+              <td style="color:var(--green); font-weight:600">₹28,750</td>
+              <td><span class="status-pill sp-active">Active</span></td>
+              <td><button class="action-link">Details</button></td>
+            </tr>
+            <tr>
+              <td style="color:var(--muted); font-size:13px">#FB-21987</td>
+              <td>Anjali Sharma</td>
+              <td>Business</td>
+              <td>₹5,00,000</td>
+              <td>13.0% p.a.</td>
+              <td style="color:var(--green); font-weight:600">₹65,000</td>
+              <td><span class="status-pill sp-active">Active</span></td>
+              <td><button class="action-link">Details</button></td>
+            </tr>
+            <tr>
+              <td style="color:var(--muted); font-size:13px">#FB-22108</td>
+              <td>Vikram Nair</td>
+              <td>Home</td>
+              <td>₹12,00,000</td>
+              <td>8.75% p.a.</td>
+              <td style="color:var(--green); font-weight:600">₹1,05,000</td>
+              <td><span class="status-pill sp-pending">Under Review</span></td>
+              <td><button class="action-link">Track</button></td>
+            </tr>
+            <tr>
+              <td style="color:var(--muted); font-size:13px">#FB-21650</td>
+              <td>Meena Pillai</td>
+              <td>Education</td>
+              <td>₹80,000</td>
+              <td>9.5% p.a.</td>
+              <td style="color:var(--muted); font-weight:600">₹7,600</td>
+              <td><span class="status-pill sp-closed">Closed</span></td>
+              <td><button class="action-link">Statement</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ═══════════════════════ WITHDRAW MODAL ═══════════════════════ -->
+  <div class="modal-backdrop" id="withdrawModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3>Withdraw Funds</h3>
+          <p>Transfer to your registered bank account</p>
+        </div>
+        <button class="modal-close" onclick="closeWithdrawModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="success-banner" id="successBanner">
+          ✅ Withdrawal initiated! Funds will be credited within 2 business days.
+        </div>
+        <label class="form-label">Amount to Withdraw (₹)</label>
+        <input class="form-input" type="number" placeholder="Enter amount (max ₹8,24,500)">
+        <label class="form-label">Bank Account</label>
+        <select class="form-select">
+          <option>HDFC Bank — ****4821 (Primary)</option>
+          <option>ICICI Bank — ****9234</option>
+          <option>Add new account</option>
+        </select>
+        <label class="form-label">Reason / Note (optional)</label>
+        <input class="form-input" type="text" placeholder="e.g. Monthly payout">
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeWithdrawModal()">Cancel</button>
+        <button class="btn-confirm" onclick="confirmWithdraw()">Confirm Withdrawal →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Utilities ── */
+    function goToUser() {
+      window.location.href = '../user/user1.html';
+    }
+
+    /* ── Withdraw Modal ── */
+    function openWithdrawModal() {
+      document.getElementById('withdrawModal').classList.add('open');
+      document.getElementById('successBanner').style.display = 'none';
+    }
+    function closeWithdrawModal() {
+      document.getElementById('withdrawModal').classList.remove('open');
+    }
+    function confirmWithdraw() {
+      document.getElementById('successBanner').style.display = 'block';
+      setTimeout(closeWithdrawModal, 2500);
+    }
+
+    /* Close dropdown on outside click */
+    function toggleNotifDropdown() {
+        const dropdown = document.getElementById('notifDropdown');
+        if (dropdown.style.display === 'none') {
+            dropdown.style.display = 'flex';
+        } else {
+            dropdown.style.display = 'none';
+        }
+    }
+    
+    document.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('notifDropdown');
+        const notifBtn = document.getElementById('notifTarget');
+        if (dropdown && dropdown.style.display !== 'none' && !dropdown.contains(e.target) && !notifBtn.contains(e.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+    /* Close on backdrop click */
+    document.getElementById('withdrawModal').addEventListener('click', function (e) {
+      if (e.target === this) closeWithdrawModal();
+    });
+  </script>
+</body>
+
+</html>

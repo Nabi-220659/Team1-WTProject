@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Earnings — FUNDBEE Partner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: var(--bg);
+        }
+
+        .dark-theme-vars {
+            --bg: #070f1e;
+        }
+
+        .earn-hero {
+            background: linear-gradient(145deg, #071a0e, #0a2218);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 20px;
+            padding: 32px 36px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .earn-hero::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.12), transparent 60%);
+            border-radius: 50%;
+        }
+
+        .earn-hero-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+        }
+
+        .eh-metric {
+            padding: 0 36px;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .eh-metric:first-child {
+            padding-left: 0;
+        }
+
+        .eh-metric:last-child {
+            border-right: none;
+        }
+
+        .eh-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 10px;
+        }
+
+        .eh-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .eh-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .ec-up {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--green);
+        }
+
+        .ec-down {
+            background: rgba(239, 68, 68, 0.12);
+            color: #fc8181;
+        }
+
+        /* Bar chart */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            height: 160px;
+            padding-top: 10px;
+        }
+
+        .bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bar {
+            width: 100%;
+            border-radius: 6px 6px 0 0;
+            transition: opacity 0.2s;
+            cursor: pointer;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .bar-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .bar-val {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Earnings table */
+        .earn-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .earn-row:hover {
+            background: rgba(16, 185, 129, 0.03);
+        }
+
+        .earn-row:last-child {
+            border-bottom: none;
+        }
+
+        .er-month {
+            font-weight: 600;
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        .er-loans {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 2px;
+        }
+
+        .er-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .er-roi {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 2px;
+            text-align: right;
+        }
+
+        .er-change {
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+
+    <aside class="sidebar sidebar-dark">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Priya Nair</div><span class="sidebar-user-tag tag-green">Premium
+                Partner</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Overview</div>
+            <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item active-green" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
+            <a class="nav-item" href="Portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
+            <a class="nav-item" href="Analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
+            <div class="nav-section-label" style="margin-top:10px">Management</div>
+            <a class="nav-item" href="Borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
+            <a class="nav-item" href="Applications.html"><span class="nav-item-icon">📋</span> Applications</a>
+            <a class="nav-item" href="Withdrawls.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
+            <a class="nav-item" href="Statements.html"><span class="nav-item-icon">📄</span> Statements</a>
+            <div class="nav-section-label" style="margin-top:10px">Premium</div>
+            <a class="nav-item" href="Risk_insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
+            <a class="nav-item" href="Deal_matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
+            <a class="nav-item" href="partner_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+            <div class="topbar-title topbar-title-dark">My Earnings</div>
+            <div class="topbar-right">
+                <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
+                <div class="notif-btn nb-dark">🔔<div class="notif-dot-green"></div>
+                </div>
+                <div class="avatar avatar-green">PN</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-green">Earnings Overview</div>
+                <div class="page-heading" style="color:white">Your <em style="color:var(--gold)">Earnings</em></div>
+                <div class="page-sub">Real-time view of your investment returns and income.</div>
+            </div>
+
+            <!-- Hero metrics -->
+            <div class="earn-hero">
+                <div class="earn-hero-inner">
+                    <div class="eh-metric">
+                        <div class="eh-label">Total Earnings (YTD)</div>
+                        <div class="eh-val" style="color:var(--green)">₹42.50 Cr</div>
+                        <span class="eh-change ec-up">↑ 5.2% vs last month</span>
+                    </div>
+                    <div class="eh-metric">
+                        <div class="eh-label">Average Yield (ROI)</div>
+                        <div class="eh-val" style="color:var(--gold)">14.2%</div>
+                        <span class="eh-change ec-up">↑ 1.1% year-on-year</span>
+                    </div>
+                    <div class="eh-metric">
+                        <div class="eh-label">Available to Withdraw</div>
+                        <div class="eh-val" style="color:white">₹8.24L</div>
+                        <span class="eh-change ec-up">Updated today</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPIs -->
+            <div class="kpi-grid-4">
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-green">📅</div><span class="kpi-badge kb-up">This Month</span>
+                    </div>
+                    <div class="kpi-value" style="color:var(--green)">₹3.20 Cr</div>
+                    <div class="kpi-label">Monthly Earnings</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-gold">💵</div><span class="kpi-badge kb-up">+7.4%</span>
+                    </div>
+                    <div class="kpi-value kv-dark">₹9.10 Cr</div>
+                    <div class="kpi-label">Q1 Total</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-blue">🏦</div><span class="kpi-badge kb-neutral">Pending</span>
+                    </div>
+                    <div class="kpi-value kv-dark">₹1.40 Cr</div>
+                    <div class="kpi-label">Pending Settlement</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-red">📊</div><span class="kpi-badge kb-down">-1.2%</span>
+                    </div>
+                    <div class="kpi-value kv-dark">₹62.11L</div>
+                    <div class="kpi-label">Write-offs Impact</div>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+                <!-- Bar chart -->
+                <div class="card-dark" style="padding:26px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white">
+                            Monthly Earnings</div>
+                        <span style="font-size:12px;color:rgba(255,255,255,0.35)">Last 6 months</span>
+                    </div>
+                    <div class="bar-chart">
+                        <div class="bar-group">
+                            <div class="bar-val">₹2.8Cr</div>
+                            <div class="bar" style="height:88px;background:rgba(16,185,129,0.3)"></div>
+                            <div class="bar-label">Oct</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-val">₹2.5Cr</div>
+                            <div class="bar" style="height:78px;background:rgba(16,185,129,0.3)"></div>
+                            <div class="bar-label">Nov</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-val">₹2.9Cr</div>
+                            <div class="bar" style="height:92px;background:rgba(16,185,129,0.3)"></div>
+                            <div class="bar-label">Dec</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-val">₹2.7Cr</div>
+                            <div class="bar" style="height:85px;background:rgba(16,185,129,0.35)"></div>
+                            <div class="bar-label">Jan</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-val">₹2.98Cr</div>
+                            <div class="bar" style="height:95px;background:rgba(16,185,129,0.4)"></div>
+                            <div class="bar-label">Feb</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar-val">₹3.20Cr</div>
+                            <div class="bar"
+                                style="height:100%;background:linear-gradient(180deg,var(--green),rgba(16,185,129,0.5))">
+                            </div>
+                            <div class="bar-label" style="color:var(--green);font-weight:700">Mar</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings breakdown -->
+                <div class="card-dark" style="padding:26px">
+                    <div
+                        style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:18px">
+                        Earnings by Loan Type</div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                            <span style="font-size:13px;color:rgba(255,255,255,0.55)">Personal Loans</span><span
+                                style="font-family:'Playfair Display',serif;font-weight:700;color:var(--green)">₹18.4
+                                Cr</span></div>
+                        <div class="progress-bg pb-dark" style="margin-bottom:14px">
+                            <div class="progress-fill" style="width:43%;background:var(--green)"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                            <span style="font-size:13px;color:rgba(255,255,255,0.55)">Business Loans</span><span
+                                style="font-family:'Playfair Display',serif;font-weight:700;color:var(--gold)">₹13.2
+                                Cr</span></div>
+                        <div class="progress-bg pb-dark" style="margin-bottom:14px">
+                            <div class="progress-fill" style="width:31%;background:var(--gold)"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                            <span style="font-size:13px;color:rgba(255,255,255,0.55)">Home Loans</span><span
+                                style="font-family:'Playfair Display',serif;font-weight:700;color:#60a5fa">₹7.9
+                                Cr</span></div>
+                        <div class="progress-bg pb-dark" style="margin-bottom:14px">
+                            <div class="progress-fill" style="width:19%;background:#3b82f6"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                            <span style="font-size:13px;color:rgba(255,255,255,0.55)">Other</span><span
+                                style="font-family:'Playfair Display',serif;font-weight:700;color:rgba(255,255,255,0.5)">₹3.0
+                                Cr</span></div>
+                        <div class="progress-bg pb-dark">
+                            <div class="progress-fill" style="width:7%;background:rgba(255,255,255,0.3)"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly history table -->
+            <div style="margin-top:24px">
+                <div class="section-header">
+                    <div class="section-title-dark">Monthly Earnings History</div><a
+                        class="section-link section-link-green" href="Statements.html">Full Statement →</a>
+                </div>
+                <div class="card-dark" style="padding:0;overflow:hidden">
+                    <div class="earn-row">
+                        <div>
+                            <div class="er-month">March 2026</div>
+                            <div class="er-loans">5,408 active loans</div>
+                        </div>
+                        <div style="text-align:center"><span class="pill pill-green">Best Month</span></div>
+                        <div style="text-align:right">
+                            <div class="er-amount">₹3.20 Cr</div>
+                            <div class="er-roi">ROI: 14.8%</div>
+                        </div>
+                        <div style="text-align:right"><span class="er-change" style="color:var(--green)">↑ 7.4%</span>
+                        </div>
+                    </div>
+                    <div class="earn-row">
+                        <div>
+                            <div class="er-month">February 2026</div>
+                            <div class="er-loans">5,210 active loans</div>
+                        </div>
+                        <div></div>
+                        <div style="text-align:right">
+                            <div class="er-amount">₹2.98 Cr</div>
+                            <div class="er-roi">ROI: 14.2%</div>
+                        </div>
+                        <div style="text-align:right"><span class="er-change" style="color:var(--green)">↑ 3.1%</span>
+                        </div>
+                    </div>
+                    <div class="earn-row">
+                        <div>
+                            <div class="er-month">January 2026</div>
+                            <div class="er-loans">5,012 active loans</div>
+                        </div>
+                        <div></div>
+                        <div style="text-align:right">
+                            <div class="er-amount">₹2.89 Cr</div>
+                            <div class="er-roi">ROI: 13.9%</div>
+                        </div>
+                        <div style="text-align:right"><span class="er-change" style="color:var(--green)">↑ 1.8%</span>
+                        </div>
+                    </div>
+                    <div class="earn-row">
+                        <div>
+                            <div class="er-month">December 2025</div>
+                            <div class="er-loans">4,890 active loans</div>
+                        </div>
+                        <div></div>
+                        <div style="text-align:right">
+                            <div class="er-amount">₹2.84 Cr</div>
+                            <div class="er-roi">ROI: 13.6%</div>
+                        </div>
+                        <div style="text-align:right"><span class="er-change" style="color:#fc8181">↓ 0.8%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

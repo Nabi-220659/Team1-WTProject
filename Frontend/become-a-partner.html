@@ -613,10 +613,10 @@
   <!-- ── SUCCESS SCREEN ── -->
   <div class="success-screen" id="successScreen">
     <div class="success-ring">🎉</div>
-    <h2>Application Submitted!</h2>
-    <p>Welcome to the FUNDBEE Partner Network! Your application has been received and is being reviewed by our team.</p>
+    <h2>Application Approved!</h2>
+    <p>Welcome to the FUNDBEE Partner Network! You're eligible. Redirecting you to your Partner Dashboard…</p>
     <div class="success-ref" id="refNumber">Reference: FBP-000000</div>
-    <p style="font-size:14px;">Our team will contact you within <strong>24 hours</strong> to complete your onboarding and activate your partner account.</p>
+    <p style="font-size:14px;">You will be redirected automatically in a moment.</p>
 
     <div class="success-steps">
       <div class="success-step">
@@ -636,8 +636,24 @@
       </div>
     </div>
 
-    <a href="index.html" class="btn-home">← Back to Homepage</a>
+    <a href="../partner/partner1.html" class="btn-home">Go to Dashboard →</a>
   </div>
+
+  <!-- ── REJECTION SCREEN ── -->
+  <div class="success-screen" id="rejectionScreen" style="display:none;">
+    <div class="success-ring" style="background:linear-gradient(135deg,#ff4d4d,#c0392b);">❌</div>
+    <h2 style="color:#c0392b;">Not Eligible Yet</h2>
+    <p id="rejectionReason" style="color:#555;font-size:16px;max-width:480px;margin:0 auto 20px;">You do not meet the eligibility criteria at this time.</p>
+    <p style="font-size:13px;color:#888;">Don't worry — you can reapply once you meet the minimum requirements. Our team may also reach out to guide you.</p>
+    <div style="margin-top:32px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="index.html" class="btn-home" style="background:#1a1a2e;">← Back to Homepage</a>
+      <a href="become-a-partner.html" class="btn-home" style="background:#c0392b;">Try Again</a>
+    </div>
+  </div>
+
+  <style>
+    #rejectionScreen.show { display: flex !important; }
+  </style>
 
   <!-- ── TRUST BAND ── -->
   <div class="trust-band">

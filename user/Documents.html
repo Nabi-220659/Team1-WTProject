@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents — FUNDBEE</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .doc-card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            padding: 22px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(11, 29, 58, 0.12);
+        }
+
+        .doc-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .doc-icon-blue {
+            background: rgba(26, 79, 214, 0.1);
+        }
+
+        .doc-icon-green {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .doc-icon-gold {
+            background: rgba(245, 166, 35, 0.1);
+        }
+
+        .doc-icon-red {
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .doc-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        .doc-loan {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .doc-date {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .doc-btn {
+            flex: 1;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--navy);
+        }
+
+        .doc-btn:hover {
+            background: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+
+        .doc-btn-outline {
+            background: transparent;
+            color: var(--muted);
+        }
+
+        /* Upload zone */
+        .upload-zone {
+            border: 2px dashed rgba(26, 79, 214, 0.25);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(26, 79, 214, 0.02);
+            transition: all 0.2s;
+            cursor: pointer;
+            margin-bottom: 28px;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--blue);
+            background: rgba(26, 79, 214, 0.04);
+        }
+
+        .upload-zone.drag-over {
+            border-color: var(--gold);
+            background: rgba(245, 166, 35, 0.04);
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .upload-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .upload-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .upload-formats {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .format-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--cream-dark);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        /* Required docs list */
+        .req-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(11, 29, 58, 0.05);
+        }
+
+        .req-item:last-child {
+            border-bottom: none;
+        }
+
+        .req-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .req-status-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .rsi-green {
+            background: var(--green-light);
+        }
+
+        .rsi-gold {
+            background: rgba(245, 166, 35, 0.12);
+        }
+
+        .rsi-red {
+            background: var(--red-light);
+        }
+
+        .req-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        .req-note {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .upload-mini {
+            padding: 7px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-mini:hover {
+            background: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar sidebar-light">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Arjun Sharma</div><span class="sidebar-user-tag tag-gold">Verified
+                User</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
+            <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+            <div class="nav-section-label" style="margin-top:10px">Account</div>
+            <a class="nav-item active-gold" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+            <a class="nav-item" href="Notificatons.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+            <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+            <div class="nav-section-label" style="margin-top:10px">More</div>
+            <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
+            <a class="nav-item" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar topbar-light">
+            <div class="topbar-title topbar-title-light">Documents</div>
+            <div class="topbar-right">
+                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
+                <div class="notif-btn nb-light">🔔<div class="notif-dot-gold"></div>
+                </div>
+                <div class="avatar avatar-gold">AS</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-gold">Document Vault</div>
+                <div class="page-heading page-heading-light">Your <em>Documents</em></div>
+                <div class="page-sub">Upload, manage and download all your loan-related documents securely.</div>
+            </div>
+
+            <!-- KPIs -->
+            <div class="kpi-grid-4" style="margin-bottom:28px">
+                <div class="kpi-card card-light">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-green">✅</div><span class="kpi-badge kb-up">Verified</span>
+                    </div>
+                    <div class="kpi-value kv-light">8</div>
+                    <div class="kpi-label">Uploaded Docs</div>
+                </div>
+                <div class="kpi-card card-light">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-gold">⏳</div><span class="kpi-badge kb-neutral">Pending</span>
+                    </div>
+                    <div class="kpi-value kv-light">2</div>
+                    <div class="kpi-label">Awaiting Review</div>
+                </div>
+                <div class="kpi-card card-light">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-red">❌</div><span class="kpi-badge kb-down">Action needed</span>
+                    </div>
+                    <div class="kpi-value kv-light">1</div>
+                    <div class="kpi-label">Missing Docs</div>
+                </div>
+                <div class="kpi-card card-light">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-navy">📦</div><span class="kpi-badge kb-neutral">Total</span>
+                    </div>
+                    <div class="kpi-value kv-light">11</div>
+                    <div class="kpi-label">Total Files</div>
+                </div>
+            </div>
+
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="uploadZone" onclick="triggerUpload()" ondragover="dragOver(event)"
+                ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+                <div class="upload-icon">☁️</div>
+                <div class="upload-title">Drop files here or click to upload</div>
+                <div class="upload-sub">Supports PDF, JPG, PNG up to 10MB each. Files are encrypted and stored securely.
+                </div>
+                <div class="upload-formats">
+                    <span class="format-tag">PDF</span><span class="format-tag">JPG</span><span
+                        class="format-tag">PNG</span><span class="format-tag">Max 10MB</span>
+                </div>
+                <input type="file" id="fileInput" style="display:none" multiple onchange="handleFiles(this.files)">
+            </div>
+
+            <!-- Uploaded Docs Grid -->
+            <div class="section-header">
+                <div class="section-title-light">Uploaded Documents</div>
+                <div class="filter-tabs">
+                    <button class="filter-tab ft-light active" onclick="filterDocs('all',this)">All</button>
+                    <button class="filter-tab ft-light" onclick="filterDocs('kyc',this)">KYC</button>
+                    <button class="filter-tab ft-light" onclick="filterDocs('income',this)">Income</button>
+                    <button class="filter-tab ft-light" onclick="filterDocs('loan',this)">Loan Docs</button>
+                </div>
+            </div>
+
+            <div class="doc-grid" id="docGrid">
+                <div class="doc-card" data-cat="kyc">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <div class="doc-icon doc-icon-blue">🪪</div>
+                        <div>
+                            <div class="doc-name">Aadhaar Card</div>
+                            <div class="doc-loan">KYC Document</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center"><span
+                            class="pill pill-green">Verified</span><span class="doc-date">Uploaded Mar 1</span></div>
+                    <div class="doc-actions"><button class="doc-btn" onclick="toast('Downloading...')">⬇
+                            Download</button><button class="doc-btn doc-btn-outline" onclick="toast('Deleted')">🗑
+                            Delete</button></div>
+                </div>
+                <div class="doc-card" data-cat="kyc">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <div class="doc-icon doc-icon-blue">📋</div>
+                        <div>
+                            <div class="doc-name">PAN Card</div>
+                            <div class="doc-loan">KYC Document</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center"><span
+                            class="pill pill-green">Verified</span><span class="doc-date">Uploaded Mar 1</span></div>
+                    <div class="doc-actions"><button class="doc-btn" onclick="toast('Downloading...')">⬇
+                            Download</button><button class="doc-btn doc-btn-outline">🗑 Delete</button></div>
+                </div>
+                <div class="doc-card" data-cat="income">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <div class="doc-icon doc-icon-green">💰</div>
+                        <div>
+                            <div class="doc-name">Salary Slips (3 Months)</div>
+                            <div class="doc-loan">Income Proof</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center"><span
+                            class="pill pill-green">Verified</span><span class="doc-date">Uploaded Feb 28</span></div>
+                    <div class="doc-actions"><button class="doc-btn" onclick="toast('Downloading...')">⬇
+                            Download</button><button class="doc-btn doc-btn-outline">🗑 Delete</button></div>
+                </div>
+                <div class="doc-card" data-cat="income">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <div class="doc-icon doc-icon-green">🏦</div>
+                        <div>
+                            <div class="doc-name">Bank Statement (6 Mo.)</div>
+                            <div class="doc-loan">Income Proof</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center"><span
+                            class="pill pill-gold">Under Review</span><span class="doc-date">Uploaded Mar 10</span>
+                    </div>
+                    <div class="doc-actions"><button class="doc-btn" onclick="toast('Downloading...')">⬇
+                            Download</button><button class="doc-btn doc-btn-outline">🗑 Delete</button></div>
+                </div>
+                <div class="doc-card" data-cat="loan">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <div class="doc-icon doc-icon-gold">📄</div>
+                        <div>
+                            <div class="doc-name">Loan Agreement</div>
+                            <div class="doc-loan">Personal Loan #FB-20241</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center"><span
+                            class="pill pill-green">Signed</span><span class="doc-date">Issued Jan 10</span></div>
+                    <div class="doc-actions"><button class="doc-btn" onclick="toast('Downloading...')">⬇
+                            Download</button></div>
+                </div>
+                <div class="doc-card" data-cat="loan">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <div class="doc-icon doc-icon-gold">🏆</div>
+                        <div>
+                            <div class="doc-name">NOC Certificate</div>
+                            <div class="doc-loan">Education Loan #FB-19874</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center"><span
+                            class="pill pill-green">Available</span><span class="doc-date">Issued Dec 20</span></div>
+                    <div class="doc-actions"><button class="doc-btn" onclick="toast('Downloading NOC...')">⬇ Download
+                            NOC</button></div>
+                </div>
+            </div>
+
+            <!-- Required Documents -->
+            <div class="section-header" style="margin-top:10px">
+                <div class="section-title-light">Required Documents</div>
+                <span class="pill pill-red">1 Missing</span>
+            </div>
+            <div class="card-light" style="padding:0;overflow:hidden">
+                <div class="req-item">
+                    <div class="req-left">
+                        <div class="req-status-icon rsi-green">✓</div>
+                        <div>
+                            <div class="req-name">Aadhaar Card</div>
+                            <div class="req-note">Identity verification</div>
+                        </div>
+                    </div>
+                    <span class="pill pill-green">Uploaded</span>
+                </div>
+                <div class="req-item">
+                    <div class="req-left">
+                        <div class="req-status-icon rsi-green">✓</div>
+                        <div>
+                            <div class="req-name">PAN Card</div>
+                            <div class="req-note">Tax identification</div>
+                        </div>
+                    </div>
+                    <span class="pill pill-green">Uploaded</span>
+                </div>
+                <div class="req-item">
+                    <div class="req-left">
+                        <div class="req-status-icon rsi-gold">⏳</div>
+                        <div>
+                            <div class="req-name">Bank Statement</div>
+                            <div class="req-note">Last 6 months</div>
+                        </div>
+                    </div>
+                    <span class="pill pill-gold">Under Review</span>
+                </div>
+                <div class="req-item">
+                    <div class="req-left">
+                        <div class="req-status-icon rsi-red">!</div>
+                        <div>
+                            <div class="req-name">IT Returns (2 Years)</div>
+                            <div class="req-note">Required for Business Loan #FB-20312</div>
+                        </div>
+                    </div>
+                    <button class="upload-mini" onclick="triggerUpload()">Upload Now</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"
+        style="position:fixed;bottom:30px;right:30px;background:var(--navy);color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(11,29,58,0.3);transform:translateY(80px);transition:transform 0.3s;z-index:999">
+        Action complete!</div>
+
+    <script>
+        function triggerUpload() { document.getElementById('fileInput').click(); }
+        function dragOver(e) { e.preventDefault(); document.getElementById('uploadZone').classList.add('drag-over'); }
+        function dragLeave() { document.getElementById('uploadZone').classList.remove('drag-over'); }
+        function dropFile(e) { e.preventDefault(); dragLeave(); if (e.dataTransfer.files.length) toast('Files uploaded successfully!'); }
+        function handleFiles(files) { if (files.length) toast(`${files.length} file(s) uploaded successfully!`); }
+        function filterDocs(cat, btn) {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.doc-card').forEach(c => { c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none'; });
+        }
+        function toast(msg) {
+            const t = document.getElementById('toast'); t.textContent = msg; t.style.transform = 'translateY(0)';
+            setTimeout(() => t.style.transform = 'translateY(80px)', 2500);
+        }
+    </script>
+</body>
+
+</html>

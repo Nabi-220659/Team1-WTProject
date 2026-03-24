@@ -1,4 +1,3 @@
-
 <?php
 /**
  * get_stats.php — Returns homepage statistics from MongoDB

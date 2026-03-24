@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics — FUNDBEE Partner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: #070f1e;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 26px;
+        }
+
+        .line-chart {
+            height: 160px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+
+        .line-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .donut-wrap {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .donut-svg {
+            width: 140px;
+            height: 140px;
+            flex-shrink: 0;
+        }
+
+        .donut-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dl-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .dl-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dl-val {
+            font-weight: 700;
+            color: white;
+            margin-left: auto;
+        }
+
+        .insight-card {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .ic-icon {
+            font-size: 24px;
+        }
+
+        .ic-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .ic-body {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .mr-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .mr-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .cohort-table th {
+            color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .cohort-table td {
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+
+    <aside class="sidebar sidebar-dark">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Priya Nair</div><span class="sidebar-user-tag tag-green">Premium
+                Partner</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Overview</div>
+            <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
+            <a class="nav-item" href="Portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
+            <a class="nav-item active-green" href="Analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
+            <div class="nav-section-label" style="margin-top:10px">Management</div>
+            <a class="nav-item" href="Borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
+            <a class="nav-item" href="Applications.html"><span class="nav-item-icon">📋</span> Applications</a>
+            <a class="nav-item" href="Withdrawls.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
+            <a class="nav-item" href="Statements.html"><span class="nav-item-icon">📄</span> Statements</a>
+            <div class="nav-section-label" style="margin-top:10px">Premium</div>
+            <a class="nav-item" href="Risk_insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
+            <a class="nav-item" href="Deal_matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
+            <a class="nav-item" href="partner_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='../Frontend/login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+            <div class="topbar-title topbar-title-dark">Analytics</div>
+            <div class="topbar-right">
+                <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
+                <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
+                <div class="filter-tabs" style="margin-right:8px">
+                    <button class="filter-tab ft-dark active" onclick="setRange('1m',this)">1M</button>
+                    <button class="filter-tab ft-dark" onclick="setRange('3m',this)">3M</button>
+                    <button class="filter-tab ft-dark" onclick="setRange('1y',this)">1Y</button>
+                </div>
+                <div class="avatar avatar-green">PN</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-green">Premium Analytics</div>
+                <div class="page-heading" style="color:white">Portfolio <em style="color:var(--gold)">Insights</em>
+                </div>
+                <div class="page-sub">Deep analytics on your lending performance, risk, and returns.</div>
+            </div>
+
+            <!-- Top KPIs -->
+            <div class="kpi-grid-4">
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-green">📈</div><span class="kpi-badge kb-up">+1.1%</span>
+                    </div>
+                    <div class="kpi-value kv-green">14.2%</div>
+                    <div class="kpi-label">Avg Yield (ROI)</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-gold">✅</div><span class="kpi-badge kb-up">Excellent</span>
+                    </div>
+                    <div class="kpi-value kv-dark">97.8%</div>
+                    <div class="kpi-label">Repayment Rate</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-red">⚠️</div><span class="kpi-badge kb-down">Monitor</span>
+                    </div>
+                    <div class="kpi-value kv-dark">2.1%</div>
+                    <div class="kpi-label">NPA Rate</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-blue">🎯</div><span class="kpi-badge kb-up">On target</span>
+                    </div>
+                    <div class="kpi-value kv-dark">₹237Cr</div>
+                    <div class="kpi-label">AUM</div>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:22px;margin-bottom:22px">
+                <!-- Yield trend -->
+                <div class="chart-card">
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white">
+                            Yield Trend</div>
+                        <span class="pill pill-green">↑ 1.1% this month</span>
+                    </div>
+                    <div class="line-chart">
+                        <svg viewBox="0 0 400 130" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.3" />
+                                    <stop offset="100%" stop-color="#10b981" stop-opacity="0.02" />
+                                </linearGradient>
+                            </defs>
+                            <path
+                                d="M0,90 C50,80 80,70 120,65 C160,60 180,55 220,48 C260,41 290,35 330,28 C360,22 380,20 400,18 L400,130 L0,130 Z"
+                                fill="url(#g1)" />
+                            <path
+                                d="M0,90 C50,80 80,70 120,65 C160,60 180,55 220,48 C260,41 290,35 330,28 C360,22 380,20 400,18"
+                                fill="none" stroke="#10b981" stroke-width="2.5" />
+                        </svg>
+                    </div>
+                    <div
+                        style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.25);margin-top:8px">
+                        <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+                    </div>
+                </div>
+
+                <!-- Portfolio mix donut -->
+                <div class="chart-card">
+                    <div
+                        style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:16px">
+                        Portfolio Mix</div>
+                    <div class="donut-wrap">
+                        <svg class="donut-svg" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,0.04)"
+                                stroke-width="16" />
+                            <circle cx="50" cy="50" r="38" fill="none" stroke="#10b981" stroke-width="16"
+                                stroke-dasharray="103 136" stroke-dashoffset="0" transform="rotate(-90 50 50)" />
+                            <circle cx="50" cy="50" r="38" fill="none" stroke="#f5a623" stroke-width="16"
+                                stroke-dasharray="75 164" stroke-dashoffset="-103" transform="rotate(-90 50 50)" />
+                            <circle cx="50" cy="50" r="38" fill="none" stroke="#3b82f6" stroke-width="16"
+                                stroke-dasharray="46 193" stroke-dashoffset="-178" transform="rotate(-90 50 50)" />
+                            <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="16"
+                                stroke-dasharray="15 224" stroke-dashoffset="-224" transform="rotate(-90 50 50)" />
+                            <text x="50" y="46" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.5)"
+                                font-family="DM Sans">AUM</text>
+                            <text x="50" y="57" text-anchor="middle" font-size="10" fill="white" font-weight="bold"
+                                font-family="Playfair Display">₹237Cr</text>
+                        </svg>
+                        <div class="donut-legend">
+                            <div class="dl-item">
+                                <div class="dl-dot" style="background:#10b981"></div>Personal <span
+                                    class="dl-val">43%</span>
+                            </div>
+                            <div class="dl-item">
+                                <div class="dl-dot" style="background:#f5a623"></div>Business <span
+                                    class="dl-val">30%</span>
+                            </div>
+                            <div class="dl-item">
+                                <div class="dl-dot" style="background:#3b82f6"></div>Home <span
+                                    class="dl-val">20%</span>
+                            </div>
+                            <div class="dl-item">
+                                <div class="dl-dot" style="background:rgba(255,255,255,0.3)"></div>Other <span
+                                    class="dl-val">7%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px">
+                <!-- Key metrics -->
+                <div class="chart-card">
+                    <div
+                        style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:6px">
+                        Performance Metrics</div>
+                    <div class="metric-row"><span class="mr-label">Disbursement Rate</span><span class="mr-val">₹2.1
+                            Cr/day avg</span></div>
+                    <div class="metric-row"><span class="mr-label">Avg Loan Size</span><span
+                            class="mr-val">₹4.39L</span></div>
+                    <div class="metric-row"><span class="mr-label">Avg Borrower Age</span><span class="mr-val">33
+                            years</span></div>
+                    <div class="metric-row"><span class="mr-label">Avg CIBIL Score</span><span class="mr-val"
+                            style="color:var(--green)">714</span></div>
+                    <div class="metric-row"><span class="mr-label">On-Time Payment Rate</span><span class="mr-val"
+                            style="color:var(--green)">97.8%</span></div>
+                    <div class="metric-row"><span class="mr-label">Early Closure Rate</span><span
+                            class="mr-val">8.4%</span></div>
+                    <div class="metric-row"><span class="mr-label">Write-off Rate</span><span class="mr-val"
+                            style="color:#fc8181">2.2%</span></div>
+                </div>
+
+                <div id="ai-insights-container">
+                    <div
+                        style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:14px">
+                        AI-Powered Insights</div>
+                    <!-- Dynamic insights will be injected here -->
+                    <div class="insight-card">
+                        <div class="ic-icon">⌛</div>
+                        <div>
+                            <div class="ic-title">Loading Insights...</div>
+                            <div class="ic-body">Analyzing your portfolio data for new opportunities.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cohort table -->
+            <div class="section-header">
+                <div class="section-title-dark">Cohort Performance</div>
+            </div>
+            <div class="card-dark" style="padding:0;overflow:hidden">
+                <table style="width:100%;border-collapse:collapse" class="cohort-table">
+                    <thead>
+                        <tr>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">
+                                Cohort</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">
+                                Loans</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">
+                                Disbursed</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">
+                                Repayment %</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">
+                                Avg Yield</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">
+                                NPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding:15px 20px">Q1 2026</td>
+                            <td style="padding:15px 20px">412</td>
+                            <td style="padding:15px 20px">₹18.4 Cr</td>
+                            <td style="padding:15px 20px;color:var(--green)">98.4%</td>
+                            <td style="padding:15px 20px;color:var(--gold)">14.8%</td>
+                            <td style="padding:15px 20px;color:#fc8181">1.6%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:15px 20px">Q4 2025</td>
+                            <td style="padding:15px 20px">389</td>
+                            <td style="padding:15px 20px">₹16.9 Cr</td>
+                            <td style="padding:15px 20px;color:var(--green)">97.1%</td>
+                            <td style="padding:15px 20px;color:var(--gold)">13.9%</td>
+                            <td style="padding:15px 20px;color:#fc8181">2.9%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:15px 20px">Q3 2025</td>
+                            <td style="padding:15px 20px">341</td>
+                            <td style="padding:15px 20px">₹14.2 Cr</td>
+                            <td style="padding:15px 20px;color:var(--green)">96.8%</td>
+                            <td style="padding:15px 20px;color:var(--gold)">13.5%</td>
+                            <td style="padding:15px 20px;color:#fc8181">3.2%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script>
+        function setRange(r, btn) { 
+            document.querySelectorAll('.ft-dark').forEach(b => b.classList.remove('active')); 
+            btn.classList.add('active'); 
+            loadAnalytics(r);
+        }
+        
+        async function loadAnalytics(range = '1m') {
+            const content = document.querySelector('.content');
+            if (content) content.style.opacity = '0.7';
+
+            try {
+                const response = await fetch(`../Backend/partner/api_analytics.php?range=${range}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update User Profile
+                    document.querySelector('.sidebar-user-name').textContent = data.partner.name;
+                    document.querySelector('.sidebar-user-tag').textContent = data.partner.tag;
+                    document.querySelector('.avatar').textContent = data.partner.initials;
+                    
+                    // Update KPIs
+                    const kpiValues = document.querySelectorAll('.kpi-value');
+                    kpiValues[0].textContent = data.kpis.avg_yield + '%';
+                    kpiValues[1].textContent = data.kpis.repayment_rate + '%';
+                    kpiValues[2].textContent = data.kpis.npa_rate + '%';
+                    kpiValues[3].textContent = '₹' + data.kpis.aum + 'Cr';
+                    
+                    // Update Donut Chart AUM
+                    const donutTextElements = document.querySelectorAll('.donut-svg text');
+                    if(donutTextElements.length > 1) {
+                        donutTextElements[1].textContent = '₹' + data.kpis.aum + 'Cr';
+                    }
+                    
+                    // Update Portfolio Mix
+                    const mixValues = document.querySelectorAll('.dl-val');
+                    if (mixValues.length >= 4) {
+                        mixValues[0].textContent = data.portfolio_mix.personal + '%';
+                        mixValues[1].textContent = data.portfolio_mix.business + '%';
+                        mixValues[2].textContent = data.portfolio_mix.home + '%';
+                        mixValues[3].textContent = data.portfolio_mix.other + '%';
+                    }
+                    // Update Performance Metrics
+                    const performanceValues = document.querySelectorAll('.chart-card:nth-child(1) .mr-val');
+                    if (performanceValues.length >= 7) {
+                        performanceValues[0].textContent = '₹' + data.performance_metrics.disbursement_rate + ' Cr/day avg';
+                        performanceValues[1].textContent = '₹' + data.performance_metrics.avg_loan_size + 'L';
+                        performanceValues[2].textContent = data.performance_metrics.avg_borrower_age + ' years';
+                        performanceValues[3].textContent = data.performance_metrics.avg_cibil;
+                        performanceValues[4].textContent = data.performance_metrics.on_time_payment_rate + '%';
+                        performanceValues[5].textContent = data.performance_metrics.early_closure_rate + '%';
+                        performanceValues[6].textContent = data.performance_metrics.write_off_rate + '%';
+                    }
+
+                    // Update Yield Trend Chart
+                    if (data.chart_data) {
+                        const fillPath = document.querySelector('.line-chart svg path:nth-child(1)');
+                        const strokePath = document.querySelector('.line-chart svg path:nth-child(2)');
+                        if (fillPath) fillPath.setAttribute('d', data.chart_data.fill);
+                        if (strokePath) strokePath.setAttribute('d', data.chart_data.stroke);
+                    }
+
+                    // Update Cohort Table
+                    const tbody = document.querySelector('tbody');
+                    tbody.innerHTML = ''; // clear existing rows
+                    data.cohorts.forEach(cohort => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td style="padding:15px 20px">${cohort.quarter}</td>
+                            <td style="padding:15px 20px">${cohort.loans}</td>
+                            <td style="padding:15px 20px">₹${cohort.disbursed} Cr</td>
+                            <td style="padding:15px 20px;color:var(--green)">${cohort.repayment}%</td>
+                            <td style="padding:15px 20px;color:var(--gold)">${cohort.yield}%</td>
+                            <td style="padding:15px 20px;color:#fc8181">${cohort.npa}%</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+
+                    // Update AI Insights
+                    const insightsContainer = document.getElementById('ai-insights-container');
+                    if (data.ai_insights && insightsContainer) {
+                        // Keep the title
+                        insightsContainer.innerHTML = `<div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:14px">AI-Powered Insights</div>`;
+                        
+                        data.ai_insights.forEach(insight => {
+                            const card = document.createElement('div');
+                            card.className = 'insight-card';
+                            if (insight.color_bg) card.style.background = insight.color_bg;
+                            if (insight.color_border) card.style.borderColor = insight.color_border;
+                            
+                            card.innerHTML = `
+                                <div class="ic-icon">${insight.icon}</div>
+                                <div>
+                                    <div class="ic-title">${insight.title}</div>
+                                    <div class="ic-body">${insight.body}</div>
+                                </div>
+                            `;
+                            insightsContainer.appendChild(card);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching analytics data:", error);
+            } finally {
+                if (content) content.style.opacity = '1';
+            }
+        }
+        
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', () => loadAnalytics('1m'));
+
+        function goToUser() {
+            window.location.href = '../user/user1.html';
+        }
+    </script>
+</body>
+
+</html>

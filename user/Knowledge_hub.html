@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Hub — FUNDBEE</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: var(--cream)
+        }
+
+        .hub-hero {
+            background: linear-gradient(135deg, #0b1d3a, #1a3a6e);
+            border-radius: 20px;
+            padding: 36px 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .hub-hero::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: 80px;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(245, 166, 35, 0.12), transparent 60%);
+            border-radius: 50%
+        }
+
+        .hub-hero-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px
+        }
+
+        .hub-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 8px
+        }
+
+        .hub-title em {
+            color: var(--gold);
+            font-style: italic
+        }
+
+        .hub-sub {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            max-width: 380px;
+            line-height: 1.6
+        }
+
+        .hub-search {
+            position: relative;
+            width: 280px
+        }
+
+        .hub-search input {
+            width: 100%;
+            padding: 13px 14px 13px 42px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none
+        }
+
+        .hub-search input::placeholder {
+            color: rgba(255, 255, 255, 0.35)
+        }
+
+        .hub-search input:focus {
+            background: rgba(255, 255, 255, 0.15)
+        }
+
+        .hub-search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 16px
+        }
+
+        .topics-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 28px;
+            flex-wrap: wrap
+        }
+
+        .topic-chip {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none
+        }
+
+        .tc-inactive {
+            background: white;
+            color: var(--muted);
+            border: 1px solid var(--border)
+        }
+
+        .tc-inactive:hover {
+            border-color: var(--navy);
+            color: var(--navy)
+        }
+
+        .tc-active {
+            background: var(--navy);
+            color: white
+        }
+
+        .featured-row {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 22px;
+            margin-bottom: 28px
+        }
+
+        .article-featured {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s
+        }
+
+        .article-featured:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 36px rgba(11, 29, 58, 0.13)
+        }
+
+        .af-img {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px
+        }
+
+        .af-body {
+            padding: 22px 24px
+        }
+
+        .af-cat {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px
+        }
+
+        .af-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+            line-height: 1.3
+        }
+
+        .af-excerpt {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 14px
+        }
+
+        .af-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .af-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .af-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: white
+        }
+
+        .af-read {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold);
+            cursor: pointer
+        }
+
+        .af-read:hover {
+            text-decoration: underline
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .article-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(11, 29, 58, 0.12)
+        }
+
+        .ac-img {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px
+        }
+
+        .ac-body {
+            padding: 16px 18px
+        }
+
+        .ac-cat {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px
+        }
+
+        .ac-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+            line-height: 1.4
+        }
+
+        .ac-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 10px
+        }
+
+        .cat-gold {
+            color: var(--gold)
+        }
+
+        .cat-green {
+            color: var(--green)
+        }
+
+        .cat-blue {
+            color: var(--blue)
+        }
+
+        .cat-navy {
+            color: var(--navy)
+        }
+
+        .bg-gold {
+            background: rgba(245, 166, 35, 0.08)
+        }
+
+        .bg-green {
+            background: rgba(16, 185, 129, 0.08)
+        }
+
+        .bg-blue {
+            background: rgba(26, 79, 214, 0.06)
+        }
+
+        .bg-navy {
+            background: rgba(11, 29, 58, 0.05)
+        }
+
+        .calc-section {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            padding: 28px;
+            margin-bottom: 28px
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: start
+        }
+
+        .calc-result {
+            background: linear-gradient(135deg, var(--navy), #1a3a6e);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center
+        }
+
+        .cr-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px
+        }
+
+        .cr-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--gold)
+        }
+
+        .cr-sub {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 6px
+        }
+
+        .cr-breakdown {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1)
+        }
+
+        .crb-item {
+            text-align: center
+        }
+
+        .crb-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: white
+        }
+
+        .crb-lbl {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 3px
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar sidebar-light">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Arjun Sharma</div><span class="sidebar-user-tag tag-gold">Verified
+                User</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
+            <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+            <div class="nav-section-label" style="margin-top:10px">Account</div>
+            <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+            <a class="nav-item" href="Notificatons.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+            <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+            <div class="nav-section-label" style="margin-top:10px">Explore</div>
+            <a class="nav-item" href="loan_products.html"><span class="nav-item-icon">💡</span> Loan Products</a>
+            <a class="nav-item active-gold" href="Knowledge_hub.html"><span class="nav-item-icon">📚</span> Knowledge
+                Hub</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar topbar-light">
+            <div class="topbar-title topbar-title-light">Knowledge Hub</div>
+            <div class="topbar-right">
+                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
+                <div class="notif-btn nb-light">🔔<div class="notif-dot-gold"></div>
+                </div>
+                <div class="avatar avatar-gold">AS</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="hub-hero">
+                <div class="hub-hero-inner">
+                    <div>
+                        <div class="hub-title">Your Financial <em>Library</em></div>
+                        <div class="hub-sub">Guides, calculators, and expert tips to help you borrow smart and build
+                            wealth.</div>
+                    </div>
+                    <div class="hub-search">
+                        <span class="hub-search-icon">🔍</span>
+                        <input placeholder="Search articles, guides, tips...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic chips -->
+            <div class="topics-row">
+                <button class="topic-chip tc-active">All Topics</button>
+                <button class="topic-chip tc-inactive">Credit Score</button>
+                <button class="topic-chip tc-inactive">EMI & Interest</button>
+                <button class="topic-chip tc-inactive">Home Loans</button>
+                <button class="topic-chip tc-inactive">Tax Benefits</button>
+                <button class="topic-chip tc-inactive">Business Finance</button>
+                <button class="topic-chip tc-inactive">Investments</button>
+            </div>
+
+            <!-- Featured articles -->
+            <div class="section-header">
+                <div class="section-title-light">Featured Articles</div><a class="section-link section-link-gold">View
+                    All →</a>
+            </div>
+            <div class="featured-row">
+                <div class="article-featured">
+                    <div class="af-img"
+                        style="background:linear-gradient(135deg,rgba(11,29,58,0.05),rgba(26,79,214,0.08))">📊</div>
+                    <div class="af-body">
+                        <div class="af-cat cat-blue">Credit Score</div>
+                        <div class="af-title">7 Proven Ways to Boost Your CIBIL Score in 90 Days</div>
+                        <div class="af-excerpt">Your credit score is the single most important factor lenders look at.
+                            Here's a practical, step-by-step roadmap to go from 650 to 750+.</div>
+                        <div class="af-meta">
+                            <div class="af-author">
+                                <div class="af-avatar">RK</div>Riya Kapoor · 8 min read
+                            </div>
+                            <span class="af-read">Read Article →</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:14px">
+                    <div class="article-card">
+                        <div class="ac-body" style="padding:18px 20px">
+                            <div class="ac-cat cat-gold">EMI Planning</div>
+                            <div class="ac-title">Should You Prepay Your Loan or Invest? A Complete Guide</div>
+                            <div class="ac-meta"><span>Vikram Mehta · 6 min</span><span class="af-read"
+                                    style="font-size:11px">Read →</span></div>
+                        </div>
+                    </div>
+                    <div class="article-card">
+                        <div class="ac-body" style="padding:18px 20px">
+                            <div class="ac-cat cat-green">Tax Benefits</div>
+                            <div class="ac-title">Home Loan Tax Deductions: Save Up to ₹3.5L Every Year</div>
+                            <div class="ac-meta"><span>Neha Joshi · 5 min</span><span class="af-read"
+                                    style="font-size:11px">Read →</span></div>
+                        </div>
+                    </div>
+                    <div class="article-card">
+                        <div class="ac-body" style="padding:18px 20px">
+                            <div class="ac-cat cat-navy">Business Finance</div>
+                            <div class="ac-title">GST-Based Lending: How Your Returns Determine Eligibility</div>
+                            <div class="ac-meta"><span>Arun Pillai · 7 min</span><span class="af-read"
+                                    style="font-size:11px">Read →</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EMI Calculator -->
+            <div class="calc-section">
+                <div
+                    style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:4px">
+                    🧮 EMI Calculator</div>
+                <div style="font-size:13px;color:var(--muted);margin-bottom:24px">Get an instant estimate of your
+                    monthly payment</div>
+                <div class="calc-grid">
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label">Loan Amount (₹)</label>
+                            <input type="range" class="range-input" min="10000" max="5000000" step="10000"
+                                value="500000" id="calcAmt" oninput="calcEMI()">
+                            <div
+                                style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px">
+                                <span>₹10K</span><span id="calcAmtVal"
+                                    style="font-weight:700;color:var(--navy)">₹5,00,000</span><span>₹50L</span></div>
+                        </div>
+                        <div class="form-group" style="margin-top:20px">
+                            <label class="form-label">Interest Rate (% p.a.)</label>
+                            <input type="range" class="range-input" min="7" max="24" step="0.5" value="10.5"
+                                id="calcRate" oninput="calcEMI()">
+                            <div
+                                style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px">
+                                <span>7%</span><span id="calcRateVal"
+                                    style="font-weight:700;color:var(--navy)">10.5%</span><span>24%</span></div>
+                        </div>
+                        <div class="form-group" style="margin-top:20px">
+                            <label class="form-label">Tenure (Months)</label>
+                            <input type="range" class="range-input" min="6" max="240" step="6" value="36"
+                                id="calcTenure" oninput="calcEMI()">
+                            <div
+                                style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px">
+                                <span>6 mo</span><span id="calcTenureVal" style="font-weight:700;color:var(--navy)">36
+                                    months</span><span>240 mo</span></div>
+                        </div>
+                    </div>
+                    <div class="calc-result">
+                        <div class="cr-label">Monthly EMI</div>
+                        <div class="cr-value" id="emiResult">₹16,133</div>
+                        <div class="cr-sub">for 36 months</div>
+                        <div class="cr-breakdown">
+                            <div class="crb-item">
+                                <div class="crb-val" id="totalAmt">₹5,80,790</div>
+                                <div class="crb-lbl">Total Payable</div>
+                            </div>
+                            <div class="crb-item">
+                                <div class="crb-val" id="totalInt">₹80,790</div>
+                                <div class="crb-lbl">Total Interest</div>
+                            </div>
+                        </div>
+                        <button onclick="window.location.href='loan-products.html'"
+                            style="width:100%;margin-top:18px;padding:12px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);font-family:'DM Sans',sans-serif;font-weight:700;font-size:14px;border:none;border-radius:10px;cursor:pointer;transition:all 0.2s">Apply
+                            for This Loan →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More articles -->
+            <div class="section-header">
+                <div class="section-title-light">Browse Articles</div>
+            </div>
+            <div class="articles-grid">
+                <div class="article-card">
+                    <div class="ac-img bg-blue">🏦</div>
+                    <div class="ac-body">
+                        <div class="ac-cat cat-blue">Basics</div>
+                        <div class="ac-title">Understanding Loan-to-Value (LTV) Ratio</div>
+                        <div class="ac-meta"><span>4 min read</span><span class="af-read" style="font-size:11px">Read
+                                →</span></div>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="ac-img bg-gold">💳</div>
+                    <div class="ac-body">
+                        <div class="ac-cat cat-gold">Credit</div>
+                        <div class="ac-title">Hard Inquiry vs Soft Inquiry: What Hits Your Score?</div>
+                        <div class="ac-meta"><span>3 min read</span><span class="af-read" style="font-size:11px">Read
+                                →</span></div>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="ac-img bg-green">📈</div>
+                    <div class="ac-body">
+                        <div class="ac-cat cat-green">Savings</div>
+                        <div class="ac-title">Debt Snowball vs Avalanche: Best Repayment Strategy</div>
+                        <div class="ac-meta"><span>5 min read</span><span class="af-read" style="font-size:11px">Read
+                                →</span></div>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="ac-img bg-navy">🏠</div>
+                    <div class="ac-body">
+                        <div class="ac-cat cat-navy">Home Loan</div>
+                        <div class="ac-title">Floating vs Fixed Rate: Which Should You Choose?</div>
+                        <div class="ac-meta"><span>6 min read</span><span class="af-read" style="font-size:11px">Read
+                                →</span></div>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="ac-img bg-gold">⚖️</div>
+                    <div class="ac-body">
+                        <div class="ac-cat cat-gold">Planning</div>
+                        <div class="ac-title">How Much EMI Is Too Much? The 40% Rule Explained</div>
+                        <div class="ac-meta"><span>4 min read</span><span class="af-read" style="font-size:11px">Read
+                                →</span></div>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="ac-img bg-blue">🔄</div>
+                    <div class="ac-body">
+                        <div class="ac-cat cat-blue">Refinance</div>
+                        <div class="ac-title">When to Consider a Balance Transfer on Your Home Loan</div>
+                        <div class="ac-meta"><span>5 min read</span><span class="af-read" style="font-size:11px">Read
+                                →</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN') }
+        function calcEMI() {
+            const P = +document.getElementById('calcAmt').value;
+            const r = +document.getElementById('calcRate').value / 1200;
+            const n = +document.getElementById('calcTenure').value;
+            document.getElementById('calcAmtVal').textContent = fmt(P);
+            document.getElementById('calcRateVal').textContent = document.getElementById('calcRate').value + '%';
+            document.getElementById('calcTenureVal').textContent = n + ' months';
+            const emi = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+            const total = emi * n;
+            const interest = total - P;
+            document.getElementById('emiResult').textContent = fmt(emi);
+            document.getElementById('totalAmt').textContent = fmt(total);
+            document.getElementById('totalInt').textContent = fmt(interest);
+        }
+        calcEMI();
+        document.querySelectorAll('.topic-chip').forEach(chip => {
+            chip.addEventListener('click', () => { document.querySelectorAll('.topic-chip').forEach(c => { c.classList.remove('tc-active'); c.classList.add('tc-inactive'); }); chip.classList.remove('tc-inactive'); chip.classList.add('tc-active'); });
+        });
+    </script>
+</body>
+
+</html>

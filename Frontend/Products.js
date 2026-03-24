@@ -1,3 +1,8 @@
+/* =========================================================
+   Products.js — FUNDBEE Products Page JS
+   Handles: filter tabs, Apply Now modal, Advisor modal
+   ========================================================= */
+
 /* ── Filter Tabs ── */
 function filterCards(category, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -23,6 +28,7 @@ function filterCards(category, btn) {
     featured.style.gridColumn = (category === 'all' && visibleCount > 1) ? 'span 2' : 'span 1';
   }
 }
+
 /* ── Apply Now Modal ── */
 function openApplyModal(e, loanType, loanName, icon) {
   e.preventDefault();

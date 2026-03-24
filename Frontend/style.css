@@ -666,9 +666,13 @@ nav {
   text-decoration: none;
   white-space: nowrap;
   transition: background 0.2s;
+  -webkit-transition: background 0.2s;
+  -moz-transition: background 0.2s;
+  -ms-transition: background 0.2s;
+  -o-transition: background 0.2s;
 }
 
-.btn-outline-white:hover { background: rgba(255,255,255,0.1); }
+.btn-outline-white:hover { background: aqua; }
 
 /* ── FOOTER ── */
 
