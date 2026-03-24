@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Borrowers — FUNDBEE Partner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: #070f1e
+        }
+
+        .borrower-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+            margin-bottom: 12px
+        }
+
+        .borrower-card:hover {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2);
+            transform: translateX(4px)
+        }
+
+        .borrower-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 18px;
+            flex-shrink: 0
+        }
+
+        .ba-green {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.1));
+            color: var(--green)
+        }
+
+        .ba-gold {
+            background: linear-gradient(135deg, rgba(245, 166, 35, 0.3), rgba(245, 166, 35, 0.1));
+            color: var(--gold)
+        }
+
+        .ba-blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1));
+            color: #60a5fa
+        }
+
+        .bc-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: white;
+            margin-bottom: 2px
+        }
+
+        .bc-meta {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35)
+        }
+
+        .bc-loans {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px
+        }
+
+        .bc-right {
+            margin-left: auto;
+            text-align: right;
+            flex-shrink: 0
+        }
+
+        .bc-exposure {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: white
+        }
+
+        .bc-yield {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 3px
+        }
+
+        .bc-repay {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 2px
+        }
+
+        .bc-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 16px
+        }
+
+        .bca-btn {
+            padding: 7px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.45);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .bca-btn:hover {
+            border-color: var(--green);
+            color: var(--green)
+        }
+
+        .sort-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.45);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .sort-btn:hover {
+            border-color: var(--green);
+            color: var(--green)
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <aside class="sidebar sidebar-dark">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Priya Nair</div><span class="sidebar-user-tag tag-green">Premium
+                Partner</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Overview</div>
+            <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
+            <a class="nav-item" href="Portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
+            <a class="nav-item" href="Analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
+            <div class="nav-section-label" style="margin-top:10px">Management</div>
+            <a class="nav-item active-green" href="Borrowers.html"><span class="nav-item-icon">👥</span> My
+                Borrowers</a>
+            <a class="nav-item" href="Applications.html"><span class="nav-item-icon">📋</span> Applications</a>
+            <a class="nav-item" href="Withdrawls.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
+            <a class="nav-item" href="Statements.html"><span class="nav-item-icon">📄</span> Statements</a>
+            <div class="nav-section-label" style="margin-top:10px">Premium</div>
+            <a class="nav-item" href="Risk_insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
+            <a class="nav-item" href="Deal_matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
+            <a class="nav-item" href="partner_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+    <main class="main">
+        <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+            <div class="topbar-title topbar-title-dark">My Borrowers</div>
+            <div class="topbar-right">
+                <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
+                <div class="avatar avatar-green">PN</div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-green">Borrower Management</div>
+                <div class="page-heading" style="color:white">Your <em style="color:var(--gold)">Borrowers</em></div>
+                <div class="page-sub">Track repayment health and engagement across your borrower base.</div>
+            </div>
+
+            <div class="kpi-grid-4">
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-green">👥</div><span class="kpi-badge kb-up">+196 this month</span>
+                    </div>
+                    <div class="kpi-value kv-dark">5,408</div>
+                    <div class="kpi-label">Total Borrowers</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-gold">✅</div><span class="kpi-badge kb-up">97.8%</span>
+                    </div>
+                    <div class="kpi-value kv-green">5,293</div>
+                    <div class="kpi-label">On-Time Payers</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-red">⚠️</div><span class="kpi-badge kb-down">Monitor</span>
+                    </div>
+                    <div class="kpi-value kv-dark">87</div>
+                    <div class="kpi-label">At-Risk Borrowers</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-blue">🆕</div><span class="kpi-badge kb-up">New</span>
+                    </div>
+                    <div class="kpi-value kv-dark">196</div>
+                    <div class="kpi-label">Onboarded (March)</div>
+                </div>
+            </div>
+
+            <div
+                style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:14px;flex-wrap:wrap">
+                <div class="filter-tabs">
+                    <button class="filter-tab ft-dark active" onclick="filterBorrowers('all',this)">All (5,408)</button>
+                    <button class="filter-tab ft-dark" onclick="filterBorrowers('healthy',this)">Healthy</button>
+                    <button class="filter-tab ft-dark" onclick="filterBorrowers('risk',this)">At Risk</button>
+                    <button class="filter-tab ft-dark" onclick="filterBorrowers('npa',this)">NPA</button>
+                </div>
+                <div style="display:flex;gap:10px">
+                    <div class="search-wrap"><span class="search-icon"
+                            style="color:rgba(255,255,255,0.3)">🔍</span><input class="search-input si-dark"
+                            placeholder="Search borrowers..." style="width:200px"></div>
+                    <button class="sort-btn">Sort by Exposure ↓</button>
+                </div>
+            </div>
+
+            <div id="borrowerList">
+                <div class="borrower-card" data-status="healthy">
+                    <div class="borrower-avatar ba-green">RV</div>
+                    <div>
+                        <div class="bc-name">Rahul Verma</div>
+                        <div class="bc-meta">Personal Loan · #FB-L-48291 · Bengaluru</div>
+                        <div class="bc-loans">CIBIL 742 · Disbursed Jan 2026</div>
+                    </div>
+                    <div style="flex:1;margin-left:16px">
+                        <div
+                            style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:5px">
+                            <span>Repayment progress</span><span>34%</span></div>
+                        <div class="progress-bg pb-dark">
+                            <div class="progress-fill" style="width:34%;background:var(--green)"></div>
+                        </div>
+                    </div>
+                    <div class="bc-right">
+                        <div class="bc-exposure">₹2.50L</div>
+                        <div class="bc-yield" style="color:var(--green)">Earning: 13.8%</div>
+                        <div class="bc-repay">3 of 24 EMIs paid</div>
+                    </div>
+                    <div class="bc-actions"><button class="bca-btn">Message</button><button class="bca-btn">View
+                            Loans</button></div>
+                </div>
+
+                <div class="borrower-card" data-status="healthy">
+                    <div class="borrower-avatar ba-gold">SK</div>
+                    <div>
+                        <div class="bc-name">Smita Kulkarni</div>
+                        <div class="bc-meta">Business Loan · #FB-L-48290 · Pune</div>
+                        <div class="bc-loans">CIBIL 728 · Disbursed Dec 2025</div>
+                    </div>
+                    <div style="flex:1;margin-left:16px">
+                        <div
+                            style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:5px">
+                            <span>Repayment progress</span><span>22%</span></div>
+                        <div class="progress-bg pb-dark">
+                            <div class="progress-fill" style="width:22%;background:var(--gold)"></div>
+                        </div>
+                    </div>
+                    <div class="bc-right">
+                        <div class="bc-exposure">₹8.00L</div>
+                        <div class="bc-yield" style="color:var(--green)">Earning: 15.2%</div>
+                        <div class="bc-repay">4 of 36 EMIs paid</div>
+                    </div>
+                    <div class="bc-actions"><button class="bca-btn">Message</button><button class="bca-btn">View
+                            Loans</button></div>
+                </div>
+
+                <div class="borrower-card" data-status="healthy">
+                    <div class="borrower-avatar ba-blue">DP</div>
+                    <div>
+                        <div class="bc-name">Dev Anand Patel</div>
+                        <div class="bc-meta">Home Loan · #FB-L-48288 · Mumbai</div>
+                        <div class="bc-loans">CIBIL 768 · Disbursed Sep 2025</div>
+                    </div>
+                    <div style="flex:1;margin-left:16px">
+                        <div
+                            style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:5px">
+                            <span>Repayment progress</span><span>8%</span></div>
+                        <div class="progress-bg pb-dark">
+                            <div class="progress-fill" style="width:8%;background:#60a5fa"></div>
+                        </div>
+                    </div>
+                    <div class="bc-right">
+                        <div class="bc-exposure">₹25.00L</div>
+                        <div class="bc-yield" style="color:var(--green)">Earning: 9.4%</div>
+                        <div class="bc-repay">6 of 120 EMIs paid</div>
+                    </div>
+                    <div class="bc-actions"><button class="bca-btn">Message</button><button class="bca-btn">View
+                            Loans</button></div>
+                </div>
+
+                <div class="borrower-card" data-status="risk" style="border-color:rgba(245,166,35,0.2)">
+                    <div class="borrower-avatar"
+                        style="background:linear-gradient(135deg,rgba(245,166,35,0.2),rgba(245,166,35,0.05));color:var(--gold)">
+                        MT</div>
+                    <div>
+                        <div class="bc-name">Meena Tripathi</div>
+                        <div class="bc-meta">Personal Loan · #FB-L-47944 · Hyderabad</div>
+                        <div class="bc-loans">CIBIL 688 · Disbursed Oct 2025</div>
+                    </div>
+                    <div style="flex:1;margin-left:16px">
+                        <div
+                            style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:5px">
+                            <span>Overdue: 14 days</span><span>50%</span></div>
+                        <div class="progress-bg pb-dark">
+                            <div class="progress-fill" style="width:50%;background:var(--gold)"></div>
+                        </div>
+                    </div>
+                    <div class="bc-right">
+                        <div class="bc-exposure">₹1.80L</div>
+                        <div class="bc-yield" style="color:var(--gold)">At Risk</div>
+                        <div class="bc-repay">9 of 18 EMIs paid</div>
+                    </div>
+                    <div class="bc-actions"><button class="bca-btn">Alert</button><button class="bca-btn"
+                            style="border-color:var(--gold);color:var(--gold)">Escalate</button></div>
+                </div>
+
+                <div class="borrower-card" data-status="npa" style="border-color:rgba(239,68,68,0.15)">
+                    <div class="borrower-avatar" style="background:rgba(239,68,68,0.1);color:#fc8181">KM</div>
+                    <div>
+                        <div class="bc-name">Kiran Mathur</div>
+                        <div class="bc-meta">Personal Loan · #FB-L-47901 · Delhi</div>
+                        <div class="bc-loans">CIBIL 612 · Disbursed Aug 2025</div>
+                    </div>
+                    <div style="flex:1;margin-left:16px">
+                        <div
+                            style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:5px">
+                            <span>NPA — 60+ days overdue</span><span>42%</span></div>
+                        <div class="progress-bg pb-dark">
+                            <div class="progress-fill" style="width:42%;background:#ef4444"></div>
+                        </div>
+                    </div>
+                    <div class="bc-right">
+                        <div class="bc-exposure">₹1.50L</div>
+                        <div class="bc-yield" style="color:#fc8181">NPA</div>
+                        <div class="bc-repay">5 of 12 EMIs paid</div>
+                    </div>
+                    <div class="bc-actions"><button class="bca-btn"
+                            style="border-color:#fc8181;color:#fc8181">Recover</button><button
+                            class="bca-btn">Legal</button></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function filterBorrowers(status, btn) {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+            document.querySelectorAll('.borrower-card').forEach(c => { c.style.display = (status === 'all' || c.dataset.status === status) ? '' : 'none'; });
+        }
+    </script>
+</body>
+
+</html>
