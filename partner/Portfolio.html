@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio — FUNDBEE Partner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: #070f1e
+        }
+
+        .port-hero {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 28px
+        }
+
+        .ph-cell {
+            padding: 24px 28px;
+            border-right: 1px solid rgba(255, 255, 255, 0.07)
+        }
+
+        .ph-cell:last-child {
+            border-right: none
+        }
+
+        .ph-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 8px
+        }
+
+        .ph-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: white
+        }
+
+        .ph-change {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px
+        }
+
+        .pch-up {
+            color: var(--green)
+        }
+
+        .pch-dn {
+            color: #fc8181
+        }
+
+        .segment-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 22px 24px;
+            transition: all 0.2s;
+            cursor: pointer
+        }
+
+        .segment-card:hover {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2);
+            transform: translateY(-2px)
+        }
+
+        .segment-card.active {
+            background: rgba(16, 185, 129, 0.07);
+            border-color: rgba(16, 185, 129, 0.35)
+        }
+
+        .seg-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px
+        }
+
+        .seg-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px
+        }
+
+        .seg-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+            margin-bottom: 2px
+        }
+
+        .seg-loans {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35)
+        }
+
+        .seg-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 6px
+        }
+
+        .seg-yield {
+            font-size: 12px;
+            font-weight: 600
+        }
+
+        .sy-up {
+            color: var(--green)
+        }
+
+        .loan-row td {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04)
+        }
+
+        .loan-row:last-child td {
+            border-bottom: none
+        }
+
+        .loan-row:hover td {
+            background: rgba(16, 185, 129, 0.02)
+        }
+
+        .action-btn {
+            padding: 7px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .action-btn:hover {
+            border-color: var(--green);
+            color: var(--green)
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <aside class="sidebar sidebar-dark">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Priya Nair</div><span class="sidebar-user-tag tag-green">Premium
+                Partner</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Overview</div>
+            <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
+            <a class="nav-item active-green" href="portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
+            <a class="nav-item" href="analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
+            <div class="nav-section-label" style="margin-top:10px">Management</div>
+            <a class="nav-item" href="borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
+            <a class="nav-item" href="applications.html"><span class="nav-item-icon">📋</span> Applications</a>
+            <a class="nav-item" href="withdrawals.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
+            <a class="nav-item" href="statements.html"><span class="nav-item-icon">📄</span> Statements</a>
+            <div class="nav-section-label" style="margin-top:10px">Premium</div>
+            <a class="nav-item" href="risk-insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
+            <a class="nav-item" href="deal-matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
+            <a class="nav-item" href="partner-settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+    <main class="main">
+        <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+            <div class="topbar-title topbar-title-dark">Portfolio</div>
+            <div class="topbar-right">
+                <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
+                <div class="notif-btn nb-dark">🔔<div class="notif-dot-green"></div>
+                </div>
+                <div class="avatar avatar-green">PN</div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-green">Portfolio Overview</div>
+                <div class="page-heading" style="color:white">Your <em style="color:var(--gold)">Portfolio</em></div>
+                <div class="page-sub">Complete view of your active loan book across all segments.</div>
+            </div>
+
+            <!-- Hero metrics -->
+            <div class="port-hero">
+                <div class="ph-cell">
+                    <div class="ph-label">Total AUM</div>
+                    <div class="ph-val" style="color:var(--green)">₹237.53 Cr</div>
+                    <div class="ph-change pch-up">↑ 4.2% this month</div>
+                </div>
+                <div class="ph-cell">
+                    <div class="ph-label">Active Loans</div>
+                    <div class="ph-val">5,408</div>
+                    <div class="ph-change pch-up">↑ 196 new this month</div>
+                </div>
+                <div class="ph-cell">
+                    <div class="ph-label">Avg Yield</div>
+                    <div class="ph-val" style="color:var(--gold)">14.2%</div>
+                    <div class="ph-change pch-up">↑ 1.1% YoY</div>
+                </div>
+                <div class="ph-cell">
+                    <div class="ph-label">Repaid (Total)</div>
+                    <div class="ph-val">₹169.31 Cr</div>
+                    <div class="ph-change" style="color:rgba(255,255,255,0.3)">71.3% collection rate</div>
+                </div>
+            </div>
+
+            <!-- Segment cards -->
+            <div class="section-header">
+                <div class="section-title-dark">Portfolio by Segment</div><span class="section-link section-link-green"
+                    onclick="filterSeg('all')">View All</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px">
+                <div class="segment-card active" onclick="filterSeg('personal')">
+                    <div class="seg-header">
+                        <div class="seg-icon" style="background:rgba(16,185,129,0.12)">👤</div><span
+                            class="pill pill-green" style="font-size:10px">43%</span>
+                    </div>
+                    <div class="seg-name">Personal</div>
+                    <div class="seg-loans">2,325 loans</div>
+                    <div style="margin-top:10px">
+                        <div class="seg-amount">₹102.1 Cr</div>
+                        <div class="seg-yield sy-up">Yield: 13.8% ↑</div>
+                    </div>
+                </div>
+                <div class="segment-card" onclick="filterSeg('business')">
+                    <div class="seg-header">
+                        <div class="seg-icon" style="background:rgba(245,166,35,0.12)">💼</div><span
+                            class="pill pill-gold" style="font-size:10px">29%</span>
+                    </div>
+                    <div class="seg-name">Business</div>
+                    <div class="seg-loans">1,568 loans</div>
+                    <div style="margin-top:10px">
+                        <div class="seg-amount">₹68.9 Cr</div>
+                        <div class="seg-yield sy-up">Yield: 15.2% ↑</div>
+                    </div>
+                </div>
+                <div class="segment-card" onclick="filterSeg('home')">
+                    <div class="seg-header">
+                        <div class="seg-icon" style="background:rgba(59,130,246,0.12)">🏠</div><span
+                            class="pill pill-blue"
+                            style="background:rgba(59,130,246,0.12);color:#60a5fa;font-size:10px">19%</span>
+                    </div>
+                    <div class="seg-name">Home</div>
+                    <div class="seg-loans">1,022 loans</div>
+                    <div style="margin-top:10px">
+                        <div class="seg-amount">₹45.1 Cr</div>
+                        <div class="seg-yield sy-up">Yield: 9.4% →</div>
+                    </div>
+                </div>
+                <div class="segment-card" onclick="filterSeg('education')">
+                    <div class="seg-header">
+                        <div class="seg-icon" style="background:rgba(139,92,246,0.12)">🎓</div><span
+                            style="font-size:10px;padding:3px 9px;border-radius:20px;background:rgba(139,92,246,0.12);color:#a78bfa;font-weight:700">6%</span>
+                    </div>
+                    <div class="seg-name">Education</div>
+                    <div class="seg-loans">324 loans</div>
+                    <div style="margin-top:10px">
+                        <div class="seg-amount">₹14.3 Cr</div>
+                        <div class="seg-yield" style="color:#a78bfa">Yield: 10.1% →</div>
+                    </div>
+                </div>
+                <div class="segment-card" onclick="filterSeg('vehicle')">
+                    <div class="seg-header">
+                        <div class="seg-icon" style="background:rgba(251,191,36,0.12)">🚗</div><span
+                            style="font-size:10px;padding:3px 9px;border-radius:20px;background:rgba(251,191,36,0.12);color:#fbbf24;font-weight:700">3%</span>
+                    </div>
+                    <div class="seg-name">Vehicle</div>
+                    <div class="seg-loans">169 loans</div>
+                    <div style="margin-top:10px">
+                        <div class="seg-amount">₹7.1 Cr</div>
+                        <div class="seg-yield" style="color:#fbbf24">Yield: 11.8% →</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio table -->
+            <div class="section-header">
+                <div class="section-title-dark">Active Loan Book</div>
+                <div style="display:flex;gap:10px;align-items:center">
+                    <div class="search-wrap"><span class="search-icon"
+                            style="color:rgba(255,255,255,0.3)">🔍</span><input class="search-input si-dark"
+                            placeholder="Search loans..." style="width:200px"></div>
+                    <div class="filter-tabs">
+                        <button class="filter-tab ft-dark active" onclick="filterStatus('all',this)">All</button>
+                        <button class="filter-tab ft-dark" onclick="filterStatus('active',this)">Active</button>
+                        <button class="filter-tab ft-dark" onclick="filterStatus('npa',this)">NPA</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-dark" style="padding:0;overflow:hidden">
+                <table style="width:100%;border-collapse:collapse">
+                    <thead>
+                        <tr style="background:rgba(255,255,255,0.02)">
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06)">
+                                Loan ID</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06)">
+                                Borrower</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06)">
+                                Type</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06)">
+                                Principal</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06)">
+                                Your Earning</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06)">
+                                CIBIL</th>
+                            <th
+                                style="padding:13px 20px;text-align:left;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);border-bottom:1px solid rgba(255,255,255,0.06)">
+                                Status</th>
+                            <th style="padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.06)"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="portfolioTable">
+                        <tr class="loan-row" data-status="active">
+                            <td>FB-L-48291</td>
+                            <td>Rahul Verma</td>
+                            <td><span class="pill pill-green" style="font-size:11px">Personal</span></td>
+                            <td style="font-family:'Playfair Display',serif;font-weight:700">₹2.50L</td>
+                            <td style="color:var(--green);font-weight:700">₹32,500</td>
+                            <td>742</td>
+                            <td><span class="pill pill-green">Active</span></td>
+                            <td><button class="action-btn">View</button></td>
+                        </tr>
+                        <tr class="loan-row" data-status="active">
+                            <td>FB-L-48290</td>
+                            <td>Smita Kulkarni</td>
+                            <td><span class="pill"
+                                    style="background:rgba(245,166,35,0.12);color:var(--gold);font-size:11px">Business</span>
+                            </td>
+                            <td style="font-family:'Playfair Display',serif;font-weight:700">₹8.00L</td>
+                            <td style="color:var(--green);font-weight:700">₹1,12,000</td>
+                            <td>728</td>
+                            <td><span class="pill pill-green">Active</span></td>
+                            <td><button class="action-btn">View</button></td>
+                        </tr>
+                        <tr class="loan-row" data-status="active">
+                            <td>FB-L-48288</td>
+                            <td>Dev Anand Patel</td>
+                            <td><span class="pill"
+                                    style="background:rgba(59,130,246,0.12);color:#60a5fa;font-size:11px">Home</span>
+                            </td>
+                            <td style="font-family:'Playfair Display',serif;font-weight:700">₹25.00L</td>
+                            <td style="color:var(--green);font-weight:700">₹2,25,000</td>
+                            <td>768</td>
+                            <td><span class="pill pill-green">Active</span></td>
+                            <td><button class="action-btn">View</button></td>
+                        </tr>
+                        <tr class="loan-row" data-status="npa">
+                            <td>FB-L-47901</td>
+                            <td>Kiran Mathur</td>
+                            <td><span class="pill pill-green" style="font-size:11px">Personal</span></td>
+                            <td style="font-family:'Playfair Display',serif;font-weight:700">₹1.50L</td>
+                            <td style="color:#fc8181;font-weight:700">₹-8,200</td>
+                            <td style="color:#fc8181">612</td>
+                            <td><span class="pill pill-red">NPA</span></td>
+                            <td><button class="action-btn">Recover</button></td>
+                        </tr>
+                        <tr class="loan-row" data-status="active">
+                            <td>FB-L-48285</td>
+                            <td>Anita Sharma</td>
+                            <td><span class="pill"
+                                    style="background:rgba(245,166,35,0.12);color:var(--gold);font-size:11px">Business</span>
+                            </td>
+                            <td style="font-family:'Playfair Display',serif;font-weight:700">₹12.00L</td>
+                            <td style="color:var(--green);font-weight:700">₹1,68,000</td>
+                            <td>751</td>
+                            <td><span class="pill pill-green">Active</span></td>
+                            <td><button class="action-btn">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script>
+        function filterStatus(status, btn) {
+            document.querySelectorAll('.ft-dark').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+            document.querySelectorAll('.loan-row').forEach(r => { r.style.display = (status === 'all' || r.dataset.status === status) ? '' : 'none'; });
+        }
+        function filterSeg(seg) {
+            document.querySelectorAll('.segment-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
