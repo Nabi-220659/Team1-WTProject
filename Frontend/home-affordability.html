@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Affordability Calculator — FUNDBEE</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="knowledge-hub.css">
+  <link rel="stylesheet" href="home-affordability.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+    <ul class="nav-links">
+      <li><a href="Products.html">Products</a></li>
+      <li><a href="Company.html">Company</a></li>
+      <li><a href="knowledge-hub.html">Knowledge Hub</a></li>
+      <li><a href="partner.html">Partner</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="planner-hero">
+    <h1>Home Affordability <em>Calculator</em></h1>
+    <p>Discover the maximum home price you can comfortably afford based on your income and financial situation.</p>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="planner-content">
+    <div class="info-section">
+      <h2>Find Your Perfect Price Range</h2>
+      <p>Buying a home is one of the biggest financial decisions you'll make. Our calculator helps you understand what
+        price range fits your budget without overextending yourself financially.</p>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Monthly Income (₹)</label>
+        <input type="number" id="monthlyIncome" placeholder="e.g. 100000">
+      </div>
+      <div class="form-group">
+        <label>Down Payment (₹)</label>
+        <input type="number" id="downPayment" placeholder="e.g. 500000">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Interest Rate (% p.a.)</label>
+        <input type="number" id="interestRate" placeholder="e.g. 8.5" value="8.5" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>Loan Tenure (Years)</label>
+        <input type="number" id="loanTenure" placeholder="e.g. 20" value="20" min="5" max="30">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Debt-to-Income Ratio (%)</label>
+        <input type="number" id="debtRatio" placeholder="e.g. 30" value="30" min="20" max="50" step="5">
+        <small>Typically 28-35% is safe. Lower = more conservative.</small>
+      </div>
+      <div class="form-group">
+        <label>Other Monthly Liabilities (₹)</label>
+        <input type="number" id="otherLiabilities" placeholder="e.g. 10000" value="0">
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculateAffordability()">Calculate Home Affordability</button>
+
+    <div class="result-box" id="resultBox">
+      <h3>Your Home Budget</h3>
+      
+      <div class="result-item">
+        <span class="result-label">Maximum Home Price:</span>
+        <div class="result-value" id="maxHomePrice">₹0</div>
+      </div>
+
+      <div class="result-item">
+        <span class="result-label">Loan Amount You Can Borrow:</span>
+        <div class="result-value" id="loanAmount">₹0</div>
+      </div>
+
+      <div class="result-item">
+        <span class="result-label">Monthly EMI:</span>
+        <div class="result-value" id="monthlyEmi">₹0</div>
+      </div>
+
+      <div class="result-breakdown">
+        <h4>Your Financial Summary</h4>
+        <div class="breakdown-row">
+          <span>Monthly Income:</span>
+          <span id="incomeDisplay">₹0</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Max Housing Payment (EMI):</span>
+          <span id="maxEmiDisplay">₹0</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Other Liabilities:</span>
+          <span id="liabilitiesDisplay">₹0</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Total Monthly Obligations:</span>
+          <span id="totalObligations">₹0</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Remaining Monthly Income:</span>
+          <span id="remainingIncome">₹0</span>
+        </div>
+      </div>
+
+      <div class="tips-box">
+        <h4>💡 Money Tip</h4>
+        <p>The 28/36 rule: Your housing costs shouldn't exceed 28% of gross income, and total debt shouldn't exceed 36%.
+          Our calculator helps you stay within safe limits.</p>
+      </div>
+
+      <a href="products.html" class="calc-btn"
+        style="display: inline-block; text-decoration: none; width: auto; padding: 15px 40px; background: var(--white); color: var(--dark); margin-top: 20px;">Explore
+        Home Loan Products</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+        <p>FUNDBEE Finance Limited is an RBI Registered NBFC providing fast, secure, and flexible financial solutions.
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 FUNDBEE Finance Limited. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    function calculateAffordability() {
+      const monthlyIncome = Number(document.getElementById('monthlyIncome').value);
+      const downPayment = Number(document.getElementById('downPayment').value);
+      const interestRate = Number(document.getElementById('interestRate').value);
+      const loanTenure = Number(document.getElementById('loanTenure').value);
+      const debtRatio = Number(document.getElementById('debtRatio').value);
+      const otherLiabilities = Number(document.getElementById('otherLiabilities').value);
+
+      if (!monthlyIncome || !downPayment || !loanTenure) {
+        return alert("Please enter your monthly income, down payment, and loan tenure.");
+      }
+
+      // Calculate max EMI allowed based on debt-to-income ratio
+      const maxTotalDebt = (monthlyIncome * debtRatio) / 100;
+      const maxEmi = maxTotalDebt - otherLiabilities;
+
+      if (maxEmi <= 0) {
+        return alert("Your other liabilities exceed your debt capacity. Please reduce them or increase income.");
+      }
+
+      // Calculate loan amount from EMI
+      // EMI = P * r * (1 + r)^n / ((1 + r)^n - 1)
+      // Solving for P: P = EMI / (r * (1 + r)^n / ((1 + r)^n - 1))
+      const monthlyRate = interestRate / 100 / 12;
+      const numPayments = loanTenure * 12;
+
+      let loanAmount = 0;
+      if (monthlyRate === 0) {
+        loanAmount = maxEmi * numPayments;
+      } else {
+        const factor = (Math.pow((1 + monthlyRate), numPayments) - 1) / (monthlyRate * Math.pow((1 + monthlyRate), numPayments));
+        loanAmount = maxEmi * factor;
+      }
+
+      // Maximum home price = Loan Amount + Down Payment
+      const maxHomePrice = loanAmount + downPayment;
+
+      // Calculate actual EMI with this loan amount
+      let actualEmi = 0;
+      if (monthlyRate === 0) {
+        actualEmi = loanAmount / numPayments;
+      } else {
+        actualEmi = loanAmount * monthlyRate * Math.pow((1 + monthlyRate), numPayments) / (Math.pow((1 + monthlyRate), numPayments) - 1);
+      }
+
+      // Update display
+      document.getElementById('maxHomePrice').innerText = "₹" + Math.round(maxHomePrice).toLocaleString('en-IN');
+      document.getElementById('loanAmount').innerText = "₹" + Math.round(loanAmount).toLocaleString('en-IN');
+      document.getElementById('monthlyEmi').innerText = "₹" + Math.ceil(actualEmi).toLocaleString('en-IN');
+
+      document.getElementById('incomeDisplay').innerText = "₹" + monthlyIncome.toLocaleString('en-IN');
+      document.getElementById('maxEmiDisplay').innerText = "₹" + Math.ceil(actualEmi).toLocaleString('en-IN');
+      document.getElementById('liabilitiesDisplay').innerText = "₹" + otherLiabilities.toLocaleString('en-IN');
+      document.getElementById('totalObligations').innerText = "₹" + Math.ceil(actualEmi + otherLiabilities).toLocaleString('en-IN');
+      document.getElementById('remainingIncome').innerText = "₹" + Math.ceil(monthlyIncome - actualEmi - otherLiabilities).toLocaleString('en-IN');
+
+      document.getElementById('resultBox').style.display = 'block';
+    }
+
+    // Allow Enter key to calculate
+    document.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        calculateAffordability();
+      }
+    });
+  </script>
+
+</body>
+
+</html>
