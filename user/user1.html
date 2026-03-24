@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard — FUNDBEE</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0b1d3a;
+      --navy-mid: #112249;
+      --blue: #1a4fd6;
+      --blue-light: #3b72f0;
+      --gold: #f5a623;
+      --gold-light: #fdd068;
+      --cream: #faf8f4;
+      --cream-dark: #f0ece3;
+      --text: #1c2a3a;
+      --muted: #6b7a8d;
+      --white: #ffffff;
+      --green: #10b981;
+      --green-light: #d1fae5;
+      --red: #ef4444;
+      --red-light: #fee2e2;
+      --border: rgba(26, 79, 214, 0.1);
+      --card-shadow: 0 4px 24px rgba(11, 29, 58, 0.08);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ─── OVERLAY ─── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .overlay::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(26, 79, 214, 0.18), transparent 60%);
+      border-radius: 50%;
+    }
+
+    .overlay::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(245, 166, 35, 0.09), transparent 65%);
+      border-radius: 50%;
+    }
+
+    /* ─── OVERLAY PANELS ─── */
+    .overlay-panel {
+      position: relative;
+      z-index: 1;
+      width: 440px;
+      animation: panelIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes panelIn {
+      from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .overlay-panel.hidden {
+      display: none;
+    }
+
+    /* Login card */
+    .auth-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(28px);
+      border-radius: 20px;
+      padding: 44px 40px;
+    }
+
+    .auth-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .auth-logo span {
+      color: var(--gold);
+    }
+
+    .auth-subtitle {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 13px;
+      margin-bottom: 32px;
+    }
+
+    .auth-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      outline: none;
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .auth-input::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    .auth-input:focus {
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    .auth-btn {
+      width: 100%;
+      margin-top: 28px;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .auth-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(245, 166, 35, 0.35);
+    }
+
+    .auth-error {
+      color: #fc8181;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Role selection */
+    .role-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(28px);
+      border-radius: 20px;
+      padding: 44px 40px;
+      text-align: center;
+    }
+
+    .role-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .role-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .role-sub {
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 14px;
+      margin-bottom: 36px;
+    }
+
+    .role-options {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .role-option {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 22px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: left;
+    }
+
+    .role-option:hover {
+      transform: translateY(-2px);
+    }
+
+    .role-option.user-opt:hover {
+      border-color: var(--gold);
+      background: rgba(245, 166, 35, 0.07);
+      box-shadow: 0 0 30px rgba(245, 166, 35, 0.15);
+    }
+
+    .role-option.partner-opt:hover {
+      border-color: var(--green);
+      background: rgba(16, 185, 129, 0.07);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);
+    }
+
+    .role-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .role-icon.gold {
+      background: rgba(245, 166, 35, 0.15);
+    }
+
+    .role-icon.green {
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .role-info h4 {
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .role-info p {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+    }
+
+    .role-arrow {
+      margin-left: auto;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 18px;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100vh;
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding: 0;
+      transition: transform 0.3s;
+    }
+
+    .sidebar-logo {
+      padding: 28px 28px 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: white;
+      letter-spacing: 1px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .sidebar-logo span {
+      color: var(--gold);
+    }
+
+    .sidebar-user {
+      padding: 20px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .sidebar-user-name {
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .sidebar-user-tag {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(245, 166, 35, 0.15);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 0;
+      overflow-y: auto;
+    }
+
+    .nav-section-label {
+      padding: 10px 28px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 28px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-item.active {
+      color: var(--gold);
+      border-left-color: var(--gold);
+      background: rgba(245, 166, 35, 0.07);
+    }
+
+    .nav-item-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      padding: 20px 28px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .logout-btn:hover {
+      color: #fc8181;
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    .main {
+      margin-left: 240px;
+      min-height: 100vh;
+      background: var(--cream);
+    }
+
+    /* TOP BAR */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 248, 244, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .apply-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .apply-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25);
+    }
+
+    .notif-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: white;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .notif-btn:hover {
+      border-color: var(--gold);
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: 6px;
+      right: 7px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    /* ─── CONTENT AREA ─── */
+    .content {
+      padding: 32px 40px;
+    }
+
+    /* WELCOME BANNER */
+    .welcome-banner {
+      background: linear-gradient(130deg, var(--navy) 0%, #1a3a6e 100%);
+      border-radius: 18px;
+      padding: 32px 36px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(245, 166, 35, 0.15), transparent 65%);
+      border-radius: 50%;
+    }
+
+    .welcome-banner::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: 30%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(26, 79, 214, 0.2), transparent 65%);
+      border-radius: 50%;
+    }
+
+    .welcome-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .welcome-text p {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .welcome-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: white;
+    }
+
+    .welcome-text h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .credit-badge {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 16px 24px;
+    }
+
+    .credit-score {
+      text-align: center;
+    }
+
+    .credit-score .score-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    .credit-score .score-lbl {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .credit-divider {
+      width: 1px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .credit-status {}
+
+    .credit-status .status-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .credit-status p {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+    }
+
+    /* KPI GRID */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .kpi-card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(11, 29, 58, 0.12);
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .kpi-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .kpi-icon.navy {
+      background: rgba(11, 29, 58, 0.08);
+    }
+
+    .kpi-icon.gold {
+      background: rgba(245, 166, 35, 0.12);
+    }
+
+    .kpi-icon.green {
+      background: rgba(16, 185, 129, 0.12);
+    }
+
+    .kpi-icon.blue {
+      background: rgba(26, 79, 214, 0.1);
+    }
+
+    .kpi-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .kpi-badge.up {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .kpi-badge.neutral {
+      background: var(--cream-dark);
+      color: var(--muted);
+    }
+
+    .kpi-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .kpi-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* SECTION TITLES */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .section-link {
+      font-size: 13px;
+      color: var(--blue);
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .section-link:hover {
+      text-decoration: underline;
+    }
+
+    /* LOANS TABLE */
+    .table-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .table-card table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table-card th {
+      padding: 14px 22px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-card td {
+      padding: 16px 22px;
+      font-size: 14px;
+      color: var(--text);
+      border-bottom: 1px solid rgba(11, 29, 58, 0.04);
+    }
+
+    .table-card tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table-card tr:hover td {
+      background: rgba(245, 166, 35, 0.02);
+    }
+
+    .loan-type {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .loan-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .loan-dot.active {
+      background: var(--green);
+    }
+
+    .loan-dot.pending {
+      background: var(--gold);
+    }
+
+    .loan-dot.closed {
+      background: var(--muted);
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-pill.active {
+      background: var(--green-light);
+      color: var(--green);
+    }
+
+    .status-pill.pending {
+      background: rgba(245, 166, 35, 0.12);
+      color: #d97706;
+    }
+
+    .status-pill.closed {
+      background: var(--cream-dark);
+      color: var(--muted);
+    }
+
+    .action-link {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      background: none;
+    }
+
+    .action-link:hover {
+      text-decoration: underline;
+    }
+
+    /* BOTTOM GRID */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    /* EMI CARD */
+    .emi-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      padding: 24px 26px;
+    }
+
+    .emi-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(11, 29, 58, 0.05);
+    }
+
+    .emi-item:last-child {
+      border-bottom: none;
+    }
+
+    .emi-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .emi-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--cream-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .emi-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--navy);
+    }
+
+    .emi-date {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .emi-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .emi-due-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--red);
+      margin-top: 3px;
+      display: inline-block;
+    }
+
+    /* QUICK ACTIONS */
+    .quick-actions {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      padding: 24px 26px;
+    }
+
+    .qa-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .qa-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .qa-btn:hover {
+      border-color: var(--gold);
+      background: rgba(245, 166, 35, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .qa-icon {
+      font-size: 22px;
+    }
+
+    .qa-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* ─── LOAN APPLICATION MODAL ─── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(11, 29, 58, 0.65);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(11, 29, 58, 0.25);
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.3s;
+    }
+
+    .modal-backdrop.open .modal {
+      transform: none;
+    }
+
+    .modal-header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .modal-header p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--cream);
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--red-light);
+      color: var(--red);
+    }
+
+    .modal-body {
+      padding: 28px 32px;
+    }
+
+    .loan-types-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .loan-type-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      background: var(--cream);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .loan-type-btn:hover,
+    .loan-type-btn.selected {
+      border-color: var(--navy);
+      background: white;
+      box-shadow: 0 4px 16px rgba(11, 29, 58, 0.1);
+    }
+
+    .loan-type-btn.selected {
+      border-color: var(--gold);
+    }
+
+    .lt-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      background: var(--cream-dark);
+    }
+
+    .lt-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--navy);
+    }
+
+    .lt-rate {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(11, 29, 58, 0.15);
+      border-radius: 10px;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: white;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--navy);
+    }
+
+    .form-select {
+      cursor: pointer;
+    }
+
+    .modal-footer {
+      padding: 20px 32px 28px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .btn-submit {
+      flex: 2;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25);
+    }
+
+    /* Success message */
+    .success-banner {
+      display: none;
+      background: var(--green-light);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: var(--green);
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Login overlay removed -->
+  <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">FUND<span>BEE</span></div>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name">Arjun Sharma</div>
+      <span class="sidebar-user-tag">Verified User</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item active" href="user1.html">
+        <span class="nav-item-icon">📊</span> Dashboard
+      </a>
+      <a class="nav-item" href="#" onclick="openLoanModal(); return false;">
+        <span class="nav-item-icon">📋</span> Apply for Loan
+      </a>
+      <a class="nav-item" href="My_loans.html">
+        <span class="nav-item-icon">🔄</span> My Loans
+      </a>
+      <a class="nav-item" href="Emi_Schedule.html">
+        <span class="nav-item-icon">📅</span> EMI Schedule
+      </a>
+
+      <div class="nav-section-label" style="margin-top:10px">Account</div>
+      <a class="nav-item" href="Documents.html">
+        <span class="nav-item-icon">📁</span> Documents
+      </a>
+      <a class="nav-item" href="Notificatons.html">
+        <span class="nav-item-icon">🔔</span> Notifications
+      </a>
+      <a class="nav-item" href="user_settings.html">
+        <span class="nav-item-icon">⚙️</span> Settings
+      </a>
+
+      <div class="nav-section-label" style="margin-top:10px">More</div>
+      <a class="nav-item" href="loan_products.html">
+        <span class="nav-item-icon">💡</span> Loan Products
+      </a>
+      <a class="nav-item" href="Knowledge_hub.html">
+        <span class="nav-item-icon">📚</span> Knowledge Hub
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="logout-btn" onclick="window.location.href='login.html'">
+        <span>🚪</span> Sign Out
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════ MAIN ═══════════════════════ -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title">User Dashboard</div>
+      <div class="topbar-right">
+        <div class="notif-btn">🔔<div class="notif-dot"></div>
+        </div>
+        <div class="avatar">AS</div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- Welcome Banner -->
+      <div class="welcome-banner">
+        <div class="welcome-inner">
+          <div class="welcome-text">
+            <p>Good morning</p>
+            <h2>Welcome back, <em>Arjun</em> 👋</h2>
+            <p style="color:rgba(255,255,255,0.45); font-size:13px; margin-top:8px;">Here's your financial overview for
+              today.</p>
+          </div>
+          <div class="credit-badge">
+            <div class="credit-score">
+              <div class="score-val">745</div>
+              <div class="score-lbl">Credit Score</div>
+            </div>
+            <div class="credit-divider"></div>
+            <div class="credit-status">
+              <span class="status-tag">Excellent</span>
+              <p>CIBIL Score</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon navy">🏦</div>
+            <span class="kpi-badge up">+1 new</span>
+          </div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-label">Active Loans</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon gold">💰</div>
+            <span class="kpi-badge neutral">Total</span>
+          </div>
+          <div class="kpi-value">₹2.5L</div>
+          <div class="kpi-label">Total Borrowed</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon green">✅</div>
+            <span class="kpi-badge up">On track</span>
+          </div>
+          <div class="kpi-value">₹1.2L</div>
+          <div class="kpi-label">Total Repaid</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon blue">📅</div>
+            <span class="kpi-badge neutral">Due soon</span>
+          </div>
+          <div class="kpi-value">₹12,000</div>
+          <div class="kpi-label">EMI Due This Month</div>
+        </div>
+      </div>
+
+      <!-- My Loans Table -->
+      <div class="section-header">
+        <div class="section-title">My Loans</div>
+        <a class="section-link" href="#">View All →</a>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Loan Type</th>
+              <th>Loan ID</th>
+              <th>Amount</th>
+              <th>EMI</th>
+              <th>Next Due</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="loan-type">
+                  <div class="loan-dot active"></div>Personal Loan
+                </div>
+              </td>
+              <td style="color:var(--muted); font-size:13px">#FB-20241</td>
+              <td>₹1,00,000</td>
+              <td>₹5,200</td>
+              <td>Apr 05, 2026</td>
+              <td><span class="status-pill active">Active</span></td>
+              <td><button class="action-link">View Details</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="loan-type">
+                  <div class="loan-dot active"></div>Home Loan
+                </div>
+              </td>
+              <td style="color:var(--muted); font-size:13px">#FB-20189</td>
+              <td>₹8,00,000</td>
+              <td>₹6,800</td>
+              <td>Apr 01, 2026</td>
+              <td><span class="status-pill active">Active</span></td>
+              <td><button class="action-link">View Details</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="loan-type">
+                  <div class="loan-dot pending"></div>Business Loan
+                </div>
+              </td>
+              <td style="color:var(--muted); font-size:13px">#FB-20312</td>
+              <td>₹2,50,000</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="status-pill pending">Under Review</span></td>
+              <td><button class="action-link">Track Status</button></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="loan-type">
+                  <div class="loan-dot closed"></div>Education Loan
+                </div>
+              </td>
+              <td style="color:var(--muted); font-size:13px">#FB-19874</td>
+              <td>₹75,000</td>
+              <td>—</td>
+              <td>—</td>
+              <td><span class="status-pill closed">Closed</span></td>
+              <td><button class="action-link">Download NOC</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Bottom Grid -->
+      <div class="bottom-grid">
+
+        <!-- EMI Reminders -->
+        <div class="emi-card">
+          <div class="section-header">
+            <div class="section-title" style="font-size:16px">Upcoming EMIs</div>
+            <a class="section-link" href="#">Schedule →</a>
+          </div>
+          <div class="emi-item">
+            <div class="emi-left">
+              <div class="emi-icon">🏠</div>
+              <div>
+                <div class="emi-name">Home Loan</div>
+                <div class="emi-date">Due: Apr 01, 2026</div>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div class="emi-amount">₹6,800</div>
+              <span class="emi-due-tag">Due in 11 days</span>
+            </div>
+          </div>
+          <div class="emi-item">
+            <div class="emi-left">
+              <div class="emi-icon">👤</div>
+              <div>
+                <div class="emi-name">Personal Loan</div>
+                <div class="emi-date">Due: Apr 05, 2026</div>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div class="emi-amount">₹5,200</div>
+              <span class="emi-due-tag">Due in 15 days</span>
+            </div>
+          </div>
+          <div class="emi-item" style="opacity:0.5">
+            <div class="emi-left">
+              <div class="emi-icon">🚗</div>
+              <div>
+                <div class="emi-name">Vehicle Loan</div>
+                <div class="emi-date">Due: Apr 15, 2026</div>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div class="emi-amount">₹3,400</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <div class="section-header">
+            <div class="section-title" style="font-size:16px">Quick Actions</div>
+          </div>
+          <div class="qa-grid">
+            <div class="qa-btn" onclick="openLoanModal()">
+              <div class="qa-icon">📋</div>
+              <div class="qa-label">Apply for Loan</div>
+            </div>
+            <div class="qa-btn">
+              <div class="qa-icon">💳</div>
+              <div class="qa-label">Pay EMI</div>
+            </div>
+            <div class="qa-btn">
+              <div class="qa-icon">📄</div>
+              <div class="qa-label">Upload Documents</div>
+            </div>
+            <div class="qa-btn">
+              <div class="qa-icon">📞</div>
+              <div class="qa-label">Contact Advisor</div>
+            </div>
+            <div class="qa-btn">
+              <div class="qa-icon">🔍</div>
+              <div class="qa-label">Check Eligibility</div>
+            </div>
+            <div class="qa-btn" onclick="goToPartner()">
+              <div class="qa-icon">💼</div>
+              <div class="qa-label">Switch to Partner</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+
+  <!-- ═══════════════════════ LOAN APPLICATION MODAL ═══════════════════════ -->
+  <div class="modal-backdrop" id="loanModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3>Apply for a Loan</h3>
+          <p>Fill in your details and we'll get back to you within 24 hours</p>
+        </div>
+        <button class="modal-close" onclick="closeLoanModal()">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="success-banner" id="successBanner">
+          🎉 Application submitted successfully! We'll contact you within 24 hours.
+        </div>
+
+        <!-- Loan Type Selection -->
+        <div style="margin-bottom:22px">
+          <div class="form-label">Select Loan Type</div>
+          <div class="loan-types-grid">
+            <div class="loan-type-btn selected" onclick="selectLoanType(this)">
+              <div class="lt-icon">👤</div>
+              <div>
+                <div class="lt-name">Personal Loan</div>
+                <div class="lt-rate">From 10.5% p.a.</div>
+              </div>
+            </div>
+            <div class="loan-type-btn" onclick="selectLoanType(this)">
+              <div class="lt-icon">🏠</div>
+              <div>
+                <div class="lt-name">Home Loan</div>
+                <div class="lt-rate">From 8.5% p.a.</div>
+              </div>
+            </div>
+            <div class="loan-type-btn" onclick="selectLoanType(this)">
+              <div class="lt-icon">💼</div>
+              <div>
+                <div class="lt-name">Business Loan</div>
+                <div class="lt-rate">From 12% p.a.</div>
+              </div>
+            </div>
+            <div class="loan-type-btn" onclick="selectLoanType(this)">
+              <div class="lt-icon">🎓</div>
+              <div>
+                <div class="lt-name">Education Loan</div>
+                <div class="lt-rate">From 9% p.a.</div>
+              </div>
+            </div>
+            <div class="loan-type-btn" onclick="selectLoanType(this)">
+              <div class="lt-icon">🚗</div>
+              <div>
+                <div class="lt-name">Vehicle Loan</div>
+                <div class="lt-rate">From 9.5% p.a.</div>
+              </div>
+            </div>
+            <div class="loan-type-btn" onclick="selectLoanType(this)">
+              <div class="lt-icon">⚡</div>
+              <div>
+                <div class="lt-name">Instant Loan</div>
+                <div class="lt-rate">From 14% p.a.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Fields -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Loan Amount (₹)</label>
+            <input class="form-input" type="number" placeholder="e.g. 100000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tenure</label>
+            <select class="form-select">
+              <option>12 Months</option>
+              <option>24 Months</option>
+              <option>36 Months</option>
+              <option>48 Months</option>
+              <option>60 Months</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" placeholder="As per PAN card">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number</label>
+            <input class="form-input" type="tel" placeholder="+91 XXXXX XXXXX">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Purpose of Loan</label>
+            <input class="form-input" type="text" placeholder="Brief description of your loan purpose">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly Income (₹)</label>
+            <input class="form-input" type="number" placeholder="e.g. 50000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Employment Type</label>
+            <select class="form-select">
+              <option>Salaried</option>
+              <option>Self-Employed</option>
+              <option>Business Owner</option>
+              <option>Student</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeLoanModal()">Cancel</button>
+        <button class="btn-submit" onclick="submitLoanApplication()">Submit Application →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Utilities ── */
+    function goToPartner() {
+      window.location.href = 'partner1.html';
+    }
+
+    /* ── Loan Modal Redirection ── */
+    function openLoanModal() {
+      window.location.href = '../Frontend/become-a-partner.html';
+    }
+  </script>
+</body>
+
+</html>
