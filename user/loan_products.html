@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Products — FUNDBEE</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: var(--cream)
+        }
+
+        .product-hero {
+            background: linear-gradient(130deg, var(--navy), #1a3a6e);
+            border-radius: 20px;
+            padding: 36px 40px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .product-hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: 100px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(245, 166, 35, 0.15), transparent 60%);
+            border-radius: 50%
+        }
+
+        .product-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            right: -60px;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle, rgba(26, 79, 214, 0.2), transparent 65%);
+            border-radius: 50%
+        }
+
+        .ph-inner {
+            position: relative;
+            z-index: 1
+        }
+
+        .ph-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 8px
+        }
+
+        .ph-title em {
+            color: var(--gold);
+            font-style: italic
+        }
+
+        .ph-sub {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 15px;
+            max-width: 420px
+        }
+
+        .ph-badges {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px
+        }
+
+        .ph-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.12)
+        }
+
+        .ph-right {
+            position: relative;
+            z-index: 1;
+            font-size: 64px
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-bottom: 32px
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: all 0.25s;
+            cursor: pointer
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(11, 29, 58, 0.14)
+        }
+
+        .product-card.featured {
+            border: 2px solid var(--gold);
+            box-shadow: 0 8px 32px rgba(245, 166, 35, 0.15)
+        }
+
+        .pc-header {
+            padding: 24px 24px 18px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .pc-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 14px
+        }
+
+        .pc-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy)
+        }
+
+        .pc-tag {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700
+        }
+
+        .pct-gold {
+            background: rgba(245, 166, 35, 0.1);
+            color: #d97706
+        }
+
+        .pct-green {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--green)
+        }
+
+        .pct-blue {
+            background: rgba(26, 79, 214, 0.08);
+            color: var(--blue)
+        }
+
+        .pc-body {
+            padding: 20px 24px
+        }
+
+        .pc-rate {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 12px
+        }
+
+        .pc-rate-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--navy)
+        }
+
+        .pc-rate-lbl {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .pc-features {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px
+        }
+
+        .pc-feat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .pc-feat::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            font-size: 12px
+        }
+
+        .pc-footer {
+            padding: 0 24px 22px
+        }
+
+        .apply-btn-product {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .apb-navy {
+            background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+            color: white
+        }
+
+        .apb-navy:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25)
+        }
+
+        .apb-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--navy)
+        }
+
+        .apb-gold:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(245, 166, 35, 0.3)
+        }
+
+        .featured-ribbon {
+            position: absolute;
+            top: 16px;
+            right: -26px;
+            background: var(--gold);
+            color: var(--navy);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 36px;
+            transform: rotate(45deg);
+            letter-spacing: 1px
+        }
+
+        .compare-section {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            overflow: hidden
+        }
+
+        .compare-header {
+            padding: 22px 28px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .compare-table th {
+            background: var(--cream);
+            padding: 14px 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: left;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .compare-table td {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: var(--text);
+            border-bottom: 1px solid rgba(11, 29, 58, 0.04)
+        }
+
+        .compare-table tr:last-child td {
+            border-bottom: none
+        }
+
+        .compare-table tr:hover td {
+            background: rgba(245, 166, 35, 0.02)
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 29, 58, 0.55);
+            backdrop-filter: blur(6px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(11, 29, 58, 0.25);
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            max-height: 90vh;
+            overflow-y: auto
+        }
+
+        .modal-overlay.open .modal-box {
+            transform: none
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar sidebar-light">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified
+                User</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+      <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
+      <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+      <div class="nav-section-label" style="margin-top:10px">Account</div>
+      <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+      <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+      <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+            <div class="nav-section-label" style="margin-top:10px">Explore</div>
+            <a class="nav-item active-gold" href="loan-products.html"><span class="nav-item-icon">💡</span> Loan
+                Products</a>
+            <a class="nav-item" href="knowledge-hub.html"><span class="nav-item-icon">📚</span> Knowledge Hub</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar topbar-light">
+            <div class="topbar-title topbar-title-light">Loan Products</div>
+            <div class="topbar-right">
+                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
+                <div class="notif-btn nb-light">🔔<div class="notif-dot-gold"></div>
+                </div>
+                <div class="avatar avatar-gold">?</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="product-hero">
+                <div class="ph-inner">
+                    <div class="ph-title">Find Your <em>Perfect Loan</em></div>
+                    <div class="ph-sub">Competitive rates, instant approval, and flexible tenures — tailored to your
+                        needs.</div>
+                    <div class="ph-badges">
+                        <div class="ph-badge">⚡ Instant Disbursal</div>
+                        <div class="ph-badge">🔒 100% Secure</div>
+                        <div class="ph-badge">📱 Fully Digital</div>
+                    </div>
+                </div>
+                <div class="ph-right">🏦</div>
+            </div>
+
+            <!-- Filter tabs -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+                <div class="filter-tabs">
+                    <button class="filter-tab ft-light active" onclick="filterProducts('all',this)">All
+                        Products</button>
+                    <button class="filter-tab ft-light" onclick="filterProducts('personal',this)">Personal</button>
+                    <button class="filter-tab ft-light" onclick="filterProducts('business',this)">Business</button>
+                    <button class="filter-tab ft-light" onclick="filterProducts('secured',this)">Secured</button>
+                </div>
+                <div class="search-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input class="search-input si-light" placeholder="Search products..." style="width:200px">
+                </div>
+            </div>
+
+            <!-- Products grid -->
+            <div class="products-grid" id="productsGrid">
+
+                <div class="product-card" data-cat="personal">
+                    <div class="pc-header">
+                        <div class="pc-icon" style="background:rgba(26,79,214,0.1)">👤</div>
+                        <div class="pc-name">Personal Loan</div>
+                        <span class="pc-tag pct-green">Most Popular</span>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-rate">
+                            <div class="pc-rate-val">10.5%</div>
+                            <div class="pc-rate-lbl">p.a. onwards</div>
+                        </div>
+                        <div class="pc-features">
+                            <div class="pc-feat">Up to ₹5 Lakhs</div>
+                            <div class="pc-feat">Tenure: 12–60 months</div>
+                            <div class="pc-feat">No collateral required</div>
+                            <div class="pc-feat">Disbursal in 24 hours</div>
+                            <div class="pc-feat">Minimal documentation</div>
+                        </div>
+                    </div>
+                    <div class="pc-footer"><button class="apply-btn-product apb-navy"
+                            onclick="openApply('Personal Loan','10.5%','₹5L','60')">Apply Now →</button></div>
+                </div>
+
+                <div class="product-card featured" data-cat="personal" style="position:relative;overflow:hidden">
+                    <div class="featured-ribbon">BEST DEAL</div>
+                    <div class="pc-header">
+                        <div class="pc-icon" style="background:rgba(245,166,35,0.12)">⚡</div>
+                        <div class="pc-name">Instant Loan</div>
+                        <span class="pc-tag pct-gold">Pre-Approved</span>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-rate">
+                            <div class="pc-rate-val">12.0%</div>
+                            <div class="pc-rate-lbl">p.a. flat</div>
+                        </div>
+                        <div class="pc-features">
+                            <div class="pc-feat">Up to ₹50,000</div>
+                            <div class="pc-feat">Tenure: 3–12 months</div>
+                            <div class="pc-feat">Disbursal in 2 hours</div>
+                            <div class="pc-feat">Zero paperwork</div>
+                            <div class="pc-feat">₹0 processing fee</div>
+                        </div>
+                    </div>
+                    <div class="pc-footer"><button class="apply-btn-product apb-gold"
+                            onclick="openApply('Instant Loan','12.0%','₹50K','12')">Apply Now →</button></div>
+                </div>
+
+                <div class="product-card" data-cat="business">
+                    <div class="pc-header">
+                        <div class="pc-icon" style="background:rgba(11,29,58,0.08)">💼</div>
+                        <div class="pc-name">Business Loan</div>
+                        <span class="pc-tag pct-blue">For SMEs</span>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-rate">
+                            <div class="pc-rate-val">14.0%</div>
+                            <div class="pc-rate-lbl">p.a. onwards</div>
+                        </div>
+                        <div class="pc-features">
+                            <div class="pc-feat">Up to ₹50 Lakhs</div>
+                            <div class="pc-feat">Tenure: 12–84 months</div>
+                            <div class="pc-feat">No collateral up to ₹10L</div>
+                            <div class="pc-feat">GST-based eligibility</div>
+                            <div class="pc-feat">Overdraft facility available</div>
+                        </div>
+                    </div>
+                    <div class="pc-footer"><button class="apply-btn-product apb-navy"
+                            onclick="openApply('Business Loan','14.0%','₹50L','84')">Apply Now →</button></div>
+                </div>
+
+                <div class="product-card" data-cat="secured">
+                    <div class="pc-header">
+                        <div class="pc-icon" style="background:rgba(16,185,129,0.1)">🏠</div>
+                        <div class="pc-name">Home Loan</div>
+                        <span class="pc-tag pct-green">Lowest Rate</span>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-rate">
+                            <div class="pc-rate-val">8.5%</div>
+                            <div class="pc-rate-lbl">p.a. onwards</div>
+                        </div>
+                        <div class="pc-features">
+                            <div class="pc-feat">Up to ₹1 Crore</div>
+                            <div class="pc-feat">Tenure: up to 20 years</div>
+                            <div class="pc-feat">Balance transfer allowed</div>
+                            <div class="pc-feat">Tax benefits (Sec 80C)</div>
+                            <div class="pc-feat">Step-up EMI option</div>
+                        </div>
+                    </div>
+                    <div class="pc-footer"><button class="apply-btn-product apb-navy"
+                            onclick="openApply('Home Loan','8.5%','₹1 Cr','240')">Apply Now →</button></div>
+                </div>
+
+                <div class="product-card" data-cat="personal">
+                    <div class="pc-header">
+                        <div class="pc-icon" style="background:rgba(16,185,129,0.1)">🎓</div>
+                        <div class="pc-name">Education Loan</div>
+                        <span class="pc-tag pct-blue">Study Now</span>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-rate">
+                            <div class="pc-rate-val">9.0%</div>
+                            <div class="pc-rate-lbl">p.a. onwards</div>
+                        </div>
+                        <div class="pc-features">
+                            <div class="pc-feat">Up to ₹20 Lakhs</div>
+                            <div class="pc-feat">Moratorium period included</div>
+                            <div class="pc-feat">Covers tuition + living</div>
+                            <div class="pc-feat">Tax benefits (Sec 80E)</div>
+                            <div class="pc-feat">Repay after course ends</div>
+                        </div>
+                    </div>
+                    <div class="pc-footer"><button class="apply-btn-product apb-navy"
+                            onclick="openApply('Education Loan','9.0%','₹20L','120')">Apply Now →</button></div>
+                </div>
+
+                <div class="product-card" data-cat="secured">
+                    <div class="pc-header">
+                        <div class="pc-icon" style="background:rgba(26,79,214,0.1)">🚗</div>
+                        <div class="pc-name">Vehicle Loan</div>
+                        <span class="pc-tag pct-blue">New & Used</span>
+                    </div>
+                    <div class="pc-body">
+                        <div class="pc-rate">
+                            <div class="pc-rate-val">9.5%</div>
+                            <div class="pc-rate-lbl">p.a. onwards</div>
+                        </div>
+                        <div class="pc-features">
+                            <div class="pc-feat">Up to ₹20 Lakhs</div>
+                            <div class="pc-feat">Tenure: 12–84 months</div>
+                            <div class="pc-feat">Up to 95% on-road funding</div>
+                            <div class="pc-feat">New & used vehicles</div>
+                            <div class="pc-feat">Same-day approval</div>
+                        </div>
+                    </div>
+                    <div class="pc-footer"><button class="apply-btn-product apb-navy"
+                            onclick="openApply('Vehicle Loan','9.5%','₹20L','84')">Apply Now →</button></div>
+                </div>
+
+            </div>
+
+            <!-- Comparison table -->
+            <div class="compare-section">
+                <div class="compare-header">
+                    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy)">
+                        Quick Comparison</div>
+                    <a href="eligibility.html" class="section-link section-link-gold">Check Eligibility →</a>
+                </div>
+                <div style="overflow-x:auto">
+                    <table class="compare-table" style="width:100%;border-collapse:collapse">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Rate (from)</th>
+                                <th>Max Amount</th>
+                                <th>Max Tenure</th>
+                                <th>Processing Fee</th>
+                                <th>Collateral</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Personal Loan</td>
+                                <td style="color:var(--green);font-weight:700">10.5%</td>
+                                <td>₹5 Lakhs</td>
+                                <td>60 months</td>
+                                <td>1–2%</td>
+                                <td style="color:var(--green)">Not required</td>
+                            </tr>
+                            <tr>
+                                <td>Instant Loan</td>
+                                <td style="color:var(--green);font-weight:700">12.0%</td>
+                                <td>₹50,000</td>
+                                <td>12 months</td>
+                                <td>₹0</td>
+                                <td style="color:var(--green)">Not required</td>
+                            </tr>
+                            <tr>
+                                <td>Business Loan</td>
+                                <td style="color:var(--gold);font-weight:700">14.0%</td>
+                                <td>₹50 Lakhs</td>
+                                <td>84 months</td>
+                                <td>1%</td>
+                                <td style="color:var(--green)">Not req. up to ₹10L</td>
+                            </tr>
+                            <tr>
+                                <td>Home Loan</td>
+                                <td style="color:var(--blue);font-weight:700">8.5%</td>
+                                <td>₹1 Crore</td>
+                                <td>20 years</td>
+                                <td>0.5%</td>
+                                <td style="color:#ef4444">Property required</td>
+                            </tr>
+                            <tr>
+                                <td>Education Loan</td>
+                                <td style="color:var(--blue);font-weight:700">9.0%</td>
+                                <td>₹20 Lakhs</td>
+                                <td>10 years</td>
+                                <td>0%</td>
+                                <td style="color:var(--muted)">Above ₹7.5L</td>
+                            </tr>
+                            <tr>
+                                <td>Vehicle Loan</td>
+                                <td style="color:var(--blue);font-weight:700">9.5%</td>
+                                <td>₹20 Lakhs</td>
+                                <td>84 months</td>
+                                <td>1%</td>
+                                <td style="color:#ef4444">Vehicle as collateral</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Apply Modal -->
+    <div class="modal-overlay" id="applyModal">
+        <div class="modal-box">
+            <div
+                style="padding:26px 28px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between">
+                <div>
+                    <h3 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy)"
+                        id="modalProductName">Apply for Personal Loan</h3>
+                    <p style="font-size:13px;color:var(--muted);margin-top:3px" id="modalProductSub">Rate from 10.5% ·
+                        Up to ₹5L · 60 months</p>
+                </div>
+                <button onclick="closeApply()"
+                    style="width:34px;height:34px;border-radius:8px;border:none;background:var(--cream-dark);cursor:pointer;font-size:16px;color:var(--muted)">✕</button>
+            </div>
+            <div style="padding:24px 28px">
+                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                    <div class="form-group"><label class="form-label">Full Name</label><input
+                            class="form-input fi-light user-name-input" value="Arjun Sharma"></div>
+                    <div class="form-group"><label class="form-label">Mobile</label><input class="form-input fi-light"
+                            value="+91 98765 43210"></div>
+                    <div class="form-group"><label class="form-label">Loan Amount</label><input
+                            class="form-input fi-light" placeholder="Enter amount"></div>
+                    <div class="form-group"><label class="form-label">Tenure (Months)</label><input
+                            class="form-input fi-light" placeholder="e.g. 36"></div>
+                </div>
+                <div class="form-group" style="margin-top:4px"><label class="form-label">Monthly Income</label><input
+                        class="form-input fi-light" placeholder="Your net monthly income"></div>
+                <div class="form-group"><label class="form-label">Purpose</label><input class="form-input fi-light"
+                        placeholder="e.g. Home renovation, Medical, Travel"></div>
+            </div>
+            <div style="padding:0 28px 26px;display:flex;gap:12px">
+                <button onclick="closeApply()" class="btn-secondary btn-sec-light">Cancel</button>
+                <button onclick="submitApply()" class="btn-primary-light" style="flex:1">Submit Application →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"
+        style="position:fixed;bottom:28px;right:28px;background:var(--navy);color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(11,29,58,0.3);transform:translateY(80px);transition:transform 0.3s;z-index:9999">
+        ✅ Application submitted!</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('get_user_data.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        window.location.href = '../Frontend/login.html';
+                    } else {
+                        const u = data.user;
+                        const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
+                        const initial = ((u.firstName || '?').charAt(0) + (u.lastName || '?').charAt(0)).toUpperCase();
+                        document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
+                        document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+                        document.querySelectorAll('.user-name-input').forEach(el => el.value = fullName.trim());
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
+        function filterProducts(cat, btn) {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+            document.querySelectorAll('.product-card').forEach(c => { c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none'; });
+        }
+        function openApply(name, rate, max, tenure) {
+            document.getElementById('modalProductName').textContent = 'Apply for ' + name;
+            document.getElementById('modalProductSub').textContent = `Rate from ${rate} · Up to ${max} · ${tenure} months`;
+            document.getElementById('applyModal').classList.add('open');
+        }
+        function closeApply() { document.getElementById('applyModal').classList.remove('open'); }
+        function submitApply() {
+            const data = {
+                loanType: document.getElementById('modalProductName').textContent.replace('Apply for ', ''),
+                amount: document.querySelector('.modal-box input[placeholder="Enter amount"]').value,
+                tenure: document.querySelector('.modal-box input[placeholder="e.g. 36"]').value,
+                purpose: document.querySelector('.modal-box input[placeholder*="e.g."]').value,
+                income: document.querySelector('.modal-box input[placeholder*="income"]').value,
+                employment: 'salaried', // Default if not in modal
+                fullName: document.querySelector('.user-name-input').value,
+                phone: document.querySelector('.modal-box input[value*="+91"]').value
+            };
+
+            fetch('apply_loan.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    showToast(res.message);
+                    closeApply();
+                } else {
+                    showToast(res.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showToast('An error occurred');
+            });
+        }
+        function showToast(msg) {
+            const t = document.getElementById('toast'); t.textContent = msg; t.style.transform = 'translateY(0)';
+            setTimeout(() => t.style.transform = 'translateY(80px)', 3000);
+        }
+        document.getElementById('applyModal').addEventListener('click', e => { if (e.target === document.getElementById('applyModal')) closeApply(); });
+    </script>
+</body>
+
+</html>

@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Company — FUNDBEE</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="Company.css">
 </head>
-
 <body>
 
   <!-- NAVBAR -->
@@ -32,8 +28,7 @@
       <div>
         <div class="hero-eyebrow">About FUNDBEE</div>
         <h1>Built on Trust,<br>Driven by <em>Purpose</em></h1>
-        <p>FUNDBEE Finance Limited is an RBI Registered NBFC on a mission to make credit accessible, transparent, and
-          human. We've been empowering Indians since 2014 — one loan at a time.</p>
+        <p>FUNDBEE Finance Limited is an RBI Registered NBFC on a mission to make credit accessible, transparent, and human. We've been empowering Indians since 2014 — one loan at a time.</p>
       </div>
       <div class="hero-right" id="stats-container">
         <!-- Stats injected via JS -->
@@ -52,11 +47,8 @@
     <div class="reveal">
       <div class="eyebrow">Our Mission</div>
       <h2 class="section-title">Finance That Works<br>for <em>Real People</em></h2>
-      <p class="body-text">We started FUNDBEE with one belief: that access to credit should not be a privilege. Millions
-        of Indians are underserved by traditional banks — we're here to change that with technology, empathy, and speed.
-      </p>
-      <p class="body-text">Our mission is to build India's most trusted digital lending platform — one that puts
-        customers first, maintains complete transparency, and delivers capital at the speed of life.</p>
+      <p class="body-text">We started FUNDBEE with one belief: that access to credit should not be a privilege. Millions of Indians are underserved by traditional banks — we're here to change that with technology, empathy, and speed.</p>
+      <p class="body-text">Our mission is to build India's most trusted digital lending platform — one that puts customers first, maintains complete transparency, and delivers capital at the speed of life.</p>
       <div class="values-list">
         <div class="value-item">
           <div class="value-icon">🎯</div>
@@ -88,8 +80,7 @@
     <div class="timeline-inner">
       <div class="timeline-header reveal">
         <div class="eyebrow">Our Journey</div>
-        <h2 class="section-title" style="color:var(--white)">A Decade of Making<br>Credit <em
-            style="color:var(--gold)">Accessible</em></h2>
+        <h2 class="section-title" style="color:var(--white)">A Decade of Making<br>Credit <em style="color:var(--gold)">Accessible</em></h2>
       </div>
       <div class="timeline" id="timeline-container">
         <!-- Timeline injected via JS -->
@@ -127,9 +118,8 @@
       <div class="reveal">
         <div class="eyebrow">Culture & Careers</div>
         <h2 class="section-title">Build the Future of<br>Finance With <em>Us</em></h2>
-        <p class="body-text">We're a team of 200+ builders, dreamers and problem-solvers working from Mumbai, Bengaluru
-          and Hyderabad. We believe in ownership, speed, and creating meaningful impact for every Indian borrower.</p>
-        <a href="#" class="open-roles-btn">View Open Roles →</a>
+        <p class="body-text">We're a team of 200+ builders, dreamers and problem-solvers working from Mumbai, Bengaluru and Hyderabad. We believe in ownership, speed, and creating meaningful impact for every Indian borrower.</p>
+        <a href="Careers.html" class="open-roles-btn">View Open Roles →</a>
       </div>
       <div class="culture-cards reveal">
         <div class="culture-card">
@@ -165,7 +155,7 @@
       </div>
       <div class="cta-btns">
         <a href="login.html" class="btn-white">Apply Now</a>
-        <a href="#" class="btn-ghost-white">Talk to Us</a>
+        <a href="#" class="btn-ghost-white" data-modal="expert">Talk to Us</a>
       </div>
     </div>
   </div>
@@ -175,23 +165,22 @@
     <div class="footer-top">
       <div class="footer-brand">
         <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
-        <p>FUNDBEE Finance Limited is an RBI Registered NBFC providing fast, secure, and flexible financial solutions to
-          individuals and businesses across India.</p>
+        <p>FUNDBEE Finance Limited is an RBI Registered NBFC providing fast, secure, and flexible financial solutions to individuals and businesses across India.</p>
         <div class="footer-reg">🏦 RBI Registered NBFC — Lic. No. N-14.03215</div>
       </div>
       <div class="footer-col">
         <h4>Products</h4>
-        <a href="products.html">Personal Loan</a>
-        <a href="products.html">Business Loan</a>
-        <a href="products.html">Home Loan</a>
-        <a href="products.html">Instant Loan</a>
+        <a href="Products.html">Personal Loan</a>
+        <a href="Products.html">Business Loan</a>
+        <a href="Products.html">Home Loan</a>
+        <a href="Products.html">Instant Loan</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
-        <a href="company.html">About Us</a>
+        <a href="Company.html">About Us</a>
         <a href="#">Knowledge Hub</a>
         <a href="#">Partner With Us</a>
-        <a href="#">Careers</a>
+        <a href="Careers.html">Careers</a>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
@@ -209,8 +198,42 @@
       </div>
     </div>
   </footer>
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="contact-modal" id="contactModal">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <div class="modal-header">
+      <h2 id="modalTitle">🚀 Apply Now</h2>
+      <p>Quick, paperless process. Get a decision within hours.</p>
+    </div>
+    <form id="contactForm" novalidate>
+      <input type="hidden" id="modalType" value="apply">
+      <div class="modal-body">
+        <div class="modal-input-group">
+          <input type="text" id="cName" placeholder="Full Name">
+          <span class="modal-err"></span>
+        </div>
+        <div class="modal-input-group">
+          <input type="email" id="cEmail" placeholder="Email Address">
+          <span class="modal-err"></span>
+        </div>
+        <div class="modal-input-group">
+          <input type="tel" id="cPhone" placeholder="Mobile Number">
+          <span class="modal-err"></span>
+        </div>
+        <div class="modal-input-group">
+          <textarea id="cMessage" placeholder="How can we help you? (Optional)" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="modal-submit-btn">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="index-toast" id="indexToast"></div>
+
   <script src="nav.js"></script>
+  <script src="style.js"></script>
   <script src="Company.js"></script>
 </body>
-
 </html>

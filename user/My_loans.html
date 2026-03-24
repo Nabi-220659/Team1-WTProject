@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Loans — FUNDBEE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0b1d3a; --navy-mid: #112249; --blue: #1a4fd6; --blue-light: #3b72f0;
+            --gold: #f5a623; --gold-light: #fdd068; --cream: #faf8f4; --cream-dark: #f0ece3;
+            --text: #1c2a3a; --muted: #6b7a8d; --white: #ffffff;
+            --green: #10b981; --green-light: #d1fae5; --red: #ef4444; --red-light: #fee2e2;
+            --border: rgba(26,79,214,0.1); --card-shadow: 0 4px 24px rgba(11,29,58,0.08);
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+        /* SIDEBAR */
+        .sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:var(--navy);display:flex;flex-direction:column;z-index:100;transition:transform .3s}
+        .sidebar-logo{padding:28px 28px 20px;font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:white;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,.06)}
+        .sidebar-logo span{color:var(--gold)}
+        .sidebar-user{padding:20px 28px;border-bottom:1px solid rgba(255,255,255,.06)}
+        .sidebar-user-name{color:white;font-weight:600;font-size:14px}
+        .sidebar-user-tag{display:inline-block;margin-top:4px;padding:3px 10px;border-radius:20px;background:rgba(245,166,35,.15);color:var(--gold);font-size:11px;font-weight:600}
+        .sidebar-nav{flex:1;padding:16px 0;overflow-y:auto}
+        .nav-section-label{padding:10px 28px 6px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25)}
+        .nav-item{display:flex;align-items:center;gap:12px;padding:11px 28px;cursor:pointer;color:rgba(255,255,255,.55);font-size:14px;font-weight:500;transition:all .2s;border-left:3px solid transparent;text-decoration:none}
+        .nav-item:hover{color:white;background:rgba(255,255,255,.05)}
+        .nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(245,166,35,.07)}
+        .nav-item-icon{font-size:16px;width:20px;text-align:center}
+        .sidebar-footer{padding:20px 28px;border-top:1px solid rgba(255,255,255,.06)}
+        .logout-btn{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:13px;cursor:pointer;transition:color .2s}
+        .logout-btn:hover{color:#fc8181}
+
+        /* MAIN */
+        .main{margin-left:240px;min-height:100vh;background:var(--cream)}
+        .topbar{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 40px;height:68px;display:flex;align-items:center;justify-content:space-between}
+        .topbar-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--navy)}
+        .topbar-right{display:flex;align-items:center;gap:16px}
+        .back-btn{display:flex;align-items:center;gap:6px;padding:8px 18px;border:1px solid var(--border);border-radius:8px;background:white;color:var(--navy);font-size:13px;font-weight:600;text-decoration:none;transition:all .2s}
+        .back-btn:hover{background:var(--navy);color:white;border-color:var(--navy)}
+        .avatar{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--navy);font-size:15px;cursor:pointer}
+
+        .content{padding:32px 40px}
+        .page-eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+        .page-heading{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--navy);margin-bottom:6px}
+        .page-heading em{font-style:italic;color:var(--blue)}
+        .page-sub{color:var(--muted);font-size:14px;margin-bottom:28px}
+
+        /* Summary bar */
+        .total-bar {
+            background: linear-gradient(130deg, var(--navy), #1a3a6e);
+            border-radius: 16px;
+            padding: 22px 28px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .total-item { text-align: center; }
+        .total-item-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: white; margin-bottom: 3px; }
+        .total-item-label { font-size: 11px; color: rgba(255, 255, 255, 0.45); text-transform: uppercase; letter-spacing: 1px; }
+        .total-divider { width: 1px; height: 40px; background: rgba(255, 255, 255, 0.1); }
+
+        /* Filter bar */
+        .filter-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }
+        .filter-tabs { display: flex; gap: 6px; }
+        .filter-tab { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: white; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+        .filter-tab.active, .filter-tab:hover { background: var(--navy); color: white; border-color: var(--navy); }
+        .search-wrap { position: relative; display: flex; align-items: center; }
+        .search-icon { position: absolute; left: 12px; font-size: 14px; }
+        .search-input { padding: 8px 14px 8px 34px; border-radius: 10px; border: 1px solid var(--border); outline: none; font-family: 'DM Sans', sans-serif; font-size: 13px; width: 220px; transition: border-color 0.2s; }
+        .search-input:focus { border-color: var(--blue); }
+
+        /* Loan Cards */
+        .loan-card {
+            background: white; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--card-shadow);
+            padding: 24px 26px; margin-bottom: 16px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+            align-items: center; gap: 20px; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .loan-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(11, 29, 58, 0.12); }
+        .loan-type-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; background: rgba(26, 79, 214, 0.1); }
+        .loan-name { font-weight: 700; font-size: 15px; color: var(--navy); }
+        .loan-id { font-size: 12px; color: var(--muted); margin-top: 3px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+        .progress-bg { background: var(--cream-dark); border-radius: 20px; height: 6px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 20px; transition: width 0.3s; }
+        .loan-meta-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .loan-meta-val { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--navy); }
+        .detail-btn { padding: 9px 20px; border-radius: 9px; border: 1px solid var(--border); background: white; color: var(--navy); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .detail-btn:hover { background: var(--navy); color: white; border-color: var(--navy); }
+
+        .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .pill-green { background: var(--green-light); color: var(--green); }
+        .pill-gold { background: rgba(245, 166, 35, 0.12); color: #d97706; }
+        .pill-gray { background: var(--cream-dark); color: var(--muted); }
+
+        .empty-state { text-align: center; padding: 60px; background: white; border-radius: 16px; border: 1px solid var(--border); }
+        .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+        /* Modal detail styles */
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,29,58,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.3s; }
+        .modal-backdrop.open { opacity: 1; pointer-events: all; }
+        .modal { background: white; width: 90%; max-width: 600px; border-radius: 20px; box-shadow: 0 20px 40px rgba(11,29,58,0.2); transform: translateY(20px); transition: transform 0.3s; max-height: 90vh; display: flex; flex-direction: column; }
+        .modal-backdrop.open .modal { transform: translateY(0); }
+        .modal-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; }
+        .modal-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); }
+        .modal-header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+        .modal-close { background: none; border: none; font-size: 20px; color: var(--muted); cursor: pointer; transition: color 0.2s; }
+        .modal-close:hover { color: var(--navy); }
+        .modal-body { padding: 24px; overflow-y: auto; flex: 1; }
+        .modal-footer { padding: 20px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 12px; }
+
+        .btn-primary { padding: 10px 24px; border-radius: 10px; background: linear-gradient(135deg, var(--navy), var(--navy-mid)); color: white; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-primary:hover { box-shadow: 0 8px 16px rgba(11,29,58,0.2); transform: translateY(-1px); }
+        .btn-secondary { padding: 10px 24px; border-radius: 10px; border: 1px solid var(--border); background: white; color: var(--navy); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+        .btn-secondary:hover { background: var(--cream-dark); }
+
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px; }
+        .detail-item { padding: 14px 16px; background: var(--cream); border-radius: 12px; }
+        .detail-item-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .detail-item-val { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy); }
+
+        .timeline { margin-top: 8px; }
+        .tl-item { display: flex; gap: 14px; padding-bottom: 18px; position: relative; }
+        .tl-item:last-child { padding-bottom: 0; }
+        .tl-item:not(:last-child)::after { content: ''; position: absolute; left: 9px; top: 20px; bottom: 0; width: 2px; background: var(--border); }
+        .tl-dot { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+        .tl-dot-green { background: var(--green); }
+        .tl-dot-gold { background: var(--gold); }
+        .tl-dot-gray { background: var(--cream-dark); border: 2px solid var(--border); }
+        .tl-content h5 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+        .tl-content p { font-size: 12px; color: var(--muted); }
+
+        @media(max-width:1100px) { .loan-card { grid-template-columns: 1fr 1fr 1fr; } }
+        @media(max-width:768px) {
+            .sidebar { transform: translateX(-100%); }
+            .main { margin-left: 0; }
+            .total-bar { flex-direction: column; gap: 16px; }
+            .total-divider { width: 100%; height: 1px; }
+            .loan-card { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name" id="sidebarName">Loading...</div>
+            <span class="sidebar-user-tag">Verified User</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item active" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
+            <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+            <div class="nav-section-label" style="margin-top:10px">Account</div>
+            <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+            <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+            <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+            <div class="nav-section-label" style="margin-top:10px">More</div>
+            <a class="nav-item" href="loan_products.html"><span class="nav-item-icon">💡</span> Loan Products</a>
+            <a class="nav-item" href="Knowledge_hub.html"><span class="nav-item-icon">📚</span> Knowledge Hub</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='logout.php'"><span>🚪</span> Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title">My Loans</div>
+            <div class="topbar-right">
+                <a href="user1.html" class="back-btn">← Dashboard</a>
+                <div class="avatar" id="avatarEl">?</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow">Loan Management</div>
+                <div class="page-heading">Your <em>Loans</em></div>
+                <div class="page-sub">Track all your active, pending and closed loans in one place.</div>
+            </div>
+
+            <div class="total-bar">
+                <div class="total-item">
+                    <div class="total-item-val" id="kpiTotalLoans">—</div>
+                    <div class="total-item-label">Total Loans</div>
+                </div>
+                <div class="total-divider"></div>
+                <div class="total-item">
+                    <div class="total-item-val" id="kpiBorrowed" style="color:var(--gold)">—</div>
+                    <div class="total-item-label">Total Borrowed</div>
+                </div>
+                <div class="total-divider"></div>
+                <div class="total-item">
+                    <div class="total-item-val" id="kpiRepaid" style="color:var(--green)">—</div>
+                    <div class="total-item-label">Total Repaid</div>
+                </div>
+                <div class="total-divider"></div>
+                <div class="total-item">
+                    <div class="total-item-val" id="kpiEmi" style="color:white">—</div>
+                    <div class="total-item-label">EMI Due</div>
+                </div>
+                <div class="total-divider"></div>
+                <div class="total-item">
+                    <div class="total-item-val" id="kpiOutstanding" style="color:#fc8181">—</div>
+                    <div class="total-item-label">Outstanding</div>
+                </div>
+            </div>
+
+            <div class="filter-bar">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterLoans('all',this)" id="tab-all">All</button>
+                    <button class="filter-tab" onclick="filterLoans('active',this)" id="tab-active">Active</button>
+                    <button class="filter-tab" onclick="filterLoans('pending',this)" id="tab-pending">Pending</button>
+                    <button class="filter-tab" onclick="filterLoans('closed',this)" id="tab-closed">Closed</button>
+                </div>
+                <div class="search-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input class="search-input" placeholder="Search loans..." oninput="searchLoans(this.value)">
+                </div>
+            </div>
+
+            <div id="loanList">
+                <div class="empty-state">
+                    <div class="empty-icon">⏳</div>
+                    <p>Loading your loans...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- LOAN DETAIL MODAL -->
+    <div class="modal-backdrop" id="detailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h3 id="modalTitle">Loan Details</h3>
+                    <p id="modalId">#ID</p>
+                </div>
+                <button class="modal-close" onclick="closeDetail()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalStatus" style="margin-bottom:16px"></div>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-item-label">Principal Amount</div>
+                        <div class="detail-item-val" id="dAmt">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Monthly EMI</div>
+                        <div class="detail-item-val" id="dEmi">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Interest Rate</div>
+                        <div class="detail-item-val" id="dRate">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Tenure</div>
+                        <div class="detail-item-val" id="dTenure">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Outstanding</div>
+                        <div class="detail-item-val" id="dOutstanding" style="color:var(--red)">—</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Next EMI Due</div>
+                        <div class="detail-item-val" id="dNext">—</div>
+                    </div>
+                </div>
+                <div style="margin-bottom:16px">
+                    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px">
+                        <span>Repayment Progress</span><span id="dProgress">0%</span>
+                    </div>
+                    <div class="progress-bg" style="height:10px">
+                        <div class="progress-fill" id="dBar" style="width:0%;background:var(--green)"></div>
+                    </div>
+                </div>
+                <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:14px">
+                    Loan Timeline
+                </div>
+                <div class="timeline" id="modalTimeline"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeDetail()">Close</button>
+                <button class="btn-primary" id="modalActionBtn">Take Action</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const LOAN_ICONS = {
+            'Personal Loan':  '👤',
+            'Home Loan':      '🏠',
+            'Business Loan':  '💼',
+            'Education Loan': '🎓',
+            'Vehicle Loan':   '🚗',
+            'Instant Loan':   '⚡'
+        };
+
+        const STATUS_MAP = {
+            active:  { label: 'Active', badge: 'pill-green', color: 'var(--green)' },
+            pending: { label: 'Under Review', badge: 'pill-gold', color: 'var(--gold)' },
+            closed:  { label: 'Closed', badge: 'pill-gray', color: 'var(--muted)' }
+        };
+
+        let allLoans = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('get_user_data.php')
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.loggedIn) { window.location.href = '../Frontend/login.html'; return; }
+                    
+                    const user = data.user;
+                    const fullName = (user.firstName + ' ' + user.lastName).trim();
+                    const initial = ((user.firstName || '?')[0] + (user.lastName || '?')[0]).toUpperCase();
+                    document.getElementById('sidebarName').textContent = fullName;
+                    document.getElementById('avatarEl').textContent = initial;
+                    // Also update any other avatar/name placeholders if they exist
+                    document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName);
+                    document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+
+                    const s = data.stats;
+                    document.getElementById('kpiTotalLoans').textContent = s.total_loans;
+                    document.getElementById('kpiBorrowed').textContent = s.total_borrowed;
+                    document.getElementById('kpiRepaid').textContent = s.total_repaid;
+                    document.getElementById('kpiEmi').textContent = s.emi_due;
+                    document.getElementById('kpiOutstanding').textContent = s.outstanding;
+
+                    document.getElementById('tab-all').textContent = `All (${s.total_loans})`;
+                    document.getElementById('tab-active').textContent = `Active (${s.active_loans})`;
+                    document.getElementById('tab-pending').textContent = `Pending (${s.pending_loans})`;
+                    document.getElementById('tab-closed').textContent = `Closed (${s.total_loans - s.active_loans - s.pending_loans})`;
+
+                    allLoans = data.loans || [];
+                    renderLoans(allLoans);
+
+                    // Auto-open requested loan from URL via View Details on Dashboard
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const loanId = urlParams.get('loan');
+                    if (loanId) {
+                        const target = allLoans.find(l => l.loan_id === loanId);
+                        if (target) openDetail(target.loan_id);
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
+        function renderLoans(loans) {
+            const list = document.getElementById('loanList');
+            if (!loans.length) {
+                list.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>No loans found.</p></div>`;
+                return;
+            }
+
+            list.innerHTML = loans.map(loan => {
+                const icon = LOAN_ICONS[loan.loan_type] || '💼';
+                const st = STATUS_MAP[loan.status];
+                const btnLabel = loan.status === 'active' ? 'View Details' : loan.status === 'pending' ? 'Track Status' : 'Download NOC';
+
+                return `<div class="loan-card" data-status="${loan.status}" data-name="${loan.loan_type.toLowerCase()}">
+                    <div style="display:flex;gap:14px;align-items:center">
+                        <div class="loan-type-icon ${st.badge}">${icon}</div>
+                        <div>
+                            <div class="loan-name">${loan.loan_type}</div>
+                            <div class="loan-id">#${loan.loan_id}</div>
+                            <div style="margin-top:6px">
+                                <div class="progress-label">
+                                    <span>${loan.status === 'pending' ? 'Verification' : 'Repaid ' + loan.repaid_str}</span>
+                                    <span>${loan.progress}%</span>
+                                </div>
+                                <div class="progress-bg" style="height:6px">
+                                    <div class="progress-fill" style="width:${loan.progress}%;background:${st.color}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div><div class="loan-meta-label">Amount</div><div class="loan-meta-val">${loan.amount_str}</div></div>
+                    <div><div class="loan-meta-label">EMI</div><div class="loan-meta-val">${loan.emi_str}</div></div>
+                    <div><div class="loan-meta-label">Rate</div><div class="loan-meta-val">${loan.rate}</div></div>
+                    <div><span class="pill ${st.badge}">${st.label}</span></div>
+                    <button class="detail-btn" onclick="openDetail('${loan.loan_id}')">${btnLabel}</button>
+                </div>`;
+            }).join('');
+        }
+
+        function filterLoans(status, btn) {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filtered = status === 'all' ? allLoans : allLoans.filter(l => l.status === status);
+            renderLoans(filtered);
+        }
+
+        function searchLoans(val) {
+            const v = val.toLowerCase();
+            const filtered = allLoans.filter(l => l.loan_type.toLowerCase().includes(v) || l.loan_id.toLowerCase().includes(v));
+            renderLoans(filtered);
+        }
+
+        function openDetail(loanId) {
+            const d = allLoans.find(l => l.loan_id === loanId);
+            if (!d) return;
+
+            const st = STATUS_MAP[d.status];
+            document.getElementById('modalTitle').textContent = d.loan_type;
+            document.getElementById('modalId').textContent = '#' + d.loan_id;
+            document.getElementById('modalStatus').innerHTML = `<span class="pill ${st.badge}">${st.label}</span>`;
+            
+            document.getElementById('dAmt').textContent = d.amount_str;
+            document.getElementById('dEmi').textContent = d.emi_str;
+            document.getElementById('dRate').textContent = d.rate;
+            document.getElementById('dTenure').textContent = d.tenure;
+            document.getElementById('dOutstanding').textContent = d.outstanding;
+            document.getElementById('dNext').textContent = d.next_due;
+            
+            document.getElementById('dProgress').textContent = d.progress + '%';
+            document.getElementById('dBar').style.width = d.progress + '%';
+            document.getElementById('dBar').style.background = st.color;
+
+            let actionBtn = document.getElementById('modalActionBtn');
+            if (d.status === 'active') actionBtn.textContent = 'Pay EMI Now';
+            else if (d.status === 'pending') actionBtn.textContent = 'Upload Documents';
+            else actionBtn.textContent = 'Download NOC';
+
+            const tl = d.timeline.map(t => `
+                <div class="tl-item">
+                    <div class="tl-dot tl-dot-${t.dot}"></div>
+                    <div class="tl-content"><h5>${t.title}</h5><p>${t.date} — ${t.note}</p></div>
+                </div>
+            `).join('');
+            document.getElementById('modalTimeline').innerHTML = tl;
+
+            document.getElementById('detailModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetail() { 
+            document.getElementById('detailModal').classList.remove('open'); 
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+</html>

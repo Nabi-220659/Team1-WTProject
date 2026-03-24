@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Schedule — FUNDBEE</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        /* TOP BAR */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(250, 248, 244, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 40px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .apply-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25);
+        }
+
+        .notif-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .notif-btn:hover {
+            border-color: var(--gold);
+        }
+
+        .notif-dot {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .page-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+        }
+
+        /* Calendar */
+        .cal-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .cal-header {
+            padding: 22px 24px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cal-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cal-nav-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .cal-nav-btn:hover {
+            background: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+
+        .cal-month {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .cal-grid {
+            padding: 16px 20px 20px;
+        }
+
+        .cal-days-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            margin-bottom: 10px;
+        }
+
+        .cal-day-lbl {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px;
+        }
+
+        .cal-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .cal-day {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .cal-day:hover {
+            background: var(--cream-dark);
+        }
+
+        .cal-day.other-month {
+            color: rgba(107, 122, 141, 0.3);
+        }
+
+        .cal-day.today {
+            background: var(--navy);
+            color: white;
+            font-weight: 700;
+        }
+
+        .cal-day.has-emi::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .cal-day.emi-due::after {
+            background: var(--gold);
+        }
+
+        .cal-day.emi-paid::after {
+            background: var(--green);
+        }
+
+        .cal-day.emi-overdue::after {
+            background: var(--red);
+        }
+
+        /* Schedule list */
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(11, 29, 58, 0.05);
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .si-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .si-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        .si-icon-gold {
+            background: rgba(245, 166, 35, 0.1);
+        }
+
+        .si-icon-green {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .si-icon-gray {
+            background: var(--cream-dark);
+        }
+
+        .si-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        .si-date {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .si-right {
+            text-align: right;
+        }
+
+        .si-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        /* Sidebar stats */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            padding: 22px 24px;
+            margin-bottom: 20px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(11, 29, 58, 0.05);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .stat-val {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        .pay-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25);
+        }
+
+        .legend {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Success toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--navy);
+            color: white;
+            padding: 14px 22px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(11, 29, 58, 0.3);
+            transform: translateY(80px);
+            transition: transform 0.3s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar sidebar-light">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Arjun Sharma</div><span class="sidebar-user-tag tag-gold">Verified
+                User</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span
+                    class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
+            <a class="nav-item active-gold" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI
+                Schedule</a>
+            <div class="nav-section-label" style="margin-top:10px">Account</div>
+            <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+            <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+            <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+            <div class="nav-section-label" style="margin-top:10px">More</div>
+            <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
+            <a class="nav-item" href="advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar topbar-light">
+            <div class="topbar-title topbar-title-light">EMI Schedule</div>
+            <div class="topbar-right">
+                <a href="user1.html" class="apply-btn" style="text-decoration:none">← Dashboard</a>
+                <a href="notifications.html" style="text-decoration:none" class="notif-btn">🔔<div class="notif-dot">
+                    </div></a>
+                <a href="user_settings.html" style="text-decoration:none">
+                    <div class="avatar">{{ session.user.initials }}</div>
+                </a>
+            </div>
+        </div>
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-gold">Repayment Schedule</div>
+                <div class="page-heading page-heading-light">Your <em>EMI Calendar</em></div>
+                <div class="page-sub">Stay ahead of your payments — never miss an EMI.</div>
+            </div>
+
+            <div class="page-grid">
+                <!-- Left: Calendar + list -->
+                <div>
+                    <div class="cal-card" style="margin-bottom:24px">
+                        <div class="cal-header">
+                            <div class="cal-nav">
+                                <button class="cal-nav-btn" onclick="changeMonth(-1)">‹</button>
+                                <div class="cal-month" id="calMonth">April 2026</div>
+                                <button class="cal-nav-btn" onclick="changeMonth(1)">›</button>
+                            </div>
+                            <div class="legend">
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:var(--gold)"></div>Due
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:var(--green)"></div>Paid
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:var(--red)"></div>Overdue
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cal-grid">
+                            <div class="cal-days-header">
+                                <div class="cal-day-lbl">Sun</div>
+                                <div class="cal-day-lbl">Mon</div>
+                                <div class="cal-day-lbl">Tue</div>
+                                <div class="cal-day-lbl">Wed</div>
+                                <div class="cal-day-lbl">Thu</div>
+                                <div class="cal-day-lbl">Fri</div>
+                                <div class="cal-day-lbl">Sat</div>
+                            </div>
+                            <div class="cal-days" id="calDays"></div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming EMIs -->
+                    <div class="cal-card">
+                        <div
+                            style="padding:22px 24px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+                            <div
+                                style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy)">
+                                Upcoming EMIs</div>
+                            <div class="filter-tabs">
+                                <button class="filter-tab ft-light active" onclick="filterEmi('all',this)">All</button>
+                                <button class="filter-tab ft-light" onclick="filterEmi('due',this)">Due</button>
+                                <button class="filter-tab ft-light" onclick="filterEmi('paid',this)">Paid</button>
+                            </div>
+                        </div>
+                        <div style="padding:4px 24px 16px" id="emiList">
+                            <div class="schedule-item" data-type="due">
+                                <div class="si-left">
+                                    <div class="si-icon si-icon-gold">🏠</div>
+                                    <div>
+                                        <div class="si-name">Home Loan EMI</div>
+                                        <div class="si-date">Due: Apr 01, 2026 · #FB-20189</div>
+                                    </div>
+                                </div>
+                                <div class="si-right">
+                                    <div class="si-amount">₹6,800</div><span class="pill pill-gold"
+                                        style="margin-top:4px;display:block">Due in 11d</span>
+                                </div>
+                            </div>
+                            <div class="schedule-item" data-type="due">
+                                <div class="si-left">
+                                    <div class="si-icon si-icon-gold">👤</div>
+                                    <div>
+                                        <div class="si-name">Personal Loan EMI</div>
+                                        <div class="si-date">Due: Apr 05, 2026 · #FB-20241</div>
+                                    </div>
+                                </div>
+                                <div class="si-right">
+                                    <div class="si-amount">₹5,200</div><span class="pill pill-gold"
+                                        style="margin-top:4px;display:block">Due in 15d</span>
+                                </div>
+                            </div>
+                            <div class="schedule-item" data-type="paid">
+                                <div class="si-left">
+                                    <div class="si-icon si-icon-green">🏠</div>
+                                    <div>
+                                        <div class="si-name">Home Loan EMI</div>
+                                        <div class="si-date">Paid: Mar 01, 2026 · #FB-20189</div>
+                                    </div>
+                                </div>
+                                <div class="si-right">
+                                    <div class="si-amount">₹6,800</div><span class="pill pill-green"
+                                        style="margin-top:4px;display:block">✓ Paid</span>
+                                </div>
+                            </div>
+                            <div class="schedule-item" data-type="paid">
+                                <div class="si-left">
+                                    <div class="si-icon si-icon-green">👤</div>
+                                    <div>
+                                        <div class="si-name">Personal Loan EMI</div>
+                                        <div class="si-date">Paid: Mar 05, 2026 · #FB-20241</div>
+                                    </div>
+                                </div>
+                                <div class="si-right">
+                                    <div class="si-amount">₹5,200</div><span class="pill pill-green"
+                                        style="margin-top:4px;display:block">✓ Paid</span>
+                                </div>
+                            </div>
+                            <div class="schedule-item" data-type="paid">
+                                <div class="si-left">
+                                    <div class="si-icon si-icon-gray">👤</div>
+                                    <div>
+                                        <div class="si-name">Personal Loan EMI</div>
+                                        <div class="si-date">Paid: Feb 05, 2026 · #FB-20241</div>
+                                    </div>
+                                </div>
+                                <div class="si-right">
+                                    <div class="si-amount">₹5,200</div><span class="pill pill-green"
+                                        style="margin-top:4px;display:block">✓ Paid</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Stats + Pay -->
+                <div>
+                    <div class="stat-card">
+                        <div
+                            style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px">
+                            This Month Summary</div>
+                        <div class="stat-row"><span class="stat-label">Total Due</span><span
+                                class="stat-val">₹12,000</span></div>
+                        <div class="stat-row"><span class="stat-label">Total Paid</span><span class="stat-val"
+                                style="color:var(--green)">₹0</span></div>
+                        <div class="stat-row"><span class="stat-label">Remaining</span><span class="stat-val"
+                                style="color:var(--red)">₹12,000</span></div>
+                        <div class="stat-row"><span class="stat-label">EMIs Count</span><span class="stat-val">2
+                                EMIs</span></div>
+                        <div style="margin-top:16px">
+                            <div
+                                style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px">
+                                <span>Payment Progress</span><span>0%</span>
+                            </div>
+                            <div class="progress-bg pb-light" style="height:8px">
+                                <div class="progress-fill" style="width:0%;background:var(--green)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div
+                            style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px">
+                            Quick Pay</div>
+                        <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Pay all due EMIs in one click.
+                            Auto-debit from your linked account.</p>
+                        <button class="pay-btn" onclick="payAll()">Pay All EMIs — ₹12,000</button>
+                        <div style="margin-top:14px;padding:12px;background:var(--cream);border-radius:10px">
+                            <div style="font-size:12px;color:var(--muted)">Linked Account</div>
+                            <div style="font-size:14px;font-weight:600;color:var(--navy);margin-top:3px">HDFC Bank
+                                ****4821</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div
+                            style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px">
+                            Repayment Score</div>
+                        <div style="text-align:center;padding:10px 0">
+                            <div
+                                style="font-family:'Playfair Display',serif;font-size:42px;font-weight:900;color:var(--green)">
+                                98%</div>
+                            <div style="font-size:13px;color:var(--muted)">On-time payment rate</div>
+                            <span class="pill pill-green" style="margin-top:10px;display:inline-block">Excellent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast">✅ Payment initiated! Processing within 2 hours.</div>
+
+    <script>
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let loanData = null;
+
+        const LOAN_ICONS = {
+            'Personal Loan': '👤',
+            'Home Loan': '🏠',
+            'Business Loan': '💼',
+            'Education Loan': '🎓',
+            'Vehicle Loan': '🚗',
+            'Instant Loan': '⚡'
+        };
+
+        function renderCal() {
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('calMonth').textContent = `${months[currentMonth]} ${currentYear}`;
+            const first = new Date(currentYear, currentMonth, 1).getDay();
+            const days = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const prevDays = new Date(currentYear, currentMonth, 0).getDate();
+
+            const today = new Date();
+            const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+
+            let html = '';
+            for (let i = 0; i < first; i++) html += `<div class="cal-day other-month">${prevDays - first + i + 1}</div>`;
+
+            // Map EMIs for the current view
+            const emiMap = {};
+            if (loanData && loanData.loans) {
+                loanData.loans.forEach(loan => {
+                    if (loan.status === 'active' && loan.next_due) {
+                        const dueDate = new Date(loan.next_due);
+                        if (dueDate.getMonth() === currentMonth && dueDate.getFullYear() === currentYear) {
+                            emiMap[dueDate.getDate()] = 'due';
+                        }
+                    }
+                });
+            }
+
+            for (let d = 1; d <= days; d++) {
+                let cls = 'cal-day';
+                if (isCurrentMonth && d === today.getDate()) cls += ' today';
+                if (emiMap[d]) cls += ` has-emi emi-${emiMap[d]}`;
+                html += `<div class="${cls}">${d}</div>`;
+            }
+            document.getElementById('calDays').innerHTML = html;
+        }
+
+        function renderSchedule(data) {
+            loanData = data;
+
+            // Sidebar & Header
+            const fullName = (data.user.firstName || '') + ' ' + (data.user.lastName || '');
+            const initial = ((data.user.firstName || '?').charAt(0) + (data.user.lastName || '?').charAt(0)).toUpperCase();
+            document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
+            document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+
+            // Upcoming EMIs list
+            const emiListEl = document.getElementById('emiList');
+            if (data.loans && data.loans.length > 0) {
+                const activeLoans = data.loans.filter(l => l.status === 'active');
+                if (activeLoans.length === 0) {
+                    emiListEl.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">No active loans found.</div>';
+                } else {
+                    emiListEl.innerHTML = activeLoans.map(loan => {
+                        const icon = LOAN_ICONS[loan.loan_type] || '📄';
+                        return `
+                            <div class="schedule-item" data-type="due">
+                                <div class="si-left">
+                                    <div class="si-icon si-icon-gold">${icon}</div>
+                                    <div>
+                                        <div class="si-name">${loan.loan_type} EMI</div>
+                                        <div class="si-date">Due: ${loan.next_due} · #${loan.loan_id}</div>
+                                    </div>
+                                </div>
+                                <div class="si-right">
+                                    <div class="si-amount">₹${Number(loan.emi).toLocaleString('en-IN')}</div>
+                                    <span class="pill pill-gold" style="margin-top:4px;display:block">Upcoming</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } else {
+                emiListEl.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">Apply for a loan to see your schedule.</div>';
+            }
+
+            // Summary
+            const totalDue = data.stats.emi_due || '₹0';
+            document.querySelector('.stat-row .stat-val').textContent = totalDue;
+            // Simplified remaining
+            document.querySelectorAll('.stat-row .stat-val')[2].textContent = totalDue;
+            document.querySelectorAll('.stat-row .stat-val')[3].textContent = (data.loans.filter(l => l.status === 'active').length) + ' EMIs';
+
+            const payBtn = document.querySelector('.pay-btn');
+            if (payBtn) payBtn.textContent = `Pay All EMIs — ${totalDue}`;
+
+            renderCal();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('get_user_data.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        window.location.href = '../Frontend/login.html';
+                    } else {
+                        renderSchedule(data);
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
+        function changeMonth(d) {
+            currentMonth += d;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCal();
+        }
+
+        function filterEmi(type, btn) {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.schedule-item').forEach(item => {
+                item.style.display = (type === 'all' || item.dataset.type === type) ? '' : 'none';
+            });
+        }
+        function payAll() {
+            const t = document.getElementById('toast');
+            if (t) {
+                t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 3000);
+            }
+        }
+    </script>
+</body>
+
+</html>

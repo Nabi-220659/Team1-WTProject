@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Advisor — FUNDBEE</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .advisor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .advisor-card {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            padding: 28px;
+        }
+
+        .advisor-profile {
+            text-align: center;
+            padding: 10px 0 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .advisor-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: white;
+            margin: 0 auto 12px;
+        }
+
+        .advisor-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .advisor-title {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .advisor-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .contact-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(11, 29, 58, 0.05);
+        }
+
+        .contact-option:last-child {
+            border-bottom: none;
+        }
+
+        .co-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .co-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .co-type {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--navy);
+        }
+
+        .co-detail {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .contact-btn {
+            padding: 9px 18px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .contact-btn:hover {
+            background: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+
+        .slot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .slot {
+            padding: 10px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: white;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--navy);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .slot:hover,
+        .slot.sel {
+            background: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+
+        .slot.taken {
+            background: var(--cream-dark);
+            color: var(--muted);
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .chat-box {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-avatar-sm {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+
+        .chat-messages {
+            padding: 20px 22px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .msg {
+            max-width: 80%;
+        }
+
+        .msg-advisor {
+            align-self: flex-start;
+        }
+
+        .msg-user {
+            align-self: flex-end;
+        }
+
+        .msg-bubble {
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .mb-advisor {
+            background: var(--cream-dark);
+            color: var(--navy);
+            border-bottom-left-radius: 4px;
+        }
+
+        .mb-user {
+            background: var(--navy);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .msg-time {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            padding: 16px 22px;
+            border-top: 1px solid var(--border);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+        }
+
+        .chat-input input:focus {
+            border-color: var(--navy);
+        }
+
+        .send-btn {
+            padding: 11px 18px;
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch user data and update placeholders
+            fetch('get_user_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.user) {
+                        // Update sidebar user name
+                        const sidebarUserName = document.querySelector('.sidebar-user-name');
+                        if (sidebarUserName) {
+                            sidebarUserName.textContent = data.user.name;
+                        }
+
+                        // Update chat message user first name
+                        const userFnameSpans = document.querySelectorAll('.user-fname');
+                        userFnameSpans.forEach(span => {
+                            span.textContent = data.user.firstName;
+                        });
+                    } else {
+                        console.error('Failed to fetch user data:', data.message);
+                        // Optionally, keep "Loading..." or set a default name
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    // Optionally, keep "Loading..." or set a default name
+                });
+
+            // Slot selection logic
+            window.selSlot = function (selectedSlot) {
+                const slots = document.querySelectorAll('.slot');
+                slots.forEach(slot => {
+                    if (slot.classList.contains('sel')) {
+                        slot.classList.remove('sel');
+                    }
+                });
+                if (!selectedSlot.classList.contains('taken')) {
+                    selectedSlot.classList.add('sel');
+                }
+            };
+
+            // Toast notification logic
+            let toastTimeout;
+            window.toast = function (message) {
+                const toastEl = document.getElementById('toastEl');
+                toastEl.textContent = message;
+                toastEl.style.transform = 'translateY(0)';
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toastEl.style.transform = 'translateY(80px)';
+                }, 3000);
+            };
+
+            // Chat message sending logic
+            window.sendMsg = function () {
+                const chatInput = document.getElementById('chatInput');
+                const chatMessages = document.getElementById('chatMessages');
+                const messageText = chatInput.value.trim();
+
+                if (messageText) {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    const newMessageDiv = document.createElement('div');
+                    newMessageDiv.classList.add('msg', 'msg-user');
+                    newMessageDiv.innerHTML = `
+                        <div class="msg-bubble mb-user">${messageText}</div>
+                        <div class="msg-time">${timeString}</div>
+                    `;
+                    chatMessages.appendChild(newMessageDiv);
+                    chatInput.value = '';
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+                }
+            };
+
+            // FAQ toggle logic
+            window.toggleFaq = function (header) {
+                const answer = header.nextElementSibling;
+                const plusSign = header.querySelector('span');
+                if (answer.style.display === 'none' || answer.style.display === '') {
+                    answer.style.display = 'block';
+                    plusSign.textContent = '−'; // Minus sign
+                } else {
+                    answer.style.display = 'none';
+                    plusSign.textContent = '+';
+                }
+            };
+        });
+    </script>
+    <aside class="sidebar sidebar-light">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified
+                User</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+      <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
+      <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+      <div class="nav-section-label" style="margin-top:10px">Account</div>
+      <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+      <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+      <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+            <div class="nav-section-label" style="margin-top:10px">More</div>
+            <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
+            <a class="nav-item active-gold" href="advisor.html"><span class="nav-item-icon">📞</span> Contact
+                Advisor</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar topbar-light">
+            <div class="topbar-title topbar-title-light">Contact Advisor</div>
+            <div class="topbar-right">
+                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
+                <div class="avatar avatar-gold">?</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-gold">Support & Advisory</div>
+                <div class="page-heading page-heading-light">Talk to Your <em>Advisor</em></div>
+                <div class="page-sub">Your dedicated relationship manager is here to help.</div>
+            </div>
+
+            <div class="advisor-grid">
+                <!-- Advisor details + booking -->
+                <div>
+                    <div class="advisor-card" style="margin-bottom:20px">
+                        <div class="advisor-profile">
+                            <div class="advisor-avatar">RK</div>
+                            <div class="advisor-name">Riya Kapoor</div>
+                            <div class="advisor-title">Senior Loan Advisor · FUNDBEE</div>
+                            <div class="advisor-badge">🟢 Online Now</div>
+                        </div>
+                        <div class="contact-option">
+                            <div class="co-left">
+                                <div class="co-icon" style="background:rgba(26,79,214,0.1)">📞</div>
+                                <div>
+                                    <div class="co-type">Phone Call</div>
+                                    <div class="co-detail">+91 98001 12345 · Mon–Sat 9am–6pm</div>
+                                </div>
+                            </div>
+                            <button class="contact-btn" onclick="toast('Calling +91 98001 12345...')">Call Now</button>
+                        </div>
+                        <div class="contact-option">
+                            <div class="co-left">
+                                <div class="co-icon" style="background:rgba(16,185,129,0.1)">💬</div>
+                                <div>
+                                    <div class="co-type">WhatsApp</div>
+                                    <div class="co-detail">Instant reply · Usually within 1 hour</div>
+                                </div>
+                            </div>
+                            <button class="contact-btn" onclick="toast('Opening WhatsApp...')">Open Chat</button>
+                        </div>
+                        <div class="contact-option">
+                            <div class="co-left">
+                                <div class="co-icon" style="background:rgba(245,166,35,0.1)">📧</div>
+                                <div>
+                                    <div class="co-type">Email</div>
+                                    <div class="co-detail">riya.k@fundbee.in</div>
+                                </div>
+                            </div>
+                            <button class="contact-btn" onclick="toast('Email client opened')">Send Email</button>
+                        </div>
+                        <div class="contact-option">
+                            <div class="co-left">
+                                <div class="co-icon" style="background:rgba(239,68,68,0.08)">📹</div>
+                                <div>
+                                    <div class="co-type">Video Call</div>
+                                    <div class="co-detail">Schedule a 30-min session</div>
+                                </div>
+                            </div>
+                            <button class="contact-btn" onclick="toast('Video call scheduled!')">Schedule</button>
+                        </div>
+                    </div>
+
+                    <!-- Book a slot -->
+                    <div class="advisor-card">
+                        <div
+                            style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:4px">
+                            Book a Callback</div>
+                        <div style="font-size:13px;color:var(--muted);margin-bottom:18px">Pick a convenient slot for
+                            tomorrow, Mar 22</div>
+                        <div class="slot-grid">
+                            <div class="slot" onclick="selSlot(this)">9:00 AM</div>
+                            <div class="slot taken">9:30 AM</div>
+                            <div class="slot" onclick="selSlot(this)">10:00 AM</div>
+                            <div class="slot" onclick="selSlot(this)">10:30 AM</div>
+                            <div class="slot taken">11:00 AM</div>
+                            <div class="slot" onclick="selSlot(this)">11:30 AM</div>
+                            <div class="slot" onclick="selSlot(this)">2:00 PM</div>
+                            <div class="slot" onclick="selSlot(this)">2:30 PM</div>
+                            <div class="slot taken">3:00 PM</div>
+                        </div>
+                        <button class="btn-primary-light" style="width:100%;margin-top:18px"
+                            onclick="toast('Callback booked! You\'ll receive a confirmation SMS.')">Confirm
+                            Booking</button>
+                    </div>
+                </div>
+
+                <!-- Chat -->
+                <div>
+                    <div class="chat-box">
+                        <div class="chat-header">
+                            <div class="chat-avatar-sm">RK</div>
+                            <div style="flex:1">
+                                <div style="font-weight:600;font-size:14px;color:var(--navy)">Riya Kapoor</div>
+                                <div style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px">
+                                    <div class="online-dot"></div>Online · Replies instantly
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="msg msg-advisor">
+                                <div class="msg-bubble mb-advisor">Hello <span class="user-fname"></span>! 👋 I'm Riya, your dedicated loan advisor
+                                    at FUNDBEE. How can I assist you today?</div>
+                                <div class="msg-time">10:02 AM</div>
+                            </div>
+                            <div class="msg msg-user">
+                                <div class="msg-bubble mb-user">Hi Riya! I wanted to ask about my Business Loan
+                                    application status.</div>
+                                <div class="msg-time">10:03 AM</div>
+                            </div>
+                            <div class="msg msg-advisor">
+                                <div class="msg-bubble mb-advisor">Sure! Your application #FB-20312 is currently in the
+                                    credit assessment stage. The team is reviewing your income documents. Could you
+                                    upload your last 2 years' IT Returns to speed things up?</div>
+                                <div class="msg-time">10:04 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Type your message..."
+                                onkeypress="if(event.key==='Enter')sendMsg()">
+                            <button class="send-btn" onclick="sendMsg()">Send</button>
+                        </div>
+                    </div>
+
+                    <!-- FAQ -->
+                    <div style="margin-top:20px">
+                        <div
+                            style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px">
+                            Common Questions</div>
+                        <div id="faqList">
+                            <div class="faq-item"
+                                style="background:white;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden">
+                                <div style="padding:14px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:14px;font-weight:600;color:var(--navy)"
+                                    onclick="toggleFaq(this)">How do I increase my loan limit? <span>+</span></div>
+                                <div
+                                    style="display:none;padding:0 18px 14px;font-size:13px;color:var(--muted);line-height:1.6">
+                                    Maintain consistent EMI payments for 6+ months, improve your CIBIL score, and ensure
+                                    your income documents are up to date. You can request a limit review from your
+                                    dashboard.</div>
+                            </div>
+                            <div class="faq-item"
+                                style="background:white;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden">
+                                <div style="padding:14px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:14px;font-weight:600;color:var(--navy)"
+                                    onclick="toggleFaq(this)">Can I prepay my loan early? <span>+</span></div>
+                                <div
+                                    style="display:none;padding:0 18px 14px;font-size:13px;color:var(--muted);line-height:1.6">
+                                    Yes! Partial or full prepayment is allowed after 6 months. A minimal prepayment
+                                    charge of 2% applies. Contact your advisor to initiate the process.</div>
+                            </div>
+                            <div class="faq-item"
+                                style="background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden">
+                                <div style="padding:14px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:14px;font-weight:600;color:var(--navy)"
+                                    onclick="toggleFaq(this)">What happens if I miss an EMI? <span>+</span></div>
+                                <div
+                                    style="display:none;padding:0 18px 14px;font-size:13px;color:var(--muted);line-height:1.6">
+                                    A late payment fee applies and it may affect your credit score. Please contact us
+                                    immediately if you anticipate a payment issue — we can explore restructuring
+                                    options.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toastEl"
+        style="position:fixed;bottom:30px;right:30px;background:var(--navy);color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(11,29,58,0.3);transform:translateY(80px);transition:transform 0.3s;z-index:999">
+        Done!</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('get_user_data.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        window.location.href = '../Frontend/login.html';
+                    } else {
+                        const u = data.user;
+                        const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
+                        const initial = ((u.firstName || '?').charAt(0) + (u.lastName || '?').charAt(0)).toUpperCase();
+                        document.querySelectorAll('.sidebar-user-name, .user-name-placeholder').forEach(el => el.textContent = fullName.trim());
+                        document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+                        document.querySelectorAll('.user-fname').forEach(el => el.textContent = u.firstName || 'User');
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
+        function selSlot(el) { document.querySelectorAll('.slot:not(.taken)').forEach(s => s.classList.remove('sel')); el.classList.add('sel'); }
+        function toast(msg) { const t = document.getElementById('toastEl'); t.textContent = msg; t.style.transform = 'translateY(0)'; setTimeout(() => t.style.transform = 'translateY(80px)', 3000); }
+        function sendMsg() {
+            const inp = document.getElementById('chatInput');
+            const val = inp.value.trim(); if (!val) return;
+            const msgs = document.getElementById('chatMessages');
+            const now = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            msgs.innerHTML += `<div class="msg msg-user"><div class="msg-bubble mb-user">${val}</div><div class="msg-time">${now}</div></div>`;
+            inp.value = '';
+            msgs.scrollTop = msgs.scrollHeight;
+            setTimeout(() => {
+                msgs.innerHTML += `<div class="msg msg-advisor"><div class="msg-bubble mb-advisor">Thanks for your message! I'll look into this and get back to you shortly. Is there anything else I can help with?</div><div class="msg-time">${now}</div></div>`;
+                msgs.scrollTop = msgs.scrollHeight;
+            }, 1200);
+        }
+        function toggleFaq(el) {
+            const body = el.nextElementSibling;
+            const isOpen = body.style.display === 'block';
+            body.style.display = isOpen ? 'none' : 'block';
+            el.querySelector('span').textContent = isOpen ? '+' : '−';
+        }
+    </script>
+</body>
+
+</html>

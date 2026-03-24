@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — FUNDBEE Partner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        body {
+            background: #070f1e
+        }
+
+        .settings-nav-dark {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            padding: 10px 0;
+            height: fit-content;
+            position: sticky;
+            top: 88px
+        }
+
+        .snd-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.2s;
+            border-left: 3px solid transparent
+        }
+
+        .snd-item:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.03)
+        }
+
+        .snd-item.active {
+            color: var(--green);
+            font-weight: 600;
+            border-left-color: var(--green);
+            background: rgba(16, 185, 129, 0.06)
+        }
+
+        .panel-card-dark {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px
+        }
+
+        .panel-title-dark {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px
+        }
+
+        .panel-sub-dark {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 22px
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px
+        }
+
+        .big-avatar-dark {
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--green), #34d399);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #070f1e
+        }
+
+        .sec-item-dark {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05)
+        }
+
+        .sec-item-dark:last-child {
+            border-bottom: none
+        }
+
+        .si-info h5 {
+            font-size: 14px;
+            font-weight: 600;
+            color: white
+        }
+
+        .si-info p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 2px
+        }
+
+        .ghost-btn {
+            padding: 9px 18px;
+            border-radius: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            transition: all 0.2s
+        }
+
+        .ghost-btn:hover {
+            border-color: var(--green);
+            color: var(--green)
+        }
+
+        .bank-card-dark {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 17px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.07)
+        }
+
+        .bc-icon-dark {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(11, 29, 58, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px
+        }
+
+        .toggle {
+            width: 42px;
+            height: 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            position: relative;
+            transition: background 0.2s;
+            flex-shrink: 0
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 3px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
+        }
+
+        .toggle.on {
+            background: var(--green)
+        }
+
+        .toggle.on::after {
+            transform: translateX(18px)
+        }
+
+        .save-bar-dark {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding-top: 8px
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <aside class="sidebar sidebar-dark">
+        <div class="sidebar-logo">FUND<span>BEE</span></div>
+        <div class="sidebar-user">
+            <div class="sidebar-user-name">Priya Nair</div><span class="sidebar-user-tag tag-green">Premium
+                Partner</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Overview</div>
+            <a class="nav-item" href="partner1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+            <a class="nav-item" href="earnings.html"><span class="nav-item-icon">💰</span> My Earnings</a>
+            <a class="nav-item" href="portfolio.html"><span class="nav-item-icon">📁</span> Portfolio</a>
+            <a class="nav-item" href="analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
+            <div class="nav-section-label" style="margin-top:10px">Management</div>
+            <a class="nav-item" href="borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
+            <a class="nav-item" href="applications.html"><span class="nav-item-icon">📋</span> Applications</a>
+            <a class="nav-item" href="withdrawals.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
+            <a class="nav-item" href="statements.html"><span class="nav-item-icon">📄</span> Statements</a>
+            <div class="nav-section-label" style="margin-top:10px">Premium</div>
+            <a class="nav-item" href="risk-insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
+            <a class="nav-item" href="deal-matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
+            <a class="nav-item active-green" href="partner-settings.html"><span class="nav-item-icon">⚙️</span>
+                Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+        </div>
+    </aside>
+    <main class="main">
+        <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+            <div class="topbar-title topbar-title-dark">Settings</div>
+            <div class="topbar-right">
+                <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
+                <div class="avatar avatar-green">PN</div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="page-header">
+                <div class="page-eyebrow page-eyebrow-green">Partner Account Settings</div>
+                <div class="page-heading" style="color:white">Manage Your <em style="color:var(--gold)">Account</em>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:200px 1fr;gap:24px">
+                <div class="settings-nav-dark">
+                    <div class="snd-item active" onclick="switchTab('profile',this)">👤 Profile</div>
+                    <div class="snd-item" onclick="switchTab('security',this)">🔒 Security</div>
+                    <div class="snd-item" onclick="switchTab('bank',this)">🏦 Bank Accounts</div>
+                    <div class="snd-item" onclick="switchTab('notif',this)">🔔 Notifications</div>
+                    <div class="snd-item" onclick="switchTab('invest',this)">🎯 Preferences</div>
+                    <div class="snd-item" onclick="switchTab('kyc',this)">✅ KYC & Compliance</div>
+                </div>
+
+                <div>
+                    <!-- Profile -->
+                    <div class="settings-panel active" id="panel-profile">
+                        <div class="panel-card-dark">
+                            <div class="panel-title-dark">Partner Profile</div>
+                            <div class="panel-sub-dark">Update your business and personal details.</div>
+                            <div style="display:flex;align-items:center;gap:18px;margin-bottom:22px">
+                                <div class="big-avatar-dark">PN</div>
+                                <div><button class="ghost-btn" onclick="showToast('Uploading...')">Change Photo</button>
+                                    <div style="font-size:12px;color:rgba(255,255,255,0.25);margin-top:5px">PNG or JPG
+                                        up to 2MB</div>
+                                </div>
+                            </div>
+                            <div class="form-row-2">
+                                <div class="form-group"><label class="form-label">Full Name</label><input
+                                        class="form-input fi-dark" value="Priya Nair"></div>
+                                <div class="form-group"><label class="form-label">Partner ID</label><input
+                                        class="form-input fi-dark" value="FBPRT-20240882" readonly style="opacity:0.5">
+                                </div>
+                                <div class="form-group"><label class="form-label">Email Address</label><input
+                                        class="form-input fi-dark" value="priya.nair@finance.in" type="email"></div>
+                                <div class="form-group"><label class="form-label">Mobile</label><input
+                                        class="form-input fi-dark" value="+91 99887 76655"></div>
+                                <div class="form-group"><label class="form-label">Organization</label><input
+                                        class="form-input fi-dark" value="Nair Capital Partners LLP"></div>
+                                <div class="form-group"><label class="form-label">City</label><input
+                                        class="form-input fi-dark" value="Mumbai"></div>
+                            </div>
+                            <div class="form-group"><label class="form-label">Business Registration No.</label><input
+                                    class="form-input fi-dark" value="U65929MH2018PTC308821"></div>
+                            <div class="save-bar-dark">
+                                <button class="btn-secondary btn-sec-dark">Cancel</button>
+                                <button class="btn-primary-dark" onclick="showToast('Profile updated!')">Save
+                                    Changes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security -->
+                    <div class="settings-panel" id="panel-security">
+                        <div class="panel-card-dark">
+                            <div class="panel-title-dark">Security Settings</div>
+                            <div class="panel-sub-dark">Protect your partner account with strong authentication.</div>
+                            <div class="sec-item-dark">
+                                <div style="display:flex;align-items:center;gap:14px">
+                                    <div class="si-info">
+                                        <h5>Password</h5>
+                                        <p>Last changed 30 days ago</p>
+                                    </div>
+                                </div><button class="ghost-btn" onclick="showToast('Reset email sent!')">Change
+                                    Password</button>
+                            </div>
+                            <div class="sec-item-dark">
+                                <div style="display:flex;align-items:center;gap:14px">
+                                    <div class="si-info">
+                                        <h5>Two-Factor Authentication</h5>
+                                        <p>OTP via +91 99887 76655</p>
+                                    </div>
+                                </div>
+                                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                            </div>
+                            <div class="sec-item-dark">
+                                <div style="display:flex;align-items:center;gap:14px">
+                                    <div class="si-info">
+                                        <h5>Login Notifications</h5>
+                                        <p>Email alert on each new login</p>
+                                    </div>
+                                </div>
+                                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                            </div>
+                            <div class="sec-item-dark">
+                                <div style="display:flex;align-items:center;gap:14px">
+                                    <div class="si-info">
+                                        <h5>Active Sessions</h5>
+                                        <p>1 device currently logged in</p>
+                                    </div>
+                                </div><button class="ghost-btn" onclick="showToast('All sessions cleared!')">Clear
+                                    All</button>
+                            </div>
+                            <div class="sec-item-dark">
+                                <div style="display:flex;align-items:center;gap:14px">
+                                    <div class="si-info">
+                                        <h5>API Access Keys</h5>
+                                        <p>3 active API keys for integrations</p>
+                                    </div>
+                                </div><button class="ghost-btn">Manage Keys</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank -->
+                    <div class="settings-panel" id="panel-bank">
+                        <div class="panel-card-dark">
+                            <div class="panel-title-dark">Payout Bank Accounts</div>
+                            <div class="panel-sub-dark">Manage accounts for receiving withdrawals and settlements.</div>
+                            <div class="bank-card-dark">
+                                <div style="display:flex;align-items:center;gap:12px">
+                                    <div class="bc-icon-dark">🏦</div>
+                                    <div>
+                                        <div style="font-weight:600;font-size:14px;color:white">HDFC Bank</div>
+                                        <div style="font-size:12px;color:rgba(255,255,255,0.35)">Account ****4821 ·
+                                            Current</div>
+                                    </div>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:10px"><span
+                                        class="pill pill-green">Primary</span><button class="ghost-btn">Edit</button>
+                                </div>
+                            </div>
+                            <div class="bank-card-dark">
+                                <div style="display:flex;align-items:center;gap:12px">
+                                    <div class="bc-icon-dark">🏦</div>
+                                    <div>
+                                        <div style="font-weight:600;font-size:14px;color:white">ICICI Bank</div>
+                                        <div style="font-size:12px;color:rgba(255,255,255,0.35)">Account ****9234 ·
+                                            Current</div>
+                                    </div>
+                                </div>
+                                <div style="display:flex;gap:8px"><button class="ghost-btn">Set Primary</button><button
+                                        class="ghost-btn" onclick="showToast('Account removed')">Remove</button></div>
+                            </div>
+                            <button class="btn-primary-dark" style="margin-top:8px"
+                                onclick="showToast('Opening bank link flow...')">+ Add New Account</button>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="settings-panel" id="panel-notif">
+                        <div class="panel-card-dark">
+                            <div class="panel-title-dark">Notification Preferences</div>
+                            <div class="panel-sub-dark">Control what you hear about and when.</div>
+                            <div class="sec-item-dark">
+                                <div class="si-info">
+                                    <h5>Settlement Alerts</h5>
+                                    <p>When funds are settled to your account</p>
+                                </div>
+                                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                            </div>
+                            <div class="sec-item-dark">
+                                <div class="si-info">
+                                    <h5>New Matched Deals</h5>
+                                    <p>Daily digest of AI-matched opportunities</p>
+                                </div>
+                                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                            </div>
+                            <div class="sec-item-dark">
+                                <div class="si-info">
+                                    <h5>NPA Alerts</h5>
+                                    <p>Immediate alert when any loan goes NPA</p>
+                                </div>
+                                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                            </div>
+                            <div class="sec-item-dark">
+                                <div class="si-info">
+                                    <h5>Portfolio Reports</h5>
+                                    <p>Weekly portfolio performance summary</p>
+                                </div>
+                                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                            </div>
+                            <div class="sec-item-dark">
+                                <div class="si-info">
+                                    <h5>Regulatory Updates</h5>
+                                    <p>RBI/NBFC compliance notices</p>
+                                </div>
+                                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+                            </div>
+                            <div class="save-bar-dark"><button class="btn-primary-dark"
+                                    onclick="showToast('Preferences saved!')">Save Preferences</button></div>
+                        </div>
+                    </div>
+
+                    <!-- Investment Preferences -->
+                    <div class="settings-panel" id="panel-invest">
+                        <div class="panel-card-dark">
+                            <div class="panel-title-dark">Investment Preferences</div>
+                            <div class="panel-sub-dark">Used by the AI Deal Matcher to surface the best opportunities
+                                for your strategy.</div>
+                            <div class="form-row-2">
+                                <div class="form-group"><label class="form-label">Minimum Yield Target</label><input
+                                        class="form-input fi-dark" value="11%"></div>
+                                <div class="form-group"><label class="form-label">Min CIBIL Score</label><input
+                                        class="form-input fi-dark" value="700"></div>
+                                <div class="form-group"><label class="form-label">Max Single Loan Exposure</label><input
+                                        class="form-input fi-dark" value="₹20,00,000"></div>
+                                <div class="form-group"><label class="form-label">Max Tenure Preference</label><select
+                                        class="form-select fi-dark">
+                                        <option>36 months</option>
+                                        <option>60 months</option>
+                                        <option>120 months</option>
+                                        <option>No preference</option>
+                                    </select></div>
+                            </div>
+                            <div class="form-group"><label class="form-label">Preferred Risk Grade</label>
+                                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+                                    <button onclick="toggleGrade(this)" class="ghost-btn"
+                                        style="border-color:rgba(16,185,129,0.4);color:var(--green)">A
+                                        (Excellent)</button>
+                                    <button onclick="toggleGrade(this)" class="ghost-btn"
+                                        style="border-color:rgba(16,185,129,0.4);color:var(--green)">B+ (Low)</button>
+                                    <button onclick="toggleGrade(this)" class="ghost-btn">B (Moderate)</button>
+                                    <button onclick="toggleGrade(this)" class="ghost-btn">C+ (Medium)</button>
+                                </div>
+                            </div>
+                            <div class="save-bar-dark"><button class="btn-primary-dark"
+                                    onclick="showToast('Investment preferences saved! AI Matcher updated.')">Save
+                                    Preferences</button></div>
+                        </div>
+                    </div>
+
+                    <!-- KYC -->
+                    <div class="settings-panel" id="panel-kyc">
+                        <div class="panel-card-dark">
+                            <div class="panel-title-dark">KYC & Compliance</div>
+                            <div class="panel-sub-dark">Your verification and regulatory compliance status.</div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px">
+                                <div
+                                    style="padding:16px;background:rgba(16,185,129,0.07);border-radius:12px;border:1px solid rgba(16,185,129,0.2)">
+                                    <div style="font-size:22px;margin-bottom:7px">✅</div>
+                                    <div style="font-weight:700;color:white;font-size:14px">Partner KYC</div>
+                                    <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:3px">Identity
+                                        verified</div>
+                                </div>
+                                <div
+                                    style="padding:16px;background:rgba(16,185,129,0.07);border-radius:12px;border:1px solid rgba(16,185,129,0.2)">
+                                    <div style="font-size:22px;margin-bottom:7px">✅</div>
+                                    <div style="font-weight:700;color:white;font-size:14px">Business Verification</div>
+                                    <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:3px">LLP
+                                        registration confirmed</div>
+                                </div>
+                                <div
+                                    style="padding:16px;background:rgba(16,185,129,0.07);border-radius:12px;border:1px solid rgba(16,185,129,0.2)">
+                                    <div style="font-size:22px;margin-bottom:7px">✅</div>
+                                    <div style="font-weight:700;color:white;font-size:14px">Bank Account Verified</div>
+                                    <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:3px">Penny drop
+                                        success</div>
+                                </div>
+                                <div
+                                    style="padding:16px;background:rgba(16,185,129,0.07);border-radius:12px;border:1px solid rgba(16,185,129,0.2)">
+                                    <div style="font-size:22px;margin-bottom:7px">✅</div>
+                                    <div style="font-weight:700;color:white;font-size:14px">AML/CFT Cleared</div>
+                                    <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:3px">Compliant ·
+                                        Last audit Jan 2026</div>
+                                </div>
+                            </div>
+                            <div
+                                style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:12px">
+                                <span style="font-size:22px">🏆</span>
+                                <div>
+                                    <div style="font-weight:700;color:white;font-size:14px">Premium Partner Status —
+                                        Active</div>
+                                    <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:2px">All
+                                        compliance requirements met · Next review: Jan 2027</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="toast"
+        style="position:fixed;bottom:28px;right:28px;background:#0d1f38;border:1px solid rgba(255,255,255,0.1);color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.4);transform:translateY(80px);transition:transform 0.3s;z-index:9999">
+        Done</div>
+    <script>
+        function switchTab(id, el) {
+            document.querySelectorAll('.snd-item').forEach(i => i.classList.remove('active')); el.classList.add('active');
+            document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-' + id).classList.add('active');
+        }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.style.transform = 'translateY(0)'; setTimeout(() => t.style.transform = 'translateY(80px)', 2500); }
+        function toggleGrade(btn) { const active = btn.style.color === getComputedStyle(document.documentElement).getPropertyValue('--green').trim() || btn.style.borderColor.includes('185'); if (active) { btn.style.borderColor = 'rgba(255,255,255,0.1)'; btn.style.color = ''; } else { btn.style.borderColor = 'rgba(16,185,129,0.4)'; btn.style.color = '#10b981'; } }
+    </script>
+</body>
+
+</html>
