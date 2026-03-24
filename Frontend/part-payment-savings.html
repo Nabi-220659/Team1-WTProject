@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part-Payment Savings Calculator — FUNDBEE</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="knowledge-hub.css">
+  <link rel="stylesheet" href="part-payment-savings.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+    <ul class="nav-links">
+      <li><a href="Products.html">Products</a></li>
+      <li><a href="Company.html">Company</a></li>
+      <li><a href="knowledge-hub.html">Knowledge Hub</a></li>
+      <li><a href="partner.html">Partner</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="planner-hero">
+    <h1>Part-Payment <em>Savings</em> Calculator</h1>
+    <p>Discover how much interest and time you can save by making strategic lump-sum payments towards your loan.</p>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="planner-content">
+    <div class="info-section">
+      <h2>Pay Off Your Loan Faster</h2>
+      <p>Making part-payments (lump-sum additional payments) on your loan can significantly reduce both your total
+        interest paid and the loan tenure. See exactly how much you can save.</p>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Original Loan Amount (₹)</label>
+        <input type="number" id="loanAmount" placeholder="e.g. 2000000">
+      </div>
+      <div class="form-group">
+        <label>Interest Rate (% p.a.)</label>
+        <input type="number" id="interestRate" placeholder="e.g. 8.5" value="8.5" step="0.1">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Loan Tenure (Months)</label>
+        <input type="number" id="loanTenure" placeholder="e.g. 240" value="240">
+      </div>
+      <div class="form-group">
+        <label>Part-Payment Amount (₹)</label>
+        <input type="number" id="partPaymentAmount" placeholder="e.g. 500000">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>When to Make Part-Payment?</label>
+        <select id="paymentTiming">
+          <option value="after-3">After 3 Months</option>
+          <option value="after-6">After 6 Months</option>
+          <option value="after-12">After 1 Year</option>
+          <option value="after-24">After 2 Years</option>
+          <option value="after-36">After 3 Years</option>
+          <option value="custom">Custom Month</option>
+        </select>
+      </div>
+      <div class="form-group" id="customMonthGroup" style="display: none;">
+        <label>Custom Payment Month</label>
+        <input type="number" id="customMonth" placeholder="e.g. 60" min="1">
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculatePartPaymentSavings()">Calculate Savings</button>
+
+    <div class="result-box" id="resultBox">
+      <h3>Your Savings Summary</h3>
+
+      <div class="savings-comparison">
+        <div class="scenario">
+          <h4>Without Part-Payment</h4>
+          <div class="scenario-detail">
+            <span class="detail-label">Total Interest Paid:</span>
+            <span class="detail-value" id="originalInterest">₹0</span>
+          </div>
+          <div class="scenario-detail">
+            <span class="detail-label">Loan Tenure:</span>
+            <span class="detail-value" id="originalTenure">0 months</span>
+          </div>
+          <div class="scenario-detail">
+            <span class="detail-label">Monthly EMI:</span>
+            <span class="detail-value" id="originalEmi">₹0</span>
+          </div>
+        </div>
+
+        <div class="scenario highlight">
+          <h4>With Part-Payment</h4>
+          <div class="scenario-detail">
+            <span class="detail-label">Total Interest Paid:</span>
+            <span class="detail-value" id="newInterest">₹0</span>
+          </div>
+          <div class="scenario-detail">
+            <span class="detail-label">Loan Tenure:</span>
+            <span class="detail-value" id="newTenure">0 months</span>
+          </div>
+          <div class="scenario-detail">
+            <span class="detail-label">New Monthly EMI:</span>
+            <span class="detail-value" id="newEmi">₹0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="savings-highlight">
+        <div class="savings-item">
+          <div class="savings-label">Interest Saved</div>
+          <div class="savings-value" id="interestSaved">₹0</div>
+        </div>
+        <div class="savings-item">
+          <div class="savings-label">Tenure Reduced</div>
+          <div class="savings-value" id="tenureReduced">0 months</div>
+        </div>
+        <div class="savings-item">
+          <div class="savings-label">Percentage Saved</div>
+          <div class="savings-value" id="percentageSaved">0%</div>
+        </div>
+      </div>
+
+      <div class="breakdown-section">
+        <h4>📊 Detailed Breakdown</h4>
+        <div class="breakdown-item">
+          <span>Part-Payment Month:</span>
+          <span id="paymentMonth">-</span>
+        </div>
+        <div class="breakdown-item">
+          <span>Remaining Balance Before Part-Payment:</span>
+          <span id="remainingBalance">₹0</span>
+        </div>
+        <div class="breakdown-item">
+          <span>Remaining Balance After Part-Payment:</span>
+          <span id="remainingAfterPayment">₹0</span>
+        </div>
+        <div class="breakdown-item">
+          <span>New EMI After Part-Payment:</span>
+          <span id="newEmiAfterPayment">₹0</span>
+        </div>
+      </div>
+
+      <div class="tips-box">
+        <h4>💡 Pro Tip</h4>
+        <p>Even small part-payments made early in your loan tenure can result in significant savings. Try making
+          part-payments when you get bonuses or tax refunds to maximize your savings!</p>
+      </div>
+
+      <a href="products.html" class="calc-btn"
+        style="display: inline-block; text-decoration: none; width: auto; padding: 15px 40px; background: var(--white); color: var(--dark); margin-top: 20px;">Explore
+        Our Loan Products</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+        <p>FUNDBEE Finance Limited is an RBI Registered NBFC providing fast, secure, and flexible financial solutions.
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 FUNDBEE Finance Limited. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    // Show/hide custom month input
+    document.getElementById('paymentTiming').addEventListener('change', function () {
+      if (this.value === 'custom') {
+        document.getElementById('customMonthGroup').style.display = 'block';
+      } else {
+        document.getElementById('customMonthGroup').style.display = 'none';
+      }
+    });
+
+    function calculatePartPaymentSavings() {
+      const loanAmount = Number(document.getElementById('loanAmount').value);
+      const interestRate = Number(document.getElementById('interestRate').value);
+      const loanTenure = Number(document.getElementById('loanTenure').value);
+      const partPaymentAmount = Number(document.getElementById('partPaymentAmount').value);
+      const paymentTiming = document.getElementById('paymentTiming').value;
+
+      if (!loanAmount || !interestRate || !loanTenure || !partPaymentAmount) {
+        return alert("Please fill in all required fields.");
+      }
+
+      // Determine part-payment month
+      let paymentMonth = 0;
+      if (paymentTiming === 'after-3') paymentMonth = 3;
+      else if (paymentTiming === 'after-6') paymentMonth = 6;
+      else if (paymentTiming === 'after-12') paymentMonth = 12;
+      else if (paymentTiming === 'after-24') paymentMonth = 24;
+      else if (paymentTiming === 'after-36') paymentMonth = 36;
+      else if (paymentTiming === 'custom') {
+        paymentMonth = Number(document.getElementById('customMonth').value);
+        if (!paymentMonth || paymentMonth < 1) {
+          return alert("Please enter a valid month for part-payment.");
+        }
+      }
+
+      if (paymentMonth > loanTenure) {
+        return alert("Part-payment month cannot be greater than loan tenure.");
+      }
+
+      const monthlyRate = interestRate / 100 / 12;
+
+      // Calculate EMI without part-payment
+      const emiWithoutPP = (loanAmount * monthlyRate * Math.pow((1 + monthlyRate), loanTenure)) /
+        (Math.pow((1 + monthlyRate), loanTenure) - 1);
+
+      // Calculate total interest without part-payment
+      const totalInterestWithoutPP = (emiWithoutPP * loanTenure) - loanAmount;
+
+      // Calculate remaining balance at part-payment month
+      const remainingBalanceAtPP = loanAmount * Math.pow((1 + monthlyRate), paymentMonth) -
+        emiWithoutPP * (Math.pow((1 + monthlyRate), paymentMonth) - 1) / monthlyRate;
+
+      // Apply part-payment
+      const balanceAfterPP = Math.max(0, remainingBalanceAtPP - partPaymentAmount);
+
+      let newTenure = loanTenure;
+      let newTotalInterest = totalInterestWithoutPP;
+      let interestAfterPP = 0;
+      let newEmiAfterPP = 0;
+
+      if (balanceAfterPP > 0) {
+        // Calculate new EMI with remaining balance and original tenure
+        const remainingTenure = loanTenure - paymentMonth;
+        newEmiAfterPP = (balanceAfterPP * monthlyRate * Math.pow((1 + monthlyRate), remainingTenure)) /
+          (Math.pow((1 + monthlyRate), remainingTenure) - 1);
+
+        // Calculate new total interest
+        const interestPaidUntilPP = (emiWithoutPP * paymentMonth) - (loanAmount - remainingBalanceAtPP);
+        interestAfterPP = (newEmiAfterPP * remainingTenure) - balanceAfterPP;
+        newTotalInterest = interestPaidUntilPP + interestAfterPP;
+      }
+
+      // Calculate interest saved
+      const interestSaved = totalInterestWithoutPP - newTotalInterest;
+      const percentageSaved = (interestSaved / totalInterestWithoutPP * 100).toFixed(2);
+
+      // Update display
+      document.getElementById('originalInterest').innerText = "₹" + Math.round(totalInterestWithoutPP).toLocaleString('en-IN');
+      document.getElementById('originalTenure').innerText = loanTenure + " months";
+      document.getElementById('originalEmi').innerText = "₹" + Math.ceil(emiWithoutPP).toLocaleString('en-IN');
+
+      document.getElementById('newInterest').innerText = "₹" + Math.round(newTotalInterest).toLocaleString('en-IN');
+      document.getElementById('newTenure').innerText = loanTenure + " months";
+      document.getElementById('newEmi').innerText = "₹" + Math.ceil(emiWithoutPP).toLocaleString('en-IN');
+
+      document.getElementById('interestSaved').innerText = "₹" + Math.round(interestSaved).toLocaleString('en-IN');
+      document.getElementById('tenureReduced').innerText = "Same";
+      document.getElementById('percentageSaved').innerText = percentageSaved + "%";
+
+      document.getElementById('paymentMonth').innerText = paymentMonth + " months";
+      document.getElementById('remainingBalance').innerText = "₹" + Math.round(remainingBalanceAtPP).toLocaleString('en-IN');
+      document.getElementById('remainingAfterPayment').innerText = "₹" + Math.round(balanceAfterPP).toLocaleString('en-IN');
+      document.getElementById('newEmiAfterPayment').innerText = "₹" + Math.ceil(newEmiAfterPP).toLocaleString('en-IN');
+
+      document.getElementById('resultBox').style.display = 'block';
+    }
+
+    // Allow Enter key to calculate
+    document.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        calculatePartPaymentSavings();
+      }
+    });
+  </script>
+
+</body>
+
+</html>
