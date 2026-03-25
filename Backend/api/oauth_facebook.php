@@ -2,7 +2,7 @@
 // oauth_facebook.php
 
 $clientId = 'YOUR_FACEBOOK_APP_ID';
-$redirectUri = 'http://localhost/Loan-Management/Backend/api/oauth_facebook_callback.php';
+$redirectUri = 'http://localhost/Loan-Management-System/Backend/api/oauth_facebook_callback.php';
 $scope = 'email,public_profile';
 
 $state = bin2hex(random_bytes(16));

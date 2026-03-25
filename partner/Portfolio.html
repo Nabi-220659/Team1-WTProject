@@ -308,9 +308,8 @@
                 <div class="section-title-dark">Active Loan Book</div>
                 <div style="display:flex;gap:10px;align-items:center">
                     <div class="search-wrap"><span class="search-icon"
-                            style="color:rgba(255,255,255,0.3)">🔍</span><input id="portfolioSearch"
-                            class="search-input si-dark" placeholder="Search loans..." style="width:200px"
-                            oninput="searchLoans(this.value)"></div>
+                            style="color:rgba(255,255,255,0.3)">🔍</span><input id="portfolioSearch" class="search-input si-dark"
+                            placeholder="Search loans..." style="width:200px" oninput="searchLoans(this.value)"></div>
                     <div class="filter-tabs">
                         <button class="filter-tab ft-dark active" onclick="filterStatus('all',this)">All</button>
                         <button class="filter-tab ft-dark" onclick="filterStatus('active',this)">Active</button>
@@ -411,14 +410,14 @@
     <script>
         function filterStatus(status, btn) {
             document.querySelectorAll('.ft-dark').forEach(b => b.classList.remove('active')); btn.classList.add('active');
-
+            
             const list = document.getElementById('portfolioTable');
             list.classList.remove('slide-up');
             void list.offsetWidth; // trigger reflow
             list.classList.add('slide-up');
-
-            document.querySelectorAll('.loan-row').forEach(r => {
-                r.style.display = (status === 'all' || r.dataset.status === status) ? '' : 'none';
+            
+            document.querySelectorAll('.loan-row').forEach(r => { 
+                r.style.display = (status === 'all' || r.dataset.status === status) ? '' : 'none'; 
             });
         }
         function filterSeg(seg) {

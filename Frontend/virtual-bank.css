@@ -1,0 +1,305 @@
+/* ── ROOT VARIABLES (matching FUNDBEE design system) ── */
+:root {
+  --navy: #0b1d3a;
+  --blue: #1a4fd6;
+  --blue-light: #3b72f0;
+  --gold: #f5a623;
+  --amber: #f97316;
+  --cream: #faf8f4;
+  --text: #1c2a3a;
+  --muted: #6b7a8d;
+  --white: #ffffff;
+  --card-bg: #ffffff;
+  --border: rgba(26,79,214,0.1);
+  --green: #10b981;
+  --red: #ef4444;
+  --sidebar-w: 260px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── NAVBAR ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 0 5%; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(11,29,58,0.95); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900;
+  color: var(--white); text-decoration: none; letter-spacing: 1px;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 14px; font-weight: 500; }
+.nav-links a:hover, .nav-links a.active { color: var(--white); }
+
+/* ── LAYOUT ── */
+.bank-layout {
+  display: flex; min-height: 100vh; padding-top: 64px;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w); min-height: calc(100vh - 64px);
+  background: var(--navy); position: fixed; top: 64px; left: 0; bottom: 0;
+  display: flex; flex-direction: column; overflow-y: auto;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.sidebar-user {
+  padding: 24px 20px 20px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.user-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--blue-light));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 18px; font-weight: 700; flex-shrink: 0;
+}
+.user-name { color: var(--white); font-size: 14px; font-weight: 600; }
+.user-acno { color: rgba(255,255,255,0.45); font-size: 11px; margin-top: 2px; }
+.sidebar-nav { padding: 16px 12px; flex: 1; }
+.nav-section-label {
+  color: rgba(255,255,255,0.3); font-size: 10px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 8px 10px 4px; margin-bottom: 2px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+  border-radius: 10px; color: rgba(255,255,255,0.6); text-decoration: none;
+  font-size: 13.5px; font-weight: 500; transition: all 0.2s; cursor: pointer;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+.nav-item.active { background: rgba(26,79,214,0.35); color: var(--white); }
+.nav-item-icon { font-size: 16px; }
+.sidebar-footer { padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.07); }
+.logout-btn {
+  display: block; text-align: center; padding: 10px;
+  border-radius: 8px; background: rgba(239,68,68,0.12);
+  color: #ef4444; text-decoration: none; font-size: 13px; font-weight: 500;
+  transition: background 0.2s;
+}
+.logout-btn:hover { background: rgba(239,68,68,0.22); }
+
+/* ── MAIN ── */
+.bank-main {
+  margin-left: var(--sidebar-w); flex: 1; padding: 0 32px 40px;
+  min-height: calc(100vh - 64px);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28px 0 20px;
+}
+.topbar-title {
+  font-family: 'Playfair Display', serif; font-size: 26px;
+  font-weight: 800; color: var(--navy);
+}
+.topbar-sub { color: var(--muted); font-size: 14px; margin-top: 3px; }
+.topbar-actions { display: flex; gap: 10px; }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  background: var(--blue); color: white; border: none;
+  padding: 10px 22px; border-radius: 10px; font-size: 14px;
+  font-weight: 600; cursor: pointer; transition: background 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-primary:hover { background: var(--blue-light); }
+.btn-primary.wide { width: 100%; padding: 14px; font-size: 15px; margin-top: 8px; }
+.btn-ghost {
+  background: transparent; color: var(--navy); border: 1.5px solid var(--border);
+  padding: 10px 20px; border-radius: 10px; font-size: 14px;
+  font-weight: 500; cursor: pointer; transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-ghost:hover { background: rgba(26,79,214,0.06); }
+
+/* ── BALANCE CARDS ROW ── */
+.cards-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  margin-bottom: 24px;
+}
+.balance-card {
+  background: var(--card-bg); border-radius: 16px; padding: 22px 20px;
+  border: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.balance-card.main-card {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a3060 100%);
+  border-color: transparent;
+}
+.main-card .card-label { color: rgba(255,255,255,0.6); }
+.main-card .card-amount { color: var(--white); }
+.main-card .card-acno { color: rgba(255,255,255,0.4); }
+.card-label { font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 6px; }
+.card-amount { font-size: 24px; font-weight: 700; color: var(--navy); }
+.card-amount.red { color: var(--red); }
+.card-amount.gold { color: var(--gold); }
+.card-amount.green { color: var(--green); }
+.card-acno { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.card-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: rgba(245,166,35,0.15); color: var(--gold);
+  font-size: 10px; font-weight: 600; padding: 3px 8px;
+  border-radius: 20px; border: 1px solid rgba(245,166,35,0.3);
+}
+
+/* ── SECTION CARDS ── */
+.section-card {
+  background: var(--card-bg); border-radius: 16px; padding: 24px;
+  border: 1px solid var(--border); margin-bottom: 20px;
+}
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.section-header h3 { font-size: 16px; font-weight: 700; color: var(--navy); }
+.see-all { color: var(--blue); font-size: 13px; text-decoration: none; font-weight: 500; }
+.see-all:hover { text-decoration: underline; }
+
+/* ── TRANSACTION LIST ── */
+.txn-list { display: flex; flex-direction: column; gap: 4px; }
+.txn-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 10px; border-radius: 10px; transition: background 0.15s;
+}
+.txn-item:hover { background: rgba(26,79,214,0.04); }
+.txn-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.txn-icon.credit { background: rgba(16,185,129,0.12); }
+.txn-icon.debit { background: rgba(239,68,68,0.1); }
+.txn-icon.loan { background: rgba(245,166,35,0.12); }
+.txn-details { flex: 1; }
+.txn-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.txn-date { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.txn-amount { font-size: 15px; font-weight: 700; }
+.txn-amount.credit { color: var(--green); }
+.txn-amount.debit { color: var(--red); }
+
+/* ── QUICK ACTIONS ── */
+.quick-actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+}
+.qa-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 22px; border-radius: 14px; cursor: pointer;
+  background: var(--cream); border: 1px solid var(--border);
+  font-size: 13px; font-weight: 600; color: var(--text);
+  transition: all 0.2s; min-width: 80px;
+}
+.qa-btn:hover { background: rgba(26,79,214,0.07); border-color: var(--blue-light); color: var(--blue); }
+.qa-icon { font-size: 24px; }
+
+/* ── FORM CARD ── */
+.form-card {
+  background: var(--card-bg); border-radius: 16px; padding: 28px;
+  border: 1px solid var(--border); max-width: 640px;
+}
+.form-section-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.form-group label { font-size: 13px; font-weight: 600; color: var(--text); }
+.form-input {
+  padding: 11px 14px; border-radius: 10px; border: 1.5px solid #dde4ef;
+  background: #f7f8fc; font-size: 14px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; transition: border 0.2s; outline: none;
+  width: 100%;
+}
+.form-input:focus { border-color: var(--blue); background: white; }
+select.form-input { cursor: pointer; }
+.balance-info { color: var(--muted); font-size: 13px; margin-bottom: 12px; padding: 10px 14px; background: var(--cream); border-radius: 8px; }
+.action-msg { margin-top: 12px; font-size: 13px; font-weight: 500; padding: 10px 14px; border-radius: 8px; display: none; }
+.action-msg.success { background: rgba(16,185,129,0.1); color: #059669; display: block; }
+.action-msg.error { background: rgba(239,68,68,0.1); color: var(--red); display: block; }
+
+/* ── QUICK AMOUNTS ── */
+.quick-amounts { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.quick-amounts button {
+  background: var(--cream); border: 1.5px solid var(--border);
+  padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; color: var(--navy); transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.quick-amounts button:hover { background: rgba(26,79,214,0.08); border-color: var(--blue); color: var(--blue); }
+
+/* ── EMI CALCULATOR ── */
+.emi-calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.form-group input[type="range"] {
+  width: 100%; height: 5px; accent-color: var(--blue); cursor: pointer;
+  padding: 0; background: transparent; border: none;
+}
+.range-val { font-size: 15px; font-weight: 700; color: var(--blue); margin-top: 6px; }
+.emi-result-card {
+  background: linear-gradient(135deg, var(--navy), #1a3060);
+  border-radius: 16px; padding: 28px; text-align: center;
+}
+.emi-result-label { color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+.emi-result-amount { color: var(--white); font-size: 40px; font-weight: 800; margin-bottom: 24px; }
+.emi-breakdown { text-align: left; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.emi-bk-row { display: flex; justify-content: space-between; font-size: 13px; }
+.emi-bk-row span:first-child { color: rgba(255,255,255,0.55); }
+.emi-bk-row span:last-child { color: white; font-weight: 600; }
+.emi-bk-row.total { border-top: 1px solid rgba(255,255,255,0.15); padding-top: 10px; margin-top: 4px; }
+.emi-bk-row.total span { font-size: 14px; font-weight: 700; }
+.emi-donut { margin-top: 20px; display: flex; justify-content: center; }
+
+/* ── LOAN REPAY CARDS ── */
+.loan-cards-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 4px; }
+.loan-repay-card {
+  background: var(--card-bg); border-radius: 14px; padding: 20px 22px;
+  border: 1px solid var(--border); display: flex; align-items: center; gap: 20px;
+}
+.loan-repay-info { flex: 1; }
+.loan-repay-type { font-size: 14px; font-weight: 700; color: var(--navy); }
+.loan-repay-detail { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.loan-repay-emi { font-size: 20px; font-weight: 800; color: var(--red); text-align: right; }
+.loan-repay-emi-label { font-size: 11px; color: var(--muted); text-align: right; }
+.pay-emi-btn {
+  background: var(--blue); color: white; border: none;
+  padding: 9px 18px; border-radius: 9px; font-size: 13px;
+  font-weight: 600; cursor: pointer; white-space: nowrap;
+  font-family: 'DM Sans', sans-serif; transition: background 0.2s;
+}
+.pay-emi-btn:hover { background: var(--blue-light); }
+
+/* ── SEARCH INPUT ── */
+.search-input {
+  padding: 9px 16px; border-radius: 10px; border: 1.5px solid #dde4ef;
+  background: white; font-size: 13.5px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; outline: none; min-width: 240px;
+  transition: border 0.2s;
+}
+.search-input:focus { border-color: var(--blue); }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+.empty-state .empty-icon { font-size: 40px; margin-bottom: 10px; }
+.empty-state p { font-size: 14px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) { .cards-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .bank-main { margin-left: 0; padding: 0 16px 40px; }
+  .emi-calc-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .cards-row { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}

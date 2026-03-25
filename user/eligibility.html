@@ -235,11 +235,75 @@
             transition: all 0.2s;
         }
 
-        .apply-now-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.35);
+        .partner-redirect-banner {
+            display: none;
+            background: linear-gradient(135deg, #0b1d3a, #1a3a6e);
+            border: 1px solid rgba(245,166,35,0.35);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin-top: 24px;
+            position: relative;
+            overflow: hidden;
         }
-    </style>
+        .partner-redirect-banner::before {
+            content: '';
+            position: absolute;
+            top: -40px; right: -40px;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, rgba(245,166,35,0.12), transparent 65%);
+            border-radius: 50%;
+        }
+        .prb-inner { position: relative; z-index: 1; }
+        .prb-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+        .prb-step:last-of-type { border-bottom: none; }
+        .prb-step-icon {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: rgba(245,166,35,0.15);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+        .prb-step.done .prb-step-icon { background: rgba(16,185,129,0.2); }
+        .prb-step.done { color: rgba(255,255,255,0.9); }
+        .prb-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+        .btn-goto-partner {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f5a623, #f7c048);
+            color: #0b1d3a;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-goto-partner:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245,166,35,0.4);
+        }
+        </style>
 </head>
 
 <body>
@@ -411,6 +475,29 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ── PARTNER REDIRECT BANNER (shown only when coming from login) ── -->
+            <div class="partner-redirect-banner" id="partnerRedirectBanner">
+                <div class="prb-inner">
+                    <div class="prb-title">✅ Eligibility Check Complete</div>
+                    <div class="prb-step done">
+                        <div class="prb-step-icon">✓</div>
+                        <span>Logged in successfully</span>
+                    </div>
+                    <div class="prb-step done">
+                        <div class="prb-step-icon">✓</div>
+                        <span>Eligibility checked — you're all set</span>
+                    </div>
+                    <div class="prb-step">
+                        <div class="prb-step-icon">💼</div>
+                        <span>Proceed to your Partner Dashboard</span>
+                    </div>
+                    <button class="btn-goto-partner" id="gotoPartnerBtn">
+                        <span>Continue to Partner Dashboard</span>
+                        <span>→</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -433,6 +520,7 @@
         });
 
         function fmt(n) { return '₹' + n.toLocaleString('en-IN'); }
+
         function calcEligibility() {
             const income = +document.getElementById('income').value;
             const existEmi = +document.getElementById('existEmi').value;
@@ -447,10 +535,48 @@
             const emi = Math.round(max / tenure / 100) * 100;
             document.getElementById('maxAmount').textContent = fmt(Math.max(max, 0));
             document.getElementById('estEmi').textContent = fmt(Math.max(emi, 0));
-            const status = cibil === 'excellent' || cibil === 'good' ? 'Pre-Approved!' : cibil === 'fair' ? 'Likely Eligible' : 'Check Required';
+            const status = cibil === 'excellent' || cibil === 'good'
+                ? 'Pre-Approved!'
+                : cibil === 'fair' ? 'Likely Eligible' : 'Check Required';
             document.getElementById('eligStatus').textContent = status;
         }
-        function selectLoan(el) { document.querySelectorAll('.loan-opt').forEach(e => e.classList.remove('sel')); el.classList.add('sel'); }
+
+        function selectLoan(el) {
+            document.querySelectorAll('.loan-opt').forEach(e => e.classList.remove('sel'));
+            el.classList.add('sel');
+        }
+
+        // ── PARTNER REDIRECT FLOW ──
+        // Detect if user arrived here from the login page with next=partner
+        (function initPartnerFlow() {
+            const params = new URLSearchParams(window.location.search);
+            const fromLogin = params.get('from') === 'login';
+            const nextDest  = params.get('next');
+            const ssRedirect = sessionStorage.getItem('post_eligibility_redirect');
+
+            if (fromLogin && (nextDest === 'partner' || ssRedirect === 'partner')) {
+                // Show the partner redirect banner
+                const banner = document.getElementById('partnerRedirectBanner');
+                if (banner) {
+                    banner.style.display = 'block';
+                    // Smooth scroll to banner after a short delay
+                    setTimeout(() => {
+                        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 600);
+                }
+
+                // Wire up the "Continue to Partner Dashboard" button
+                document.getElementById('gotoPartnerBtn')?.addEventListener('click', function () {
+                    sessionStorage.removeItem('post_eligibility_redirect');
+                    if (localStorage.getItem('partner_approved') === 'true') {
+                        window.location.href = '../partner/partner1.html';
+                    } else {
+                        window.location.href = '../Frontend/become-a-partner.html';
+                    }
+                });
+            }
+        })();
+
         calcEligibility();
     </script>
 </body>

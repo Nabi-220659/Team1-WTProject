@@ -169,7 +169,6 @@ function validateStep(step) {
 
   if (step === 3) {
     valid = validateField('panNumber')   & valid;
-    // At least one upload (PAN is mandatory)
     const panFile = document.getElementById('panFile');
     if (!panFile.files.length && !panFile.dataset.uploaded) {
       showToast('Please upload your PAN card document.', 'error');
@@ -324,7 +323,6 @@ const revealObserver = new IntersectionObserver(entries => {
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // ── INCOME CALCULATOR (hero) ──
-// Animate numbers in hero cards on load
 function animateValue(el, from, to, duration, prefix = '₹', suffix = '') {
   const start = performance.now();
   const update = (time) => {
@@ -338,7 +336,6 @@ function animateValue(el, from, to, duration, prefix = '₹', suffix = '') {
   requestAnimationFrame(update);
 }
 
-// Trigger count-up on hero visible
 const heroAmountEl = document.getElementById('heroMonthlyAmount');
 if (heroAmountEl) {
   setTimeout(() => animateValue(heroAmountEl, 0, 45000, 1800), 400);

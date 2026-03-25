@@ -3,7 +3,7 @@
 
 // Mock Google OAuth Configuration
 $clientId = 'YOUR_GOOGLE_CLIENT_ID';
-$redirectUri = 'http://localhost/Loan-Management/Backend/api/oauth_google_callback.php';
+$redirectUri = 'http://localhost/Loan-Management-System/Backend/api/oauth_google_callback.php';
 $scope = 'email profile';
 
 // Generate a random state parameter to prevent CSRF
