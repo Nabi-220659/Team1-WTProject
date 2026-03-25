@@ -72,7 +72,7 @@ try {
         'message'      => $message,
         'inquiry_type' => $type,          // 'apply' or 'expert'
         'status'       => 'new',          // new | in_progress | resolved
-        'created_at'   => new MongoDB\BSON\UTCDateTime()
+        'created_at'   => new MongoDB\BSON\UTCDateTime() //date("Y-m-d H:i:s") MongoDB\BSON\UTCDateTime()
     ];
 
     $result = $collection->insertOne($document);

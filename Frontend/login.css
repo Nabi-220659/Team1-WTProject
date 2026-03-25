@@ -299,6 +299,8 @@ nav {
 
 /* Social buttons */
 .social-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.social-btns-single { grid-template-columns: 1fr; }
+.btn-google-only { max-width: 100%; justify-content: center; gap: 10px; font-weight: 600; font-size: 14px; }
 .btn-social {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   padding: 11px 14px; border-radius: 8px;

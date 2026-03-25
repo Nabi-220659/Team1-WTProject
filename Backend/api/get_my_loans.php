@@ -1,181 +1,132 @@
 <?php
+/**
+ * get_my_loans.php — Fetches user's loan applications from MongoDB
+ *
+ * Fixes applied:
+ *   - Was returning HARDCODED static data; now queries real loan_applications collection
+ *   - Added user_id filtering so each user only sees their own loans
+ *   - Dynamically computes summary counts from DB records
+ *   - Supports ?status= and ?search= filters
+ *
+ * GET params:
+ *   user_id  (required)  — the user's identifier
+ *   status   (optional)  — filter: all | active | pending | closed
+ *   search   (optional)  — case-insensitive name search
+ */
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 
-$statusFilter = $_GET['status'] ?? 'all';
-$search = strtolower($_GET['search'] ?? '');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 
-$loans = [
-    [
-        "status" => "active",
-        "name" => "Personal Loan",
-        "icon_class" => "lt-blue",
-        "icon" => "👤",
-        "loan_id" => "#FB-20241",
-        "date_info" => "Disbursed Jan 10, 2026",
-        "progress_label_1" => "Repaid ₹18,200",
-        "progress_label_2" => "of ₹1,00,000",
-        "progress_val" => "18%",
-        "progress_bg" => "var(--green)",
-        "amount" => "₹1,00,000",
-        "emi" => "₹5,200",
-        "rate" => "10.5%",
-        "button_action" => "View Details",
-        "details" => [
-            "title" => "Personal Loan",
-            "id" => "#FB-20241",
-            "amt" => "₹1,00,000",
-            "emi" => "₹5,200",
-            "rate" => "10.5% p.a.",
-            "tenure" => "24 Months",
-            "outstanding" => "₹81,800",
-            "next" => "Apr 05, 2026",
-            "progress" => "18%",
-            "status" => "active",
-            "action" => "Pay EMI Now",
-            "timeline" => [
-                ["dot" => "green", "title" => "Loan Disbursed", "date" => "Jan 10, 2026", "note" => "₹1,00,000 credited to your account"],
-                ["dot" => "green", "title" => "EMI 1 Paid", "date" => "Feb 05, 2026", "note" => "₹5,200 deducted"],
-                ["dot" => "green", "title" => "EMI 2 Paid", "date" => "Mar 05, 2026", "note" => "₹5,200 deducted"],
-                ["dot" => "gold",  "title" => "EMI 3 Due",  "date" => "Apr 05, 2026", "note" => "₹5,200 pending"],
-                ["dot" => "gray",  "title" => "Loan Closure", "date" => "Jan 2028",   "note" => "Projected closure date"]
-            ]
-        ]
-    ],
-    [
-        "status" => "active",
-        "name" => "Home Loan",
-        "icon_class" => "lt-gold",
-        "icon" => "🏠",
-        "loan_id" => "#FB-20189",
-        "date_info" => "Disbursed Nov 1, 2025",
-        "progress_label_1" => "Repaid ₹82,000",
-        "progress_label_2" => "of ₹8,00,000",
-        "progress_val" => "10%",
-        "progress_bg" => "var(--green)",
-        "amount" => "₹8,00,000",
-        "emi" => "₹6,800",
-        "rate" => "8.5%",
-        "button_action" => "View Details",
-        "details" => [
-            "title" => "Home Loan",
-            "id" => "#FB-20189",
-            "amt" => "₹8,00,000",
-            "emi" => "₹6,800",
-            "rate" => "8.5% p.a.",
-            "tenure" => "120 Months",
-            "outstanding" => "₹7,18,000",
-            "next" => "Apr 01, 2026",
-            "progress" => "10%",
-            "status" => "active",
-            "action" => "Pay EMI Now",
-            "timeline" => [
-                ["dot" => "green", "title" => "Loan Sanctioned", "date" => "Oct 20, 2025", "note" => "Property verification complete"],
-                ["dot" => "green", "title" => "Disbursement", "date" => "Nov 01, 2025", "note" => "₹8,00,000 transferred to seller"],
-                ["dot" => "green", "title" => "EMIs 1–4 Paid", "date" => "Feb 2026", "note" => "₹82,000 total repaid"],
-                ["dot" => "gold", "title" => "EMI 5 Due", "date" => "Apr 01, 2026", "note" => "₹6,800 pending"],
-                ["dot" => "gray", "title" => "Loan Closure", "date" => "Nov 2035", "note" => "Projected closure date"]
-            ]
-        ]
-    ],
-    [
-        "status" => "pending",
-        "name" => "Business Loan",
-        "icon_class" => "lt-navy",
-        "icon" => "💼",
-        "loan_id" => "#FB-20312",
-        "date_info" => "Applied Mar 15, 2026",
-        "progress_label_1" => "Application Progress",
-        "progress_label_2" => "60%",
-        "progress_val" => "60%",
-        "progress_bg" => "var(--gold)",
-        "amount" => "₹2,50,000",
-        "emi" => "TBD",
-        "rate" => "12.0%",
-        "button_action" => "Track Status",
-        "details" => [
-            "title" => "Business Loan",
-            "id" => "#FB-20312",
-            "amt" => "₹2,50,000",
-            "emi" => "TBD",
-            "rate" => "12.0% p.a.",
-            "tenure" => "36 Months",
-            "outstanding" => "Pending",
-            "next" => "TBD",
-            "progress" => "60%",
-            "status" => "pending",
-            "action" => "Upload Documents",
-            "timeline" => [
-                ["dot" => "green", "title" => "Application Submitted", "date" => "Mar 15, 2026", "note" => "All basic documents uploaded"],
-                ["dot" => "green", "title" => "Initial KYC Passed", "date" => "Mar 17, 2026", "note" => "Identity verification complete"],
-                ["dot" => "gold", "title" => "Credit Assessment", "date" => "In Progress", "note" => "Risk team reviewing income proof"],
-                ["dot" => "gray", "title" => "Final Approval", "date" => "Expected Apr 1", "note" => "Pending credit team review"],
-                ["dot" => "gray", "title" => "Disbursement", "date" => "Expected Apr 3", "note" => "Upon approval"]
-            ]
-        ]
-    ],
-    [
-        "status" => "closed",
-        "name" => "Education Loan",
-        "icon_class" => "lt-green",
-        "icon" => "🎓",
-        "loan_id" => "#FB-19874",
-        "date_info" => "Closed Dec 20, 2025",
-        "progress_label_1" => "Fully Repaid",
-        "progress_label_2" => "100%",
-        "progress_val" => "100%",
-        "progress_bg" => "var(--muted)",
-        "amount" => "₹75,000",
-        "emi" => "Closed",
-        "rate" => "9.0%",
-        "button_action" => "Download NOC",
-        "details" => [
-            "title" => "Education Loan",
-            "id" => "#FB-19874",
-            "amt" => "₹75,000",
-            "emi" => "Closed",
-            "rate" => "9.0% p.a.",
-            "tenure" => "18 Months",
-            "outstanding" => "₹0",
-            "next" => "Closed",
-            "progress" => "100%",
-            "status" => "closed",
-            "action" => "Download NOC",
-            "timeline" => [
-                ["dot" => "green", "title" => "Loan Disbursed", "date" => "Jun 05, 2024", "note" => "₹75,000 to institution"],
-                ["dot" => "green", "title" => "All EMIs Paid", "date" => "Dec 2025", "note" => "18 EMIs completed on time"],
-                ["dot" => "green", "title" => "Loan Closed", "date" => "Dec 20, 2025", "note" => "NOC issued, CIBIL updated"]
-            ]
-        ]
-    ]
-];
+require_once __DIR__ . '/../index/config/db.php';
 
-$filtered = [];
-foreach ($loans as $l) {
-    if ($statusFilter !== 'all' && $l['status'] !== $statusFilter) {
-        continue;
-    }
-    if ($search !== '' && strpos(strtolower($l['name']), $search) === false) {
-        continue;
-    }
-    $filtered[] = $l;
+use MongoDB\BSON\UTCDateTime;
+
+$userId       = trim($_GET['user_id']  ?? '');
+$statusFilter = trim($_GET['status']  ?? 'all');
+$search       = strtolower(trim($_GET['search'] ?? ''));
+
+// ── user_id is required ──
+if (!$userId) {
+    echo json_encode(['status' => 'error', 'message' => 'user_id is required']);
+    exit;
 }
 
-echo json_encode([
-    "status" => "success",
-    "summary" => [
-        "total_loans" => 4,
-        "total_borrowed" => "₹11.25L",
-        "total_repaid" => "₹1.20L",
-        "emi_this_month" => "₹12,000",
-        "total_outstanding" => "₹10.05L"
-    ],
-    "counts" => [
-        "all" => 4,
-        "active" => 2,
-        "pending" => 1,
-        "closed" => 1
-    ],
-    "data" => $filtered
-]);
+try {
+    $db  = getDB();
+    $col = $db->selectCollection('loan_applications');
+
+    // Build filter
+    $filter = ['user_id' => $userId];
+    if ($statusFilter !== 'all' && in_array($statusFilter, ['active', 'pending', 'closed', 'approved', 'rejected'])) {
+        $filter['status'] = $statusFilter;
+    }
+    if ($search !== '') {
+        $filter['loan_type'] = ['$regex' => $search, '$options' => 'i'];
+    }
+
+    $cursor = $col->find($filter, ['sort' => ['submitted_at' => -1]]);
+
+    $loans = [];
+    foreach ($cursor as $doc) {
+        $status       = $doc['status'] ?? 'pending';
+        $amount       = (float)($doc['amount'] ?? 0);
+        $outstanding  = (float)($doc['outstanding'] ?? $amount);
+        $repaid       = $amount - $outstanding;
+        $progressPct  = $amount > 0 ? round(($repaid / $amount) * 100) . '%' : '0%';
+
+        // Map DB status to display status
+        $displayStatus = match(strtolower($status)) {
+            'approved', 'disbursed' => 'active',
+            'closed', 'completed'   => 'closed',
+            default                 => $status
+        };
+
+        $loans[] = [
+            'status'           => $displayStatus,
+            'name'             => ucwords(($doc['loan_type'] ?? 'Loan') . ' Loan'),
+            'loan_id'          => $doc['application_id'] ?? $doc['_id'],
+            'amount'           => '₹' . number_format($amount),
+            'emi'              => $doc['emi'] ?? 'TBD',
+            'rate'             => $doc['interest_rate'] ?? '—',
+            'outstanding'      => '₹' . number_format($outstanding),
+            'progress_val'     => $progressPct,
+            'progress_label_1' => $displayStatus === 'active'  ? 'Repaid ₹' . number_format($repaid) : ($displayStatus === 'pending' ? 'Application Progress' : 'Fully Repaid'),
+            'progress_label_2' => $displayStatus === 'active'  ? 'of ₹' . number_format($amount) : ($displayStatus === 'pending' ? '60%' : '100%'),
+            'date_info'        => isset($doc['submitted_at']) ? 'Applied ' . $doc['submitted_at']->toDateTime()->format('M d, Y') : '—',
+            'button_action'    => match($displayStatus) {
+                'active'  => 'View Details',
+                'pending' => 'Track Status',
+                'closed'  => 'Download NOC',
+                default   => 'View Details'
+            },
+        ];
+    }
+
+    // ── Dynamic summary counts ──
+    $allLoans = $col->find(['user_id' => $userId]);
+    $totalBorrowed    = 0;
+    $totalRepaid      = 0;
+    $emiThisMonth     = 0;
+    $counts           = ['all' => 0, 'active' => 0, 'pending' => 0, 'closed' => 0];
+
+    foreach ($allLoans as $l) {
+        $st  = strtolower($l['status'] ?? 'pending');
+        $amt = (float)($l['amount'] ?? 0);
+        $out = (float)($l['outstanding'] ?? $amt);
+        $totalBorrowed += $amt;
+        $totalRepaid   += ($amt - $out);
+        $counts['all']++;
+        if (in_array($st, ['approved', 'disbursed', 'active'])) {
+            $counts['active']++;
+            $emiThisMonth += (float)($l['emi_amount'] ?? 0);
+        } elseif (in_array($st, ['closed', 'completed'])) {
+            $counts['closed']++;
+        } else {
+            $counts['pending']++;
+        }
+    }
+
+    $totalOutstanding = $totalBorrowed - $totalRepaid;
+
+    echo json_encode([
+        'status'  => 'success',
+        'summary' => [
+            'total_loans'       => $counts['all'],
+            'total_borrowed'    => '₹' . number_format($totalBorrowed / 100000, 2) . 'L',
+            'total_repaid'      => '₹' . number_format($totalRepaid / 100000, 2) . 'L',
+            'emi_this_month'    => '₹' . number_format($emiThisMonth),
+            'total_outstanding' => '₹' . number_format($totalOutstanding / 100000, 2) . 'L',
+        ],
+        'counts'  => $counts,
+        'data'    => $loans,
+    ]);
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['status' => 'error', 'message' => 'Server error: ' . $e->getMessage()]);
+}
 ?>

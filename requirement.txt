@@ -1,0 +1,4 @@
+composer required mongodb/mongodb
+it will install the vendor into your folder.
+make sure you install it in the main folder of our project.
+q

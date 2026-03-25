@@ -49,7 +49,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // ══════════════════════════════════════════════
 async function fetchStats() {
   try {
-    const res = await fetch('/Loan-Management-System/Backend/index/get_stats.php');
+    const res = await fetch('../Backend/index/get_stats.php');
     const json = await res.json();
     if (!json.success) return;
 
@@ -72,7 +72,7 @@ async function fetchStats() {
 // ══════════════════════════════════════════════
 async function fetchProducts() {
   try {
-    const res = await fetch('/Loan-Management-System/Backend/index/get_products.php');
+    const res = await fetch('../Backend/index/get_products.php');
     const json = await res.json();
     if (!json.success || !json.data.length) return;
 
@@ -188,7 +188,7 @@ contactForm?.addEventListener('submit', async e => {
   };
 
   try {
-    const res = await fetch('/Loan-Management-System/Backend/index/contact_inquiry.php', {
+    const res = await fetch('../Backend/index/contact_inquiry.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
