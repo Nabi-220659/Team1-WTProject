@@ -75,11 +75,12 @@ if (submitBtn) {
     submitBtn.classList.add('loading');
 
     try {
+      // Gather form data manually
       const formData = new FormData();
-
+      
       const fields = [
         'fullName', 'mobile', 'email', 'whatsapp', 'dob',
-        'address', 'city', 'state', 'pincode',
+        'address', 'city', 'state', 'pincode', 
         'profession', 'experience', 'referrals', 'existingPartner',
         'bankName', 'accountHolder', 'accountNo', 'ifsc'
       ];
@@ -96,6 +97,7 @@ if (submitBtn) {
       // Selected Products
       const productLabels = document.querySelectorAll('.checkbox-grid input:checked');
       const products = Array.from(productLabels).map(input => {
+        // Find text node inside the label, ignoring emojis/icons if possible 
         return input.parentElement.textContent.replace(/[^\w\s-]/g, '').trim();
       }).filter(p => p);
       formData.append('products', JSON.stringify(products));
@@ -121,27 +123,11 @@ if (submitBtn) {
         submitBtn.classList.remove('loading');
         formSection.style.display = 'none';
         document.querySelector('.progress-bar-section').style.display = 'none';
+        successScreen.classList.add('show');
 
-        if (result.eligible) {
-          // ── ELIGIBLE: show success screen then redirect to partner dashboard ──
-          successScreen.classList.add('show');
-          document.getElementById('refNumber').textContent = 'Reference: ' + result.reference_id;
-          successScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-          localStorage.setItem('partner_approved', 'true'); // mark as approved partner
-          setTimeout(() => {
-            window.location.href = '../partner/partner1.html';
-          }, 2000);
-        } else {
-          // ── NOT ELIGIBLE: show rejection screen ──
-          const rejectionScreen = document.getElementById('rejectionScreen');
-          if (rejectionScreen) {
-            document.getElementById('rejectionReason').textContent =
-              result.reason || 'You do not meet the eligibility criteria at this time.';
-            rejectionScreen.classList.add('show');
-            rejectionScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }
+        // Show the returned reference number
+        document.getElementById('refNumber').textContent = 'Reference: ' + result.reference_id;
+        successScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         throw new Error(result.message || 'Error submitting application.');
       }

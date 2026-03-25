@@ -212,8 +212,7 @@
             <a class="nav-item" href="Analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
             <div class="nav-section-label" style="margin-top:10px">Management</div>
             <a class="nav-item" href="Borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
-            <a class="nav-item active-green" href="Applications.html"><span class="nav-item-icon">📋</span>
-                Applications</a>
+            <a class="nav-item active-green" href="Applications.html"><span class="nav-item-icon">📋</span> Applications</a>
             <a class="nav-item" href="Withdrawls.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
             <a class="nav-item" href="Statements.html"><span class="nav-item-icon">📄</span> Statements</a>
             <div class="nav-section-label" style="margin-top:10px">Premium</div>
@@ -250,27 +249,6 @@
                         <div class="kpi-icon ki-gold">📋</div><span class="kpi-badge kb-neutral">Pending</span>
                     </div>
                     <div class="kpi-value kv-dark">0</div>
-                    <div class="kpi-label">Open Applications</div>
-                </div>
-                <div class="kpi-card card-dark">
-                    <div class="kpi-header">
-                        <div class="kpi-icon ki-green">✅</div><span class="kpi-badge kb-up">This Month</span>
-                    </div>
-                    <div class="kpi-value kv-dark">0</div>
-                    <div class="kpi-label">Approved</div>
-                </div>
-                <div class="kpi-card card-dark">
-                    <div class="kpi-header">
-                        <div class="kpi-icon ki-red">❌</div>
-                    </div>
-                    <div class="kpi-value kv-dark">0</div>
-                    <div class="kpi-label">Rejected</div>
-                </div>
-                <div class="kpi-card card-dark">
-                    <div class="kpi-header">
-                        <div class="kpi-icon ki-blue">💰</div><span class="kpi-badge kb-up">Funded</span>
-                    </div>
-                    <div class="kpi-value kv-green">₹0</div>
                     <div class="kpi-label">Disbursed This Month</div>
                 </div>
             </div>
@@ -440,7 +418,7 @@
         }
         
         document.addEventListener('DOMContentLoaded', loadApplications);
-
+ 
         function searchApps(query) {
             const q = query.trim().toLowerCase();
             const cards = document.querySelectorAll('.app-card');
@@ -450,7 +428,7 @@
             list.classList.remove('slide-up');
             void list.offsetWidth;
             list.classList.add('slide-up');
-
+ 
             cards.forEach(card => {
                 // Gather searchable text from the card
                 const name = (card.querySelector('.app-name')?.textContent || '').toLowerCase();
@@ -459,7 +437,7 @@
                 card.style.display = matches ? '' : 'none';
             });
         }
-
+ 
         function goToUser() {
             window.location.href = '../user/user1.html';
         }

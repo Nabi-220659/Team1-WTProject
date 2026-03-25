@@ -186,7 +186,6 @@
         .toggle.on::after {
             transform: translateX(18px)
         }
-        
         .settings-panel {
             display: none
         }
@@ -231,8 +230,7 @@
             <div class="nav-section-label" style="margin-top:10px">Premium</div>
             <a class="nav-item" href="Risk_insights.html"><span class="nav-item-icon">⚡</span> Risk Insights</a>
             <a class="nav-item" href="Deal_matcher.html"><span class="nav-item-icon">🎯</span> Deal Matcher</a>
-            <a class="nav-item active-green" href="partner_settings.html"><span class="nav-item-icon">⚙️</span>
-                Settings</a>
+            <a class="nav-item active-green" href="partner_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='../Frontend/login.html'">🚪 Sign Out</div>
@@ -637,31 +635,33 @@
 
                         // Hydrate Bank Accounts
                         if(d.banks && d.banks.length > 0) {
-                            const panelBank = document.getElementById('panel-bank').querySelector('.panel-card-dark');
-                            // Exclude titles/buttons
-                            Array.from(panelBank.children).forEach(child => {
-                                if(child.classList.contains('bank-card-dark')) {
-                                    panelBank.removeChild(child);
-                                }
-                            });
-                            
-                            d.banks.reverse().forEach(b => {
-                                const card = document.createElement('div');
-                                card.className = 'bank-card-dark';
-                                card.innerHTML = `
-                                    <div style="display:flex;align-items:center;gap:12px">
-                                        <div class="bc-icon-dark">🏦</div>
-                                        <div>
-                                            <div style="font-weight:600;font-size:14px;color:white">${b.bank_name}</div>
-                                            <div style="font-size:12px;color:rgba(255,255,255,0.35)">Account ${b.account} · ${b.type}</div>
+                            const panelBank = document.getElementById('panel-bank') ? document.getElementById('panel-bank').querySelector('.panel-card-dark') : null;
+                            if (panelBank) {
+                                // Exclude titles/buttons
+                                Array.from(panelBank.children).forEach(child => {
+                                    if(child.classList.contains('bank-card-dark')) {
+                                        panelBank.removeChild(child);
+                                    }
+                                });
+                                
+                                d.banks.reverse().forEach(b => {
+                                    const card = document.createElement('div');
+                                    card.className = 'bank-card-dark';
+                                    card.innerHTML = `
+                                        <div style="display:flex;align-items:center;gap:12px">
+                                            <div class="bc-icon-dark">🏦</div>
+                                            <div>
+                                                <div style="font-weight:600;font-size:14px;color:white">${b.bank_name}</div>
+                                                <div style="font-size:12px;color:rgba(255,255,255,0.35)">Account ${b.account} · ${b.type}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:10px">
-                                        ${b.is_primary ? '<span class="pill pill-green">Primary</span><button class="ghost-btn">Edit</button>' : '<button class="ghost-btn">Set Primary</button><button class="ghost-btn" onclick="showToast(\\\'Account removed\\\')">Remove</button>'}
-                                    </div>
-                                `;
-                                panelBank.insertBefore(card, panelBank.querySelector('.btn-primary-dark'));
-                            });
+                                        <div style="display:flex;align-items:center;gap:10px">
+                                            ${b.is_primary ? '<span class="pill pill-green">Primary</span><button class="ghost-btn">Edit</button>' : '<button class="ghost-btn">Set Primary</button><button class="ghost-btn" onclick="showToast(\'Account removed\')">Remove</button>'}
+                                        </div>
+                                    `;
+                                    panelBank.insertBefore(card, panelBank.querySelector('.btn-primary-dark'));
+                                });
+                            }
                         }
 
                         // Hydrate Notifications
@@ -684,12 +684,6 @@
                                 invInputs[1].value = d.preferences.min_cibil || '';
                                 invInputs[2].value = d.preferences.max_exposure || '';
                             }
-                        }
-
-                        // Hydrate KYC
-                        if(d.kyc) {
-                            // Can selectively render checks based on boolean fields in d.kyc
-                            // In this iteration we verify it from DB.
                         }
                     }
                 })

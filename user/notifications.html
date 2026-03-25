@@ -14,6 +14,98 @@
             background: var(--cream);
         }
 
+        /* TOP BAR */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(250, 248, 244, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 40px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .apply-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25);
+        }
+
+        .notif-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .notif-btn:hover {
+            border-color: var(--gold);
+        }
+
+        .notif-dot {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 15px;
+            cursor: pointer;
+        }
+
         .notif-item {
             display: flex;
             gap: 16px;
@@ -155,19 +247,19 @@
                 User</span>
         </div>
         <nav class="sidebar-nav">
-            <div class="nav-section-label">Main</div>
             <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
-            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
+            <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span
+                    class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
             <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
             <div class="nav-section-label" style="margin-top:10px">Account</div>
             <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-            <a class="nav-item active-gold" href="Notificatons.html"><span class="nav-item-icon">🔔</span>
+            <a class="nav-item active-gold" href="notifications.html"><span class="nav-item-icon">🔔</span>
                 Notifications</a>
             <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
             <div class="nav-section-label" style="margin-top:10px">More</div>
             <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
-            <a class="nav-item" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
+            <a class="nav-item" href="advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
@@ -178,11 +270,17 @@
         <div class="topbar topbar-light">
             <div class="topbar-title topbar-title-light">Notifications</div>
             <div class="topbar-right">
-                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
-                <div class="notif-btn nb-light">🔔<div class="notif-dot-gold"></div>
-                </div>
-                <div class="avatar avatar-gold">AS</div>
+                <button class="apply-btn"
+                    onclick="sessionStorage.setItem('openLoanModal', 'true'); window.location.href='user1.html'">
+                    ＋ Apply for Loan
+                </button>
+                <a href="notifications.html" style="text-decoration:none" class="notif-btn">🔔<div class="notif-dot">
+                    </div></a>
+                <a href="user_settings.html" style="text-decoration:none">
+                    <div class="avatar">{{ session.user.initials }}</div>
+                </a>
             </div>
+        </div>
         </div>
 
         <div class="content">
@@ -206,81 +304,8 @@
                         <span class="mark-read" onclick="markAllRead()">Mark all as read</span>
                     </div>
 
-                    <div class="card-light" style="padding:0;overflow:hidden">
-                        <div class="notif-item unread" data-type="emi">
-                            <div class="notif-icon ni-gold">📅</div>
-                            <div style="flex:1">
-                                <div class="notif-top">
-                                    <div>
-                                        <div class="notif-title">EMI Due Reminder — Home Loan</div>
-                                        <div class="notif-body">Your Home Loan EMI of ₹6,800 is due on Apr 01, 2026.
-                                            Please ensure sufficient balance in your linked account.</div>
-                                        <div class="notif-action"><button class="na-btn" href="Emi_Schedule.html">Pay
-                                                Now</button></div>
-                                    </div>
-                                    <div class="unread-dot"></div>
-                                </div>
-                                <div class="notif-time">Today, 9:00 AM</div>
-                            </div>
-                        </div>
-                        <div class="notif-item unread" data-type="loan">
-                            <div class="notif-icon ni-blue">📋</div>
-                            <div style="flex:1">
-                                <div class="notif-top">
-                                    <div>
-                                        <div class="notif-title">Business Loan — Document Pending</div>
-                                        <div class="notif-body">Your Business Loan application #FB-20312 requires IT
-                                            Returns (2 years) to proceed. Upload to avoid delays.</div>
-                                        <div class="notif-action"><button class="na-btn">Upload Docs</button></div>
-                                    </div>
-                                    <div class="unread-dot"></div>
-                                </div>
-                                <div class="notif-time">Yesterday, 3:45 PM</div>
-                            </div>
-                        </div>
-                        <div class="notif-item unread" data-type="emi">
-                            <div class="notif-icon ni-gold">📅</div>
-                            <div style="flex:1">
-                                <div class="notif-top">
-                                    <div>
-                                        <div class="notif-title">EMI Due Reminder — Personal Loan</div>
-                                        <div class="notif-body">Your Personal Loan EMI of ₹5,200 is due on Apr 05, 2026.
-                                            Auto-debit is enabled for this EMI.</div>
-                                    </div>
-                                    <div class="unread-dot"></div>
-                                </div>
-                                <div class="notif-time">Yesterday, 9:00 AM</div>
-                            </div>
-                        </div>
-                        <div class="notif-item" data-type="loan">
-                            <div class="notif-icon ni-green">✅</div>
-                            <div style="flex:1">
-                                <div class="notif-title">Personal Loan EMI Paid Successfully</div>
-                                <div class="notif-body">₹5,200 has been successfully deducted for your Personal Loan EMI
-                                    (March). Reference: TXN8821047.</div>
-                                <div class="notif-time">Mar 5, 2026 · 6:02 AM</div>
-                            </div>
-                        </div>
-                        <div class="notif-item" data-type="promo">
-                            <div class="notif-icon ni-navy">🎁</div>
-                            <div style="flex:1">
-                                <div class="notif-title">Exclusive Offer: Top-Up Loan Available</div>
-                                <div class="notif-body">Based on your excellent repayment history, you're eligible for a
-                                    Top-Up Loan of up to ₹50,000 at 9.5% p.a. Offer valid till Apr 30.</div>
-                                <div class="notif-action"><button class="na-btn">Explore Offer</button></div>
-                                <div class="notif-time">Mar 18, 2026</div>
-                            </div>
-                        </div>
-                        <div class="notif-item" data-type="loan">
-                            <div class="notif-icon ni-green">🏆</div>
-                            <div style="flex:1">
-                                <div class="notif-title">Education Loan Closed — NOC Issued</div>
-                                <div class="notif-body">Your Education Loan #FB-19874 has been fully repaid. Your No
-                                    Objection Certificate is ready to download.</div>
-                                <div class="notif-action"><button class="na-btn">Download NOC</button></div>
-                                <div class="notif-time">Dec 20, 2025</div>
-                            </div>
-                        </div>
+                    <div class="card-light" style="padding:0;overflow:hidden" id="notifContainer">
+                        <div style="padding:40px;text-align:center;color:var(--muted)">Loading notifications...</div>
                     </div>
                 </div>
 
@@ -367,6 +392,95 @@
         }
     </style>
     <script>
+        function renderNotifs(data) {
+            // Sidebar & Header
+            const fullName = (data.user.firstName || '') + ' ' + (data.user.lastName || '');
+            const initial = ((data.user.firstName || '?').charAt(0) + (data.user.lastName || '?').charAt(0)).toUpperCase();
+            document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
+            document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+
+            const container = document.getElementById('notifContainer');
+            let notifs = [];
+
+            // Generate dynamic notifications based on loan status
+            if (data.loans && data.loans.length > 0) {
+                data.loans.forEach(loan => {
+                    if (loan.status === 'pending') {
+                        notifs.push({
+                            type: 'loan',
+                            title: `Application Under Review — ${loan.loan_type}`,
+                            body: `Your application for ₹${Number(loan.amount).toLocaleString('en-IN')} is being processed.`,
+                            time: 'Just now',
+                            unread: true,
+                            icon: '📋',
+                            iconCls: 'ni-blue'
+                        });
+                    } else if (loan.status === 'active') {
+                        notifs.push({
+                            type: 'emi',
+                            title: `Upcoming EMI — ${loan.loan_type}`,
+                            body: `Your EMI of ${loan.emi_str} is due on ${loan.next_due}.`,
+                            time: 'Today',
+                            unread: true,
+                            icon: '📅',
+                            iconCls: 'ni-gold',
+                            action: 'Pay Now',
+                            link: 'Emi_Schedule.html'
+                        });
+                    }
+                });
+            } else {
+                notifs.push({
+                    type: 'promo',
+                    title: 'Welcome to FUNDBEE!',
+                    body: 'Complete your profile and upload documents to apply for your first loan.',
+                    time: 'Recently',
+                    unread: false,
+                    icon: '🎁',
+                    iconCls: 'ni-navy'
+                });
+            }
+
+            container.innerHTML = notifs.map(n => `
+                <div class="notif-item ${n.unread ? 'unread' : ''}" data-type="${n.type}">
+                    <div class="notif-icon ${n.iconCls}">${n.icon}</div>
+                    <div style="flex:1">
+                        <div class="notif-top">
+                            <div>
+                                <div class="notif-title">${n.title}</div>
+                                <div class="notif-body">${n.body}</div>
+                                ${n.action ? `<div class="notif-action"><button class="na-btn" onclick="location.href='${n.link}'">${n.action}</button></div>` : ''}
+                            </div>
+                            ${n.unread ? '<div class="unread-dot"></div>' : ''}
+                        </div>
+                        <div class="notif-time">${n.time}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update summary
+            document.querySelector('.card-light span[style*="background:var(--gold)"]').textContent = notifs.filter(n => n.unread).length;
+            const summaryVals = document.querySelectorAll('.card-light [style*="font-weight:700"]');
+            if (summaryVals.length >= 3) {
+                summaryVals[0].textContent = notifs.filter(n => n.unread).length;
+                summaryVals[1].textContent = notifs.length;
+                summaryVals[2].textContent = notifs.length;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('get_user_data.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        window.location.href = '../Frontend/login.html';
+                    } else {
+                        renderNotifs(data);
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
         function filterNotif(type, btn) {
             document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active');
             document.querySelectorAll('.notif-item').forEach(item => { item.style.display = (type === 'all' || item.dataset.type === type) ? '' : 'none'; });

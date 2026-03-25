@@ -14,6 +14,98 @@
             background: var(--cream);
         }
 
+        /* TOP BAR */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(250, 248, 244, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 40px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .apply-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25);
+        }
+
+        .notif-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .notif-btn:hover {
+            border-color: var(--gold);
+        }
+
+        .notif-dot {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 15px;
+            cursor: pointer;
+        }
+
         .settings-grid {
             display: grid;
             grid-template-columns: 220px 1fr;
@@ -288,16 +380,17 @@
         <nav class="sidebar-nav">
             <div class="nav-section-label">Main</div>
             <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
-            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
+            <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span
+                    class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
             <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
             <div class="nav-section-label" style="margin-top:10px">Account</div>
             <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-            <a class="nav-item" href="Notificatons.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+            <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
             <a class="nav-item active-gold" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
             <div class="nav-section-label" style="margin-top:10px">More</div>
             <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
-            <a class="nav-item" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
+            <a class="nav-item" href="advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
@@ -308,10 +401,13 @@
         <div class="topbar topbar-light">
             <div class="topbar-title topbar-title-light">Settings</div>
             <div class="topbar-right">
-                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
-                <div class="avatar avatar-gold">AS</div>
+                <a href="user1.html" style="text-decoration:none" class="apply-btn">← Dashboard</a>
+                <a href="user_settings.html" style="text-decoration:none">
+                    <div class="avatar">{{ session.user.initials }}</div>
+                </a>
             </div>
         </div>
+
 
         <div class="content">
             <div class="page-header">
@@ -337,34 +433,34 @@
                             <div class="panel-title">Personal Information</div>
                             <div class="panel-sub">Update your personal details and profile photo.</div>
                             <div class="avatar-upload">
-                                <div class="big-avatar">AS</div>
+                                <div class="big-avatar">{{ initials }}</div>
                                 <div>
                                     <button class="upload-avatar-btn">Change Photo</button>
-                                    <div style="font-size:12px;color:var(--muted);margin-top:6px">JPG or PNG, max 2MB
+                                    <div style="font-size:12px;color:var(--muted);margin-top:6px">JPG or PNG, max
+                                        2MB
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-row-2">
+                            <div class="form-row-2" id="profileForm">
                                 <div class="form-group"><label class="form-label">First Name</label><input
-                                        class="form-input fi-light" value="Arjun"></div>
+                                        class="form-input fi-light" id="set-fname" value=""></div>
                                 <div class="form-group"><label class="form-label">Last Name</label><input
-                                        class="form-input fi-light" value="Sharma"></div>
+                                        class="form-input fi-light" id="set-lname" value=""></div>
                                 <div class="form-group"><label class="form-label">Email Address</label><input
-                                        class="form-input fi-light" value="arjun.sharma@email.com" type="email"></div>
+                                        class="form-input fi-light" id="set-email" value="" type="email"></div>
                                 <div class="form-group"><label class="form-label">Mobile Number</label><input
-                                        class="form-input fi-light" value="+91 98765 43210"></div>
+                                        class="form-input fi-light" id="set-phone" value=""></div>
                                 <div class="form-group"><label class="form-label">Date of Birth</label><input
-                                        class="form-input fi-light" value="1992-08-14" type="date"></div>
+                                        class="form-input fi-light" id="set-dob" value="" type="date"></div>
                                 <div class="form-group"><label class="form-label">City</label><input
-                                        class="form-input fi-light" value="Bengaluru"></div>
+                                        class="form-input fi-light" id="set-city" value=""></div>
                             </div>
                             <div class="form-group"><label class="form-label">Address</label><input
-                                    class="form-input fi-light" value="12, MG Road, Bengaluru, Karnataka — 560001">
+                                    class="form-input fi-light" id="set-address" value="">
                             </div>
                             <div class="save-bar">
                                 <button class="btn-secondary btn-sec-light">Cancel</button>
-                                <button class="btn-primary-light"
-                                    onclick="showToast('Profile updated successfully!')">Save Changes</button>
+                                <button class="btn-primary-light" onclick="saveProfile()">Save Changes</button>
                             </div>
                         </div>
                     </div>
@@ -511,20 +607,24 @@
                                     <div style="font-size:22px;margin-bottom:8px">✅</div>
                                     <div style="font-weight:700;color:var(--navy);font-size:14px">Identity Verified
                                     </div>
-                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Aadhaar + PAN matched
+                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Aadhaar + PAN
+                                        matched
                                     </div>
                                 </div>
                                 <div
                                     style="padding:16px;background:var(--green-light);border-radius:12px;border:1px solid rgba(16,185,129,0.2)">
                                     <div style="font-size:22px;margin-bottom:8px">✅</div>
-                                    <div style="font-weight:700;color:var(--navy);font-size:14px">Address Verified</div>
-                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Utility bill accepted
+                                    <div style="font-weight:700;color:var(--navy);font-size:14px">Address Verified
+                                    </div>
+                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Utility bill
+                                        accepted
                                     </div>
                                 </div>
                                 <div
                                     style="padding:16px;background:var(--green-light);border-radius:12px;border:1px solid rgba(16,185,129,0.2)">
                                     <div style="font-size:22px;margin-bottom:8px">✅</div>
-                                    <div style="font-weight:700;color:var(--navy);font-size:14px">Bank Verified</div>
+                                    <div style="font-weight:700;color:var(--navy);font-size:14px">Bank Verified
+                                    </div>
                                     <div style="font-size:12px;color:var(--muted);margin-top:3px">Penny drop success
                                     </div>
                                 </div>
@@ -532,7 +632,8 @@
                                     style="padding:16px;background:rgba(245,166,35,0.08);border-radius:12px;border:1px solid rgba(245,166,35,0.2)">
                                     <div style="font-size:22px;margin-bottom:8px">⏳</div>
                                     <div style="font-weight:700;color:var(--navy);font-size:14px">Video KYC</div>
-                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Required for Business
+                                    <div style="font-size:12px;color:var(--muted);margin-top:3px">Required for
+                                        Business
                                         Loan</div>
                                 </div>
                             </div>
@@ -546,6 +647,36 @@
     </main>
     <div class="toast" id="toast">Settings saved!</div>
     <script>
+        function renderSettings(data) {
+            const u = data.user;
+            const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
+            const initial = ((u.firstName || '?').charAt(0) + (u.lastName || '?').charAt(0)).toUpperCase();
+
+            document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
+            document.querySelectorAll('.avatar, .big-avatar').forEach(el => el.textContent = initial);
+
+            document.getElementById('set-fname').value = u.firstName || '';
+            document.getElementById('set-lname').value = u.lastName || '';
+            document.getElementById('set-email').value = u.email || '';
+            document.getElementById('set-phone').value = u.phone || '';
+            document.getElementById('set-dob').value = u.dob || '';
+            document.getElementById('set-city').value = u.city || '';
+            document.getElementById('set-address').value = u.address || '';
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('get_user_data.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        window.location.href = '../Frontend/login.html';
+                    } else {
+                        renderSettings(data);
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
         function switchTab(id, el) {
             document.querySelectorAll('.sn-item').forEach(i => i.classList.remove('active')); el.classList.add('active');
             document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
@@ -554,6 +685,40 @@
         function showToast(msg) {
             const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 2500);
+        }
+        function saveProfile() {
+            const data = {
+                firstName: document.getElementById('set-fname').value,
+                lastName: document.getElementById('set-lname').value,
+                email: document.getElementById('set-email').value,
+                phone: document.getElementById('set-phone').value,
+                dob: document.getElementById('set-dob').value,
+                city: document.getElementById('set-city').value,
+                address: document.getElementById('set-address').value
+            };
+
+            fetch('update_profile.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        showToast(res.message);
+                        // Update sidebar/avatar name if needed
+                        const fullName = (data.firstName + ' ' + data.lastName).trim();
+                        const initial = ((data.firstName || '?')[0] + (data.lastName || '?')[0]).toUpperCase();
+                        document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName);
+                        document.querySelectorAll('.avatar, .big-avatar').forEach(el => el.textContent = initial);
+                    } else {
+                        showToast(res.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    showToast('An error occurred');
+                });
         }
     </script>
 </body>

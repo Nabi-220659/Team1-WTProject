@@ -347,23 +347,23 @@
     <aside class="sidebar sidebar-light">
         <div class="sidebar-logo">FUND<span>BEE</span></div>
         <div class="sidebar-user">
-            <div class="sidebar-user-name">Arjun Sharma</div><span class="sidebar-user-tag tag-gold">Verified
+            <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified
                 User</span>
         </div>
         <nav class="sidebar-nav">
             <div class="nav-section-label">Main</div>
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
-            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
-            <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
-            <div class="nav-section-label" style="margin-top:10px">Account</div>
-            <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-            <a class="nav-item" href="Notificatons.html"><span class="nav-item-icon">🔔</span> Notifications</a>
-            <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+      <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+      <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
+      <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+      <div class="nav-section-label" style="margin-top:10px">Account</div>
+      <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+      <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+      <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
             <div class="nav-section-label" style="margin-top:10px">Explore</div>
-            <a class="nav-item active-gold" href="loan_products.html"><span class="nav-item-icon">💡</span> Loan
+            <a class="nav-item active-gold" href="loan-products.html"><span class="nav-item-icon">💡</span> Loan
                 Products</a>
-            <a class="nav-item" href="Knowledge_hub.html"><span class="nav-item-icon">📚</span> Knowledge Hub</a>
+            <a class="nav-item" href="knowledge-hub.html"><span class="nav-item-icon">📚</span> Knowledge Hub</a>
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
@@ -377,7 +377,7 @@
                 <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
                 <div class="notif-btn nb-light">🔔<div class="notif-dot-gold"></div>
                 </div>
-                <div class="avatar avatar-gold">AS</div>
+                <div class="avatar avatar-gold">?</div>
             </div>
         </div>
 
@@ -647,7 +647,7 @@
             <div style="padding:24px 28px">
                 <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
                     <div class="form-group"><label class="form-label">Full Name</label><input
-                            class="form-input fi-light" value="Arjun Sharma"></div>
+                            class="form-input fi-light user-name-input" value="Arjun Sharma"></div>
                     <div class="form-group"><label class="form-label">Mobile</label><input class="form-input fi-light"
                             value="+91 98765 43210"></div>
                     <div class="form-group"><label class="form-label">Loan Amount</label><input
@@ -672,6 +672,24 @@
         ✅ Application submitted!</div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('get_user_data.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        window.location.href = '../Frontend/login.html';
+                    } else {
+                        const u = data.user;
+                        const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
+                        const initial = ((u.firstName || '?').charAt(0) + (u.lastName || '?').charAt(0)).toUpperCase();
+                        document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
+                        document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+                        document.querySelectorAll('.user-name-input').forEach(el => el.value = fullName.trim());
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
         function filterProducts(cat, btn) {
             document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active');
             document.querySelectorAll('.product-card').forEach(c => { c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none'; });
@@ -683,8 +701,38 @@
         }
         function closeApply() { document.getElementById('applyModal').classList.remove('open'); }
         function submitApply() {
-            closeApply();
-            const t = document.getElementById('toast'); t.style.transform = 'translateY(0)';
+            const data = {
+                loanType: document.getElementById('modalProductName').textContent.replace('Apply for ', ''),
+                amount: document.querySelector('.modal-box input[placeholder="Enter amount"]').value,
+                tenure: document.querySelector('.modal-box input[placeholder="e.g. 36"]').value,
+                purpose: document.querySelector('.modal-box input[placeholder*="e.g."]').value,
+                income: document.querySelector('.modal-box input[placeholder*="income"]').value,
+                employment: 'salaried', // Default if not in modal
+                fullName: document.querySelector('.user-name-input').value,
+                phone: document.querySelector('.modal-box input[value*="+91"]').value
+            };
+
+            fetch('apply_loan.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    showToast(res.message);
+                    closeApply();
+                } else {
+                    showToast(res.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showToast('An error occurred');
+            });
+        }
+        function showToast(msg) {
+            const t = document.getElementById('toast'); t.textContent = msg; t.style.transform = 'translateY(0)';
             setTimeout(() => t.style.transform = 'translateY(80px)', 3000);
         }
         document.getElementById('applyModal').addEventListener('click', e => { if (e.target === document.getElementById('applyModal')) closeApply(); });

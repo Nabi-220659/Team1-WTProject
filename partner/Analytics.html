@@ -316,6 +316,37 @@
                             style="color:#fc8181">2.2%</span></div>
                 </div>
 
+<<<<<<< HEAD
+                <!-- AI Insights -->
+                <div>
+                    <div
+                        style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:14px">
+                        AI-Powered Insights</div>
+                    <div class="insight-card">
+                        <div class="ic-icon">📈</div>
+                        <div>
+                            <div class="ic-title">Yield Increasing Trend</div>
+                            <div class="ic-body">Your portfolio yield has grown 3.2% over 6 months. Business loans are
+                                the key driver at 13.8% avg yield.</div>
+                        </div>
+                    </div>
+                    <div class="insight-card"
+                        style="background:rgba(245,166,35,0.06);border-color:rgba(245,166,35,0.15)">
+                        <div class="ic-icon">⚠️</div>
+                        <div>
+                            <div class="ic-title">Concentration Risk Alert</div>
+                            <div class="ic-body">Personal loans make up 43% of AUM. Consider diversifying into home
+                                loans to reduce single-segment exposure.</div>
+                        </div>
+                    </div>
+                    <div class="insight-card"
+                        style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.15)">
+                        <div class="ic-icon">🎯</div>
+                        <div>
+                            <div class="ic-title">Opportunity Identified</div>
+                            <div class="ic-body">12 pre-approved borrowers with 750+ CIBIL are awaiting funding.
+                                Estimated yield: 11.2% p.a.</div>
+=======
                 <div id="ai-insights-container">
                     <div
                         style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:14px">
@@ -326,6 +357,7 @@
                         <div>
                             <div class="ic-title">Loading Insights...</div>
                             <div class="ic-body">Analyzing your portfolio data for new opportunities.</div>
+>>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
                         </div>
                     </div>
                 </div>
@@ -453,19 +485,21 @@
 
                     // Update Cohort Table
                     const tbody = document.querySelector('tbody');
-                    tbody.innerHTML = ''; // clear existing rows
-                    data.cohorts.forEach(cohort => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td style="padding:15px 20px">${cohort.quarter}</td>
-                            <td style="padding:15px 20px">${cohort.loans}</td>
-                            <td style="padding:15px 20px">₹${cohort.disbursed} Cr</td>
-                            <td style="padding:15px 20px;color:var(--green)">${cohort.repayment}%</td>
-                            <td style="padding:15px 20px;color:var(--gold)">${cohort.yield}%</td>
-                            <td style="padding:15px 20px;color:#fc8181">${cohort.npa}%</td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
+                    if (tbody) {
+                        tbody.innerHTML = ''; // clear existing rows
+                        data.cohorts.forEach(cohort => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td style="padding:15px 20px">${cohort.quarter}</td>
+                                <td style="padding:15px 20px">${cohort.loans}</td>
+                                <td style="padding:15px 20px">₹${cohort.disbursed} Cr</td>
+                                <td style="padding:15px 20px;color:var(--green)">${cohort.repayment}%</td>
+                                <td style="padding:15px 20px;color:var(--gold)">${cohort.yield}%</td>
+                                <td style="padding:15px 20px;color:#fc8181">${cohort.npa}%</td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    }
 
                     // Update AI Insights
                     const insightsContainer = document.getElementById('ai-insights-container');
