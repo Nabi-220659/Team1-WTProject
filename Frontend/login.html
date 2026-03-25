@@ -91,7 +91,7 @@
           <h2 class="card-heading">Welcome back</h2>
           <p class="card-sub">Enter your credentials to access your account.</p>
 
-          <form id="loginForm" novalidate>
+          <form id="loginForm" action="../user/user1.html" novalidate>
             <div class="form-group">
               <label class="form-label" for="loginIdentifier">Mobile Number or Email</label>
               <div class="input-wrap">
@@ -141,7 +141,7 @@
                 </div>
                 <div class="role-arrow">›</div>
               </a>
-<<<<<<< HEAD
+
               <a href="become-a-partner.html" class="role-option partner-opt">
                 <div class="role-icon green">💼</div>
                 <div class="role-info">
@@ -150,9 +150,8 @@
                 </div>
                 <div class="role-arrow">›</div>
               </a>
-=======
-              <a class="role-option partner-opt"
-                onclick="
+
+              <a class="role-option partner-opt" onclick="
                   event.preventDefault();
                   if (localStorage.getItem('partner_approved') === 'true') {
                     window.location.href = '../partner/partner1.html';
@@ -165,7 +164,7 @@
                   <h4>Continue as Partner</h4>
                   <p>Access earnings, portfolio &amp; premium analytics</p>
                 </div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
+
             </div>
           </div>
 
@@ -281,36 +280,9 @@
             </button>
           </form>
 
-<<<<<<< HEAD
-=======
-          <!-- OTP Screen -->
-          <div id="otpScreen" style="display:none;">
-            <button class="otp-back" id="otpBack">← Back</button>
-            <h2 class="card-heading">Verify Mobile</h2>
-            <p class="otp-info">
-              We've sent a 6-digit OTP to<br>
-              <strong id="otpPhoneDisplay">your mobile number</strong>
-            </p>
-            <form id="otpForm" novalidate>
-              <div class="otp-grid">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-                <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-              </div>
-              <div class="otp-resend">
-                <span id="otpTimerWrap">Resend OTP in <strong id="otpCountdown">30</strong>s &nbsp;|&nbsp;</span>
-                <button type="button" id="resendOtp" disabled>Resend</button>
-              </div>
-              <button type="submit" class="btn-submit">
-                <span class="btn-text">Verify &amp; Continue →</span>
-                <span class="btn-spinner"><span class="spinner-ring"></span></span>
-              </button>
-            </form>
-          </div>
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
+
+
+
 
           <!-- Register success -->
           <div class="success-screen" id="registerSuccessScreen">
