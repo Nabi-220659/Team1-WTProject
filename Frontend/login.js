@@ -75,7 +75,7 @@ function validatePhone(p) { return /^[6-9]\d{9}$/.test(p.replace(/[\s\-+]/g, '')
 // ── LOGIN FORM ──
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
-  loginForm.addEventListener('submit', async e => {
+  loginForm.addEventListener('submit', e => {
     e.preventDefault();
     let valid = true;
     const identifier = document.getElementById('loginIdentifier');

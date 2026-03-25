@@ -1280,7 +1280,56 @@
 
 <body>
 
-  <!-- Overlay removed -->
+  <!-- ═══════════════════════ OVERLAY ═══════════════════════ -->
+  <div class="overlay" id="overlay">
+
+    <!-- Step 1: Login -->
+    <div class="overlay-panel" id="loginPanel">
+      <div class="auth-card">
+        <div class="auth-logo">FUND<span>BEE</span></div>
+        <div class="auth-badge">🔐 Partner Secure Portal</div>
+
+        <label class="auth-label">Partner ID</label>
+        <input class="auth-input" type="text" id="authId" placeholder="FB-PARTNER-XXXXXX">
+
+        <label class="auth-label">Password</label>
+        <input class="auth-input" type="password" id="authPass" placeholder="••••••••">
+
+        <div class="auth-error" id="authError">⚠ Please enter your Partner ID and password.</div>
+
+        <button class="auth-btn" onclick="handleLogin()">Access Dashboard</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Role Selection -->
+    <div class="overlay-panel hidden" id="rolePanel">
+      <div class="role-card">
+        <div class="role-eyebrow">Identity Verified</div>
+        <div class="role-heading">How would you like<br>to continue?</div>
+        <div class="role-sub">Select your role to access your dashboard</div>
+
+        <div class="role-options">
+          <div class="role-option user-opt" onclick="goToUser()">
+            <div class="role-icon ri-gold">👤</div>
+            <div class="role-info">
+              <h4>Continue as User</h4>
+              <p>Apply for loans, track EMIs & manage repayments</p>
+            </div>
+            <div class="role-arrow">›</div>
+          </div>
+          <div class="role-option partner-opt" onclick="enterPartnerDashboard()">
+            <div class="role-icon ri-green">💼</div>
+            <div class="role-info">
+              <h4>Continue as Partner</h4>
+              <p>Access earnings, portfolio & premium analytics</p>
+            </div>
+            <div class="role-arrow">›</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
   <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
   <aside class="sidebar">
     <div class="sidebar-logo">FUND<span>BEE</span></div>
@@ -1342,7 +1391,7 @@
     <div class="topbar">
       <div class="topbar-title">Partner Dashboard</div>
       <div class="topbar-right" style="position:relative;">
-        <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
+        <button class="switch-btn" onclick="window.location.href='../user/user1.html'">← Switch to User View</button>
         <div class="notif-btn" id="notifTarget" style="cursor:pointer;" onclick="toggleNotifDropdown()">
           🔔<div class="notif-dot"></div>
         </div>
@@ -1708,7 +1757,24 @@
   </div>
 
   <script>
-    /* ── Utilities ── */
+    /* ── Overlay ── */
+    function handleLogin() {
+      const id = document.getElementById('authId').value.trim();
+      const pass = document.getElementById('authPass').value.trim();
+      const err = document.getElementById('authError');
+      if (!id || !pass) { err.style.display = 'block'; return; }
+      err.style.display = 'none';
+      document.getElementById('loginPanel').classList.add('hidden');
+      document.getElementById('rolePanel').classList.remove('hidden');
+    }
+
+    function enterPartnerDashboard() {
+      const overlay = document.getElementById('overlay');
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.4s';
+      setTimeout(() => overlay.style.display = 'none', 400);
+    }
+
     function goToUser() {
       window.location.href = '../user/user1.html';
     }
@@ -1743,10 +1809,13 @@
             dropdown.style.display = 'none';
         }
     });
-
     /* Close on backdrop click */
     document.getElementById('withdrawModal').addEventListener('click', function (e) {
       if (e.target === this) closeWithdrawModal();
+    });
+    /* Enter key */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') handleLogin();
     });
   </script>
 </body>

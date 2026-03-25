@@ -1,5 +1,10 @@
 {
     "require": {
+<<<<<<< HEAD
+=======
+        "mongodb/mongodb": "^2.2"
+>>>>>>> c822b6b592cc6317cab12dd2707d4da2c18a7ba0
         "mongodb/mongodb": "^1.16"
+
     }
 }

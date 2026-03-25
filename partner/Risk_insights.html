@@ -268,13 +268,14 @@
             <a class="nav-item" href="partner_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
         </nav>
         <div class="sidebar-footer">
-            <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
+            <div class="logout-btn" onclick="window.location.href='../Frontend/login.html'">🚪 Sign Out</div>
         </div>
     </aside>
     <main class="main">
         <div class="topbar topbar-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
             <div class="topbar-title topbar-title-dark">Risk Insights</div>
             <div class="topbar-right">
+                <button class="switch-btn" onclick="goToUser()">← Switch to User View</button>
                 <a href="partner1.html" class="back-btn back-btn-dark">← Dashboard</a>
                 <span class="pill pill-green" style="font-size:11px">⚡ Premium Feature</span>
                 <div class="avatar avatar-green">PN</div>
@@ -534,6 +535,11 @@
             </div>
         </div>
     </main>
+    <script>
+        function goToUser() {
+            window.location.href = '../user/user1.html';
+        }
+    </script>
 </body>
 
 </html>

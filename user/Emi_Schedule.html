@@ -14,6 +14,98 @@
             background: var(--cream);
         }
 
+        /* TOP BAR */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(250, 248, 244, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 40px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .apply-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25);
+        }
+
+        .notif-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .notif-btn:hover {
+            border-color: var(--gold);
+        }
+
+        .notif-dot {
+            position: absolute;
+            top: 6px;
+            right: 7px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 15px;
+            cursor: pointer;
+        }
+
         .page-grid {
             display: grid;
             grid-template-columns: 1fr 340px;
@@ -317,17 +409,18 @@
         <nav class="sidebar-nav">
             <div class="nav-section-label">Main</div>
             <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📋</span> Apply for Loan</a>
-            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
+            <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span
+                    class="nav-item-icon">📋</span> Apply for Loan</a>
+            <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
             <a class="nav-item active-gold" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI
                 Schedule</a>
             <div class="nav-section-label" style="margin-top:10px">Account</div>
             <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-            <a class="nav-item" href="Notificatons.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+            <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
             <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
             <div class="nav-section-label" style="margin-top:10px">More</div>
             <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
-            <a class="nav-item" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
+            <a class="nav-item" href="advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
@@ -338,13 +431,14 @@
         <div class="topbar topbar-light">
             <div class="topbar-title topbar-title-light">EMI Schedule</div>
             <div class="topbar-right">
-                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
-                <div class="notif-btn nb-light">🔔<div class="notif-dot-gold"></div>
-                </div>
-                <div class="avatar avatar-gold">AS</div>
+                <a href="user1.html" class="apply-btn" style="text-decoration:none">← Dashboard</a>
+                <a href="notifications.html" style="text-decoration:none" class="notif-btn">🔔<div class="notif-dot">
+                    </div></a>
+                <a href="user_settings.html" style="text-decoration:none">
+                    <div class="avatar">{{ session.user.initials }}</div>
+                </a>
             </div>
         </div>
-
         <div class="content">
             <div class="page-header">
                 <div class="page-eyebrow page-eyebrow-gold">Repayment Schedule</div>
@@ -488,7 +582,8 @@
                         <div style="margin-top:16px">
                             <div
                                 style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px">
-                                <span>Payment Progress</span><span>0%</span></div>
+                                <span>Payment Progress</span><span>0%</span>
+                            </div>
                             <div class="progress-bg pb-light" style="height:8px">
                                 <div class="progress-fill" style="width:0%;background:var(--green)"></div>
                             </div>
@@ -529,9 +624,18 @@
     <div class="toast" id="toast">✅ Payment initiated! Processing within 2 hours.</div>
 
     <script>
-        let currentMonth = 3, currentYear = 2026;
-        const emiDays = { 1: 'due', 5: 'due' };
-        const paidDays = { 1: 'paid', 5: 'paid' };
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let loanData = null;
+
+        const LOAN_ICONS = {
+            'Personal Loan': '👤',
+            'Home Loan': '🏠',
+            'Business Loan': '💼',
+            'Education Loan': '🎓',
+            'Vehicle Loan': '🚗',
+            'Instant Loan': '⚡'
+        };
 
         function renderCal() {
             const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -539,22 +643,109 @@
             const first = new Date(currentYear, currentMonth, 1).getDay();
             const days = new Date(currentYear, currentMonth + 1, 0).getDate();
             const prevDays = new Date(currentYear, currentMonth, 0).getDate();
+
+            const today = new Date();
+            const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+
             let html = '';
             for (let i = 0; i < first; i++) html += `<div class="cal-day other-month">${prevDays - first + i + 1}</div>`;
+
+            // Map EMIs for the current view
+            const emiMap = {};
+            if (loanData && loanData.loans) {
+                loanData.loans.forEach(loan => {
+                    if (loan.status === 'active' && loan.next_due) {
+                        const dueDate = new Date(loan.next_due);
+                        if (dueDate.getMonth() === currentMonth && dueDate.getFullYear() === currentYear) {
+                            emiMap[dueDate.getDate()] = 'due';
+                        }
+                    }
+                });
+            }
+
             for (let d = 1; d <= days; d++) {
                 let cls = 'cal-day';
-                if (d === 21 && currentMonth === 3) cls += ' today';
-                if (currentMonth === 3 && paidDays[d]) cls += ` has-emi emi-paid`;
-                else if (currentMonth === 3 && emiDays[d] && d > 21) cls += ` has-emi emi-due`;
+                if (isCurrentMonth && d === today.getDate()) cls += ' today';
+                if (emiMap[d]) cls += ` has-emi emi-${emiMap[d]}`;
                 html += `<div class="${cls}">${d}</div>`;
             }
             document.getElementById('calDays').innerHTML = html;
         }
-        function changeMonth(d) { currentMonth += d; if (currentMonth < 0) { currentMonth = 11; currentYear--; } if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCal(); }
-        renderCal();
+
+        function renderSchedule(data) {
+            loanData = data;
+
+            // Sidebar & Header
+            const fullName = (data.user.firstName || '') + ' ' + (data.user.lastName || '');
+            const initial = ((data.user.firstName || '?').charAt(0) + (data.user.lastName || '?').charAt(0)).toUpperCase();
+            document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
+            document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+
+            // Upcoming EMIs list
+            const emiListEl = document.getElementById('emiList');
+            if (data.loans && data.loans.length > 0) {
+                const activeLoans = data.loans.filter(l => l.status === 'active');
+                if (activeLoans.length === 0) {
+                    emiListEl.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">No active loans found.</div>';
+                } else {
+                    emiListEl.innerHTML = activeLoans.map(loan => {
+                        const icon = LOAN_ICONS[loan.loan_type] || '📄';
+                        return `
+                            <div class="schedule-item" data-type="due">
+                                <div class="si-left">
+                                    <div class="si-icon si-icon-gold">${icon}</div>
+                                    <div>
+                                        <div class="si-name">${loan.loan_type} EMI</div>
+                                        <div class="si-date">Due: ${loan.next_due} · #${loan.loan_id}</div>
+                                    </div>
+                                </div>
+                                <div class="si-right">
+                                    <div class="si-amount">₹${Number(loan.emi).toLocaleString('en-IN')}</div>
+                                    <span class="pill pill-gold" style="margin-top:4px;display:block">Upcoming</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } else {
+                emiListEl.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">Apply for a loan to see your schedule.</div>';
+            }
+
+            // Summary
+            const totalDue = data.stats.emi_due || '₹0';
+            document.querySelector('.stat-row .stat-val').textContent = totalDue;
+            // Simplified remaining
+            document.querySelectorAll('.stat-row .stat-val')[2].textContent = totalDue;
+            document.querySelectorAll('.stat-row .stat-val')[3].textContent = (data.loans.filter(l => l.status === 'active').length) + ' EMIs';
+
+            const payBtn = document.querySelector('.pay-btn');
+            if (payBtn) payBtn.textContent = `Pay All EMIs — ${totalDue}`;
+
+            renderCal();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('get_user_data.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        window.location.href = '../Frontend/login.html';
+                    } else {
+                        renderSchedule(data);
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+
+        function changeMonth(d) {
+            currentMonth += d;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCal();
+        }
 
         function filterEmi(type, btn) {
-            document.querySelectorAll('#emiList .filter-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             document.querySelectorAll('.schedule-item').forEach(item => {
                 item.style.display = (type === 'all' || item.dataset.type === type) ? '' : 'none';
@@ -562,8 +753,10 @@
         }
         function payAll() {
             const t = document.getElementById('toast');
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
+            if (t) {
+                t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 3000);
+            }
         }
     </script>
 </body>
