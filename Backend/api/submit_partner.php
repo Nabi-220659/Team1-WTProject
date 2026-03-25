@@ -95,7 +95,6 @@ try {
                                 : 'Your application was received but you do not meet eligibility requirements at this time.'
         ]);
     } else {
-
         http_response_code(500);
         echo json_encode(['success' => false, 'message' => 'Failed to save application to database.']);
     }

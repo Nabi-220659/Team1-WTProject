@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Bank — FUNDBEE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="virtual-bank.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">FUND<span>BEE</span></a>
+    <ul class="nav-links">
+      <li><a href="Products.html">Products</a></li>
+      <li><a href="Company.html">Company</a></li>
+      <li><a href="knowledge-hub.html">Knowledge Hub</a></li>
+      <li><a href="partner.html">Partner</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <div class="bank-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-user">
+        <div class="user-avatar" id="userAvatar">R</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebarName">Rahul Sharma</div>
+          <div class="user-acno" id="sidebarAccNo">FBVB-0000-0000</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <a class="nav-item active" data-tab="dashboard" href="#">
+          <span class="nav-item-icon">🏠</span> Dashboard
+        </a>
+        <a class="nav-item" data-tab="transfer" href="#">
+          <span class="nav-item-icon">💸</span> Transfer Money
+        </a>
+        <a class="nav-item" data-tab="deposit" href="#">
+          <span class="nav-item-icon">➕</span> Deposit
+        </a>
+        <a class="nav-item" data-tab="withdraw" href="#">
+          <span class="nav-item-icon">➖</span> Withdraw
+        </a>
+
+        <div class="nav-section-label" style="margin-top:12px">Loans</div>
+        <a class="nav-item" data-tab="loan-repay" href="#">
+          <span class="nav-item-icon">🔄</span> Loan Repayment
+        </a>
+        <a class="nav-item" data-tab="emi-calc" href="#">
+          <span class="nav-item-icon">🧮</span> EMI Calculator
+        </a>
+
+        <div class="nav-section-label" style="margin-top:12px">History</div>
+        <a class="nav-item" data-tab="transactions" href="#">
+          <span class="nav-item-icon">📋</span> Transactions
+        </a>
+        <a class="nav-item" data-tab="statements" href="#">
+          <span class="nav-item-icon">📄</span> Statements
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="login.html" class="logout-btn">🚪 Log Out</a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="bank-main">
+
+      <!-- ── DASHBOARD TAB ── -->
+      <div class="tab-panel active" id="tab-dashboard">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">My Virtual Bank</div>
+            <div class="topbar-sub">Good morning, <span id="greetName">Rahul</span> 👋</div>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn-ghost" onclick="switchTab('deposit')">+ Deposit</button>
+            <button class="btn-primary" onclick="switchTab('transfer')">Send Money</button>
+          </div>
+        </div>
+
+        <!-- BALANCE CARDS -->
+        <div class="cards-row">
+          <div class="balance-card main-card">
+            <div class="card-label">Available Balance</div>
+            <div class="card-amount" id="mainBalance">₹0</div>
+            <div class="card-acno" id="mainAccNo">Account: FBVB-0000-0000</div>
+            <div class="card-badge">Virtual Account</div>
+          </div>
+          <div class="balance-card">
+            <div class="card-label">Loan Outstanding</div>
+            <div class="card-amount red" id="loanOutstanding">₹0</div>
+            <div class="card-acno">Across all active loans</div>
+          </div>
+          <div class="balance-card">
+            <div class="card-label">Next EMI Due</div>
+            <div class="card-amount gold" id="nextEmi">—</div>
+            <div class="card-acno" id="nextEmiDate">No upcoming EMI</div>
+          </div>
+          <div class="balance-card">
+            <div class="card-label">Total Deposited</div>
+            <div class="card-amount green" id="totalDeposited">₹0</div>
+            <div class="card-acno">Lifetime deposits</div>
+          </div>
+        </div>
+
+        <!-- RECENT TRANSACTIONS -->
+        <div class="section-card">
+          <div class="section-header">
+            <h3>Recent Transactions</h3>
+            <a href="#" onclick="switchTab('transactions')" class="see-all">View All</a>
+          </div>
+          <div id="recentTxnList" class="txn-list"></div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="section-card">
+          <div class="section-header"><h3>Quick Actions</h3></div>
+          <div class="quick-actions">
+            <div class="qa-btn" onclick="switchTab('transfer')">
+              <div class="qa-icon">💸</div>
+              <div>Transfer</div>
+            </div>
+            <div class="qa-btn" onclick="switchTab('deposit')">
+              <div class="qa-icon">💰</div>
+              <div>Deposit</div>
+            </div>
+            <div class="qa-btn" onclick="switchTab('loan-repay')">
+              <div class="qa-icon">🔄</div>
+              <div>Pay EMI</div>
+            </div>
+            <div class="qa-btn" onclick="switchTab('emi-calc')">
+              <div class="qa-icon">🧮</div>
+              <div>EMI Calc</div>
+            </div>
+            <div class="qa-btn" onclick="switchTab('statements')">
+              <div class="qa-icon">📄</div>
+              <div>Statement</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TRANSFER TAB ── -->
+      <div class="tab-panel" id="tab-transfer">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Transfer Money</div>
+            <div class="topbar-sub">Send funds to any FUNDBEE account</div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-section-title">Transfer Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Recipient Account Number</label>
+              <input type="text" id="transferTo" class="form-input" placeholder="e.g. FBVB-0001-2345">
+            </div>
+            <div class="form-group">
+              <label>Amount (₹)</label>
+              <input type="number" id="transferAmt" class="form-input" placeholder="Enter amount">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Remarks (Optional)</label>
+            <input type="text" id="transferNote" class="form-input" placeholder="e.g. Loan EMI payment">
+          </div>
+          <div class="balance-info">
+            Your balance: <strong id="transferBalDisplay">₹0</strong>
+          </div>
+          <button class="btn-primary wide" id="transferBtn" onclick="doTransfer()">Send Money →</button>
+          <div class="action-msg" id="transferMsg"></div>
+        </div>
+      </div>
+
+      <!-- ── DEPOSIT TAB ── -->
+      <div class="tab-panel" id="tab-deposit">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Deposit Funds</div>
+            <div class="topbar-sub">Add money to your virtual account</div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-section-title">Deposit Details</div>
+          <div class="quick-amounts">
+            <button onclick="setDepositAmt(500)">₹500</button>
+            <button onclick="setDepositAmt(1000)">₹1,000</button>
+            <button onclick="setDepositAmt(5000)">₹5,000</button>
+            <button onclick="setDepositAmt(10000)">₹10,000</button>
+            <button onclick="setDepositAmt(50000)">₹50,000</button>
+          </div>
+          <div class="form-group">
+            <label>Amount (₹)</label>
+            <input type="number" id="depositAmt" class="form-input" placeholder="Enter amount to deposit">
+          </div>
+          <div class="form-group">
+            <label>Payment Method</label>
+            <select id="depositMethod" class="form-input">
+              <option value="upi">UPI</option>
+              <option value="netbanking">Net Banking</option>
+              <option value="card">Debit/Credit Card</option>
+              <option value="neft">NEFT/RTGS</option>
+            </select>
+          </div>
+          <button class="btn-primary wide" onclick="doDeposit()">Deposit Now →</button>
+          <div class="action-msg" id="depositMsg"></div>
+        </div>
+      </div>
+
+      <!-- ── WITHDRAW TAB ── -->
+      <div class="tab-panel" id="tab-withdraw">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Withdraw Funds</div>
+            <div class="topbar-sub">Transfer funds to your bank account</div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-section-title">Withdrawal Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Amount (₹)</label>
+              <input type="number" id="withdrawAmt" class="form-input" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+              <label>Destination Bank</label>
+              <input type="text" id="withdrawBank" class="form-input" placeholder="Bank account / UPI ID">
+            </div>
+          </div>
+          <div class="balance-info">
+            Available balance: <strong id="withdrawBalDisplay">₹0</strong>
+          </div>
+          <button class="btn-primary wide" onclick="doWithdraw()">Withdraw →</button>
+          <div class="action-msg" id="withdrawMsg"></div>
+        </div>
+      </div>
+
+      <!-- ── LOAN REPAYMENT TAB ── -->
+      <div class="tab-panel" id="tab-loan-repay">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Loan Repayment</div>
+            <div class="topbar-sub">Pay your EMIs directly from your virtual account</div>
+          </div>
+        </div>
+        <div id="loanRepayList" class="loan-cards-list"></div>
+        <div class="form-card" style="margin-top:20px">
+          <div class="form-section-title">Custom Repayment</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Loan Reference</label>
+              <input type="text" id="repayRef" class="form-input" placeholder="e.g. LOAN-2024-001">
+            </div>
+            <div class="form-group">
+              <label>Amount (₹)</label>
+              <input type="number" id="repayAmt" class="form-input" placeholder="Enter amount">
+            </div>
+          </div>
+          <button class="btn-primary wide" onclick="doRepay()">Pay Now →</button>
+          <div class="action-msg" id="repayMsg"></div>
+        </div>
+      </div>
+
+      <!-- ── EMI CALCULATOR TAB ── -->
+      <div class="tab-panel" id="tab-emi-calc">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">EMI Calculator</div>
+            <div class="topbar-sub">Calculate your monthly installments</div>
+          </div>
+        </div>
+        <div class="emi-calc-layout">
+          <div class="form-card">
+            <div class="form-section-title">Loan Parameters</div>
+            <div class="form-group">
+              <label>Loan Amount (₹)</label>
+              <input type="range" id="calcPrincipal" min="10000" max="5000000" step="10000" value="500000" oninput="updateCalc()">
+              <div class="range-val">₹<span id="calcPrincipalVal">5,00,000</span></div>
+            </div>
+            <div class="form-group">
+              <label>Interest Rate (% per annum)</label>
+              <input type="range" id="calcRate" min="6" max="36" step="0.5" value="12" oninput="updateCalc()">
+              <div class="range-val"><span id="calcRateVal">12</span>%</div>
+            </div>
+            <div class="form-group">
+              <label>Loan Tenure (Months)</label>
+              <input type="range" id="calcTenure" min="6" max="360" step="6" value="60" oninput="updateCalc()">
+              <div class="range-val"><span id="calcTenureVal">60</span> months</div>
+            </div>
+          </div>
+          <div class="emi-result-card">
+            <div class="emi-result-label">Monthly EMI</div>
+            <div class="emi-result-amount" id="emiResult">₹11,122</div>
+            <div class="emi-breakdown">
+              <div class="emi-bk-row">
+                <span>Principal Amount</span><span id="emiPrincipal">₹5,00,000</span>
+              </div>
+              <div class="emi-bk-row">
+                <span>Total Interest</span><span id="emiInterest" class="red">₹1,67,310</span>
+              </div>
+              <div class="emi-bk-row total">
+                <span>Total Payable</span><span id="emiTotal">₹6,67,310</span>
+              </div>
+            </div>
+            <div class="emi-donut">
+              <canvas id="emiChart" width="160" height="160"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TRANSACTIONS TAB ── -->
+      <div class="tab-panel" id="tab-transactions">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Transaction History</div>
+            <div class="topbar-sub">All account activity</div>
+          </div>
+          <div class="topbar-actions">
+            <input type="text" id="txnSearch" class="search-input" placeholder="🔍 Search transactions..." oninput="filterTxns()">
+          </div>
+        </div>
+        <div class="section-card">
+          <div id="fullTxnList" class="txn-list"></div>
+        </div>
+      </div>
+
+      <!-- ── STATEMENTS TAB ── -->
+      <div class="tab-panel" id="tab-statements">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Account Statement</div>
+            <div class="topbar-sub">Download your virtual account statement</div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-section-title">Generate Statement</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>From Date</label>
+              <input type="date" id="stmtFrom" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>To Date</label>
+              <input type="date" id="stmtTo" class="form-input">
+            </div>
+          </div>
+          <button class="btn-primary wide" onclick="generateStatement()">Generate & Download PDF</button>
+          <div class="action-msg" id="stmtMsg"></div>
+        </div>
+        <div class="section-card" style="margin-top:20px">
+          <div class="section-header"><h3>Statement Preview</h3></div>
+          <div id="stmtPreview"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="virtual-bank.js"></script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — FUNDBEE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ADMIN LOGIN GATE -->
+  <div class="admin-gate" id="adminGate">
+    <div class="gate-card">
+      <div class="gate-logo">FUND<span>BEE</span></div>
+      <div class="gate-title">Admin Access</div>
+      <div class="gate-sub">Restricted to authorised personnel only</div>
+      <div class="form-group">
+        <label>Admin Email</label>
+        <input type="email" id="gateEmail" class="form-input" placeholder="admin@fundbee.in">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="gatePass" class="form-input" placeholder="Enter admin password">
+      </div>
+      <button class="btn-primary wide" onclick="adminLogin()">Access Dashboard →</button>
+      <div class="gate-msg" id="gateMsg"></div>
+      <div class="gate-hint">Demo: admin@fundbee.in / admin123</div>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD (hidden until login) -->
+  <div class="admin-layout hidden" id="adminDashboard">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">FUND<span>BEE</span></div>
+      <div class="sidebar-label">Admin Console</div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <a class="nav-item active" data-tab="overview" href="#">
+          <span class="nav-item-icon">📊</span> Overview
+        </a>
+
+        <div class="nav-section-label" style="margin-top:12px">Requests</div>
+        <a class="nav-item" data-tab="loan-applications" href="#">
+          <span class="nav-item-icon">📋</span> Loan Applications
+          <span class="nav-badge" id="badge-loan">0</span>
+        </a>
+        <a class="nav-item" data-tab="partner-requests" href="#">
+          <span class="nav-item-icon">🤝</span> Partner Requests
+          <span class="nav-badge" id="badge-partner">0</span>
+        </a>
+        <a class="nav-item" data-tab="contact-inquiries" href="#">
+          <span class="nav-item-icon">✉️</span> Contact Inquiries
+          <span class="nav-badge" id="badge-contact">0</span>
+        </a>
+
+        <div class="nav-section-label" style="margin-top:12px">Management</div>
+        <a class="nav-item" data-tab="users" href="#">
+          <span class="nav-item-icon">👥</span> Users
+        </a>
+        <a class="nav-item" data-tab="bank-accounts" href="#">
+          <span class="nav-item-icon">🏦</span> Virtual Bank Accounts
+        </a>
+        <a class="nav-item" data-tab="documents" href="#">
+          <span class="nav-item-icon">📁</span> Documents & Files
+        </a>
+        <a class="nav-item" data-tab="notifications" href="#">
+          <span class="nav-item-icon">🔔</span> Notifications
+          <span class="nav-badge" id="adminNotifBadge"></span>
+        </a>
+        <a class="nav-item" data-tab="settings" href="#">
+          <span class="nav-item-icon">⚙️</span> Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-row">
+          <div class="admin-avatar">A</div>
+          <div>
+            <div class="admin-name" id="adminName">Admin</div>
+            <div class="admin-role">Super Admin</div>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="adminLogout()">🚪 Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+      <!-- ── OVERVIEW TAB ── -->
+      <div class="tab-panel active" id="tab-overview">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Admin Overview</div>
+            <div class="topbar-sub" id="overviewDate">—</div>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn-ghost" onclick="refreshAll()">🔄 Refresh</button>
+            <button class="btn-primary" onclick="exportCSV()">⬇ Export CSV</button>
+          </div>
+        </div>
+
+        <!-- STAT CARDS -->
+        <div class="stat-grid" id="statGrid"></div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="two-col">
+          <div class="section-card">
+            <div class="section-header">
+              <h3>Recent Loan Applications</h3>
+              <a href="#" onclick="switchAdminTab('loan-applications')" class="see-all">View All</a>
+            </div>
+            <div id="recentLoans"></div>
+          </div>
+          <div class="section-card">
+            <div class="section-header">
+              <h3>Recent Partner Requests</h3>
+              <a href="#" onclick="switchAdminTab('partner-requests')" class="see-all">View All</a>
+            </div>
+            <div id="recentPartners"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── LOAN APPLICATIONS TAB ── -->
+      <div class="tab-panel" id="tab-loan-applications">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Loan Applications</div>
+            <div class="topbar-sub">All submitted loan requests</div>
+          </div>
+          <div class="topbar-actions">
+            <input type="text" class="search-input" placeholder="🔍 Search..." oninput="filterTable('loanTable', this.value)">
+            <select class="filter-select" onchange="filterByStatus('loanTable', this.value)">
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div class="section-card">
+          <table class="admin-table" id="loanTable">
+            <thead>
+              <tr>
+                <th>App ID</th><th>Name</th><th>Loan Type</th><th>Amount</th>
+                <th>Date</th><th>Status</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="loanTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── PARTNER REQUESTS TAB ── -->
+      <div class="tab-panel" id="tab-partner-requests">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Partner Requests</div>
+            <div class="topbar-sub">All partner applications with uploaded documents</div>
+          </div>
+          <div class="topbar-actions">
+            <input type="text" class="search-input" placeholder="🔍 Search..." oninput="filterTable('partnerTable', this.value)">
+          </div>
+        </div>
+        <div class="section-card">
+          <table class="admin-table" id="partnerTable">
+            <thead>
+              <tr>
+                <th>Partner ID</th><th>Name</th><th>Type</th><th>City</th>
+                <th>Experience</th><th>Documents</th><th>Status</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="partnerTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── CONTACT INQUIRIES TAB ── -->
+      <div class="tab-panel" id="tab-contact-inquiries">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Contact Inquiries</div>
+            <div class="topbar-sub">Messages submitted via contact form</div>
+          </div>
+        </div>
+        <div class="section-card">
+          <table class="admin-table" id="contactTable">
+            <thead>
+              <tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="contactTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── USERS TAB ── -->
+      <div class="tab-panel" id="tab-users">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Registered Users</div>
+            <div class="topbar-sub">All user accounts</div>
+          </div>
+          <div class="topbar-actions">
+            <input type="text" class="search-input" placeholder="🔍 Search users..." oninput="filterTable('usersTable', this.value)">
+          </div>
+        </div>
+        <div class="section-card">
+          <table class="admin-table" id="usersTable">
+            <thead>
+              <tr><th>User ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Joined</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── VIRTUAL BANK ACCOUNTS TAB ── -->
+      <div class="tab-panel" id="tab-bank-accounts">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Virtual Bank Accounts</div>
+            <div class="topbar-sub">All FUNDBEE virtual accounts, balances & loan disbursements</div>
+          </div>
+        </div>
+        <div class="section-card">
+          <table class="admin-table" id="bankTable">
+            <thead>
+              <tr><th>Account No</th><th>Holder</th><th>Balance</th><th>Total Deposited</th><th>Borrowed Amount</th><th>Transactions</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="bankTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── BANK TRANSACTIONS MODAL ── -->
+      <div class="admin-modal hidden" id="bankTxnModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-box" style="max-width:720px;">
+          <button class="modal-close">✕</button>
+          <h3 id="bankTxnModalTitle" style="margin-bottom:16px;">Transactions</h3>
+          <div id="bankTxnModalBody">Loading…</div>
+        </div>
+      </div>
+
+      <!-- ── DOCUMENTS TAB ── -->
+      <div class="tab-panel" id="tab-documents">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Documents & Files</div>
+            <div class="topbar-sub">All uploaded files from users and partners</div>
+          </div>
+          <div class="topbar-actions">
+            <input type="text" class="search-input" placeholder="🔍 Search documents..." oninput="filterTable('docsTable', this.value)">
+            <select class="filter-select" onchange="filterByStatus('docsTable', this.value)">
+              <option value="">All Types</option>
+              <option value="pdf">PDF</option>
+              <option value="image">Image</option>
+              <option value="kyc">KYC</option>
+            </select>
+          </div>
+        </div>
+        <div class="section-card">
+          <table class="admin-table" id="docsTable">
+            <thead>
+              <tr><th>File Name</th><th>Uploaded By</th><th>Type</th><th>Size</th><th>Date</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="docsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── NOTIFICATIONS TAB ── -->
+      <div class="tab-panel" id="tab-notifications">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">🔔 Notifications</div>
+            <div class="topbar-sub">Real-time alerts from user activity — loan applications, registrations &amp; more</div>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn-ghost" onclick="refreshAll()">🔄 Refresh</button>
+            <button class="btn-primary" onclick="markAllAdminNotifsRead()">✅ Mark All Read</button>
+          </div>
+        </div>
+        <div class="section-card" style="padding:0">
+          <div id="adminNotifList" style="padding:8px 0">
+            <div style="text-align:center;padding:40px;color:#6b7a8d">Loading notifications…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS TAB ── -->
+      <div class="tab-panel" id="tab-settings">
+        <div class="topbar">
+          <div>
+            <div class="topbar-title">Admin Settings</div>
+            <div class="topbar-sub">Platform configuration</div>
+          </div>
+        </div>
+        <div class="settings-grid">
+          <div class="form-card">
+            <div class="form-section-title">Admin Account</div>
+            <div class="form-group">
+              <label>Display Name</label>
+              <input type="text" id="settingName" class="form-input" value="FUNDBEE Admin">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="settingEmail" class="form-input" value="admin@fundbee.in">
+            </div>
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" id="settingPass" class="form-input" placeholder="Leave blank to keep current">
+            </div>
+            <button class="btn-primary" onclick="saveSettings()">Save Changes</button>
+            <div class="action-msg" id="settingsMsg"></div>
+          </div>
+          <div class="form-card">
+            <div class="form-section-title">Platform Settings</div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">New Registrations</div>
+                <div class="toggle-sub">Allow new user sign-ups</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked id="toggleRegistrations">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Partner Applications</div>
+                <div class="toggle-sub">Accept new partner requests</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked id="togglePartners">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Loan Applications</div>
+                <div class="toggle-sub">Accept new loan requests</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked id="toggleLoans">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Maintenance Mode</div>
+                <div class="toggle-sub">Show maintenance page to users</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleMaintenance">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="modal-overlay hidden" id="detailModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Details</div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
