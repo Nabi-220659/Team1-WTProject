@@ -95,11 +95,7 @@ function validatePhone(phone) {
 // ── LOGIN FORM ──
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
-<<<<<<< HEAD
   loginForm.addEventListener('submit', e => {
-=======
-  loginForm.addEventListener('submit', async e => {
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     e.preventDefault();
     let valid = true;
 
@@ -129,7 +125,6 @@ if (loginForm) {
 
     if (!valid) return;
 
-<<<<<<< HEAD
     // Check login via PHP
     const btn = loginForm.querySelector('.btn-submit');
     btn.classList.add('loading');
@@ -166,41 +161,6 @@ if (loginForm) {
       showToast('An error occurred. Please try again later.', true);
       console.error(err);
     });
-=======
-    // Simulate login with partner status check
-    const btn = loginForm.querySelector('.btn-submit');
-    btn.classList.add('loading');
-
-    // Extract email if provided (for partner status check)
-    const enteredValue = document.getElementById('loginIdentifier').value.trim();
-    const isEmail = enteredValue.includes('@');
-
-    try {
-      // Check partner approval status from MongoDB if email was entered
-      if (isEmail) {
-        const res = await fetch(
-          '../Backend/api/check_partner_status.php?email=' + encodeURIComponent(enteredValue)
-        );
-        const data = await res.json();
-        if (data.approved) {
-          localStorage.setItem('partner_approved', 'true');
-          localStorage.setItem('partner_email', enteredValue);
-        } else {
-          localStorage.removeItem('partner_approved');
-        }
-      }
-    } catch (e) {
-      // If API fails, fall back to existing localStorage value
-      console.warn('Partner status check failed:', e);
-    }
-
-    setTimeout(() => {
-      btn.classList.remove('loading');
-      sessionStorage.setItem('fundbee_logged_in', 'true');
-      document.getElementById('loginSuccessScreen').style.display = 'block';
-      loginForm.style.display = 'none';
-    }, 1600);
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
   });
 }
 
@@ -242,7 +202,6 @@ if (registerForm) {
       valid = false;
     }
 
-<<<<<<< HEAD
     const btn = registerForm.querySelector('.btn-submit');
     btn.classList.add('loading');
 
@@ -281,106 +240,11 @@ if (registerForm) {
       showToast('Error: ' + err.message + ' (Make sure you are using http://localhost)', true);
       console.error(err);
     });
-=======
-    if (!valid) return;
-
-    // Show OTP screen
-    const phoneDisplay = document.getElementById('otpPhoneDisplay');
-    if (phoneDisplay) phoneDisplay.textContent = regPhone.value.trim();
-
-    registerForm.style.display = 'none';
-    document.getElementById('otpScreen').style.display = 'block';
-    startOtpTimer();
-    focusFirstOtp();
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
   });
 }
 
 
-<<<<<<< HEAD
 
-=======
-// ── OTP SCREEN ──
-function focusFirstOtp() {
-  document.querySelector('.otp-input')?.focus();
-}
-
-document.querySelectorAll('.otp-input').forEach((input, i, inputs) => {
-  input.addEventListener('input', () => {
-    input.value = input.value.replace(/\D/g, '').slice(0, 1);
-    if (input.value && i < inputs.length - 1) inputs[i + 1].focus();
-  });
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Backspace' && !input.value && i > 0) inputs[i - 1].focus();
-  });
-  input.addEventListener('paste', e => {
-    e.preventDefault();
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
-    pasted.split('').forEach((char, j) => {
-      if (inputs[j]) inputs[j].value = char;
-    });
-    const last = Math.min(pasted.length, inputs.length - 1);
-    inputs[last].focus();
-  });
-});
-
-const otpForm = document.getElementById('otpForm');
-if (otpForm) {
-  otpForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const otpInputs = document.querySelectorAll('.otp-input');
-    const code = [...otpInputs].map(i => i.value).join('');
-    if (code.length < 6) {
-      showToast('Please enter all 6 digits of the OTP.', true);
-      return;
-    }
-    const btn = otpForm.querySelector('.btn-submit');
-    btn.classList.add('loading');
-    setTimeout(() => {
-      btn.classList.remove('loading');
-      sessionStorage.setItem('fundbee_logged_in', 'true'); // ── mark logged in
-      document.getElementById('otpScreen').style.display = 'none';
-      document.getElementById('registerSuccessScreen').style.display = 'block';
-    }, 1400);
-  });
-}
-
-// OTP Back button
-document.getElementById('otpBack')?.addEventListener('click', () => {
-  document.getElementById('otpScreen').style.display = 'none';
-  document.getElementById('registerForm').style.display = 'block';
-});
-
-// OTP Timer
-let otpInterval;
-function startOtpTimer() {
-  let seconds = 30;
-  const countEl  = document.getElementById('otpCountdown');
-  const resendBtn = document.getElementById('resendOtp');
-  const timerWrap = document.getElementById('otpTimerWrap');
-
-  if (resendBtn) resendBtn.disabled = true;
-  if (timerWrap) timerWrap.style.display = 'inline';
-  clearInterval(otpInterval);
-
-  otpInterval = setInterval(() => {
-    seconds--;
-    if (countEl) countEl.textContent = seconds;
-    if (seconds <= 0) {
-      clearInterval(otpInterval);
-      if (resendBtn) resendBtn.disabled = false;
-      if (timerWrap) timerWrap.style.display = 'none';
-    }
-  }, 1000);
-}
-
-document.getElementById('resendOtp')?.addEventListener('click', () => {
-  document.querySelectorAll('.otp-input').forEach(i => i.value = '');
-  focusFirstOtp();
-  startOtpTimer();
-  showToast('A new OTP has been sent to your mobile number.');
-});
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
 
 
 // ── FORGOT PASSWORD ──

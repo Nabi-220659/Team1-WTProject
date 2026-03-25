@@ -145,6 +145,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- SIDEBAR -->
     <aside class="sidebar">
@@ -324,6 +325,7 @@
                     const initial = ((user.firstName || '?')[0] + (user.lastName || '?')[0]).toUpperCase();
                     document.getElementById('sidebarName').textContent = fullName;
                     document.getElementById('avatarEl').textContent = initial;
+                    // Also update any other avatar/name placeholders if they exist
                     document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName);
                     document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
 
@@ -342,6 +344,7 @@
                     allLoans = data.loans || [];
                     renderLoans(allLoans);
 
+                    // Auto-open requested loan from URL via View Details on Dashboard
                     const urlParams = new URLSearchParams(window.location.search);
                     const loanId = urlParams.get('loan');
                     if (loanId) {
@@ -444,7 +447,6 @@
             document.getElementById('detailModal').classList.remove('open'); 
             document.body.style.overflow = '';
         }
-        document.getElementById('detailModal').addEventListener('click', e => { if (e.target === document.getElementById('detailModal')) closeDetail(); });
     </script>
 </body>
 </html>

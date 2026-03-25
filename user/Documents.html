@@ -2,633 +2,1028 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documents — FUNDBEE</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../shared.css">
-    <style>
-        body {
-            background: var(--cream);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documents — FUNDBEE</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0b1d3a;
+      --navy-mid: #112249;
+      --blue: #1a4fd6;
+      --blue-light: #3b72f0;
+      --gold: #f5a623;
+      --gold-light: #fdd068;
+      --cream: #faf8f4;
+      --cream-dark: #f0ece3;
+      --text: #1c2a3a;
+      --muted: #6b7a8d;
+      --white: #ffffff;
+      --green: #10b981;
+      --green-light: #d1fae5;
+      --red: #ef4444;
+      --red-light: #fee2e2;
+      --border: rgba(26, 79, 214, 0.1);
+      --card-shadow: 0 4px 24px rgba(11, 29, 58, 0.08);
+    }
 
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 28px;
-        }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-        .kpi-card {
-            background: white;
-            border-radius: 16px;
-            padding: 22px 24px;
-            border: 1px solid var(--border);
-            box-shadow: var(--card-shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+    html {
+      scroll-behavior: smooth
+    }
 
-        .kpi-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(11, 29, 58, 0.12);
-        }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh
+    }
 
-        /* UPLOAD ZONE */
-        .upload-zone {
-            border: 2px dashed rgba(26, 79, 214, 0.25);
-            border-radius: 16px;
-            padding: 36px;
-            text-align: center;
-            background: rgba(26, 79, 214, 0.02);
-            transition: all 0.2s;
-            cursor: pointer;
-            margin-bottom: 28px;
-        }
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100vh;
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      transition: transform .3s
+    }
 
-        .upload-zone:hover,
-        .upload-zone.drag-over {
-            border-color: var(--blue);
-            background: rgba(26, 79, 214, 0.04);
-        }
+    .sidebar-logo {
+      padding: 28px 28px 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: white;
+      letter-spacing: 1px;
+      border-bottom: 1px solid rgba(255, 255, 255, .06)
+    }
 
-        .upload-icon {
-            font-size: 38px;
-            margin-bottom: 10px;
-        }
+    .sidebar-logo span {
+      color: var(--gold)
+    }
 
-        .upload-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 6px;
-        }
+    .sidebar-user {
+      padding: 20px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, .06)
+    }
 
-        .upload-sub {
-            font-size: 13px;
-            color: var(--muted);
-            margin-bottom: 18px;
-        }
+    .sidebar-user-name {
+      color: white;
+      font-weight: 600;
+      font-size: 14px
+    }
 
-        .upload-controls {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            align-items: center;
-        }
+    .sidebar-user-tag {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(245, 166, 35, .15);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 600
+    }
 
-        .doc-type-select {
-            padding: 10px 14px;
-            border: 1px solid rgba(11, 29, 58, 0.15);
-            border-radius: 10px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            color: var(--text);
-            background: white;
-            outline: none;
-            min-width: 200px;
-        }
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 0;
+      overflow-y: auto
+    }
 
-        .upload-btn {
-            padding: 10px 24px;
-            background: linear-gradient(135deg, var(--navy), var(--navy-mid));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+    .nav-section-label {
+      padding: 10px 28px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .25)
+    }
 
-        .upload-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(11, 29, 58, 0.25);
-        }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 28px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, .55);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all .2s;
+      border-left: 3px solid transparent;
+      text-decoration: none
+    }
 
-        .format-tags {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 14px;
-        }
+    .nav-item:hover {
+      color: white;
+      background: rgba(255, 255, 255, .05)
+    }
 
-        .format-tag {
-            padding: 3px 10px;
-            border-radius: 20px;
-            background: var(--cream-dark);
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--muted);
-        }
+    .nav-item.active {
+      color: var(--gold);
+      border-left-color: var(--gold);
+      background: rgba(245, 166, 35, .07)
+    }
 
-        /* DOC GRID */
-        .doc-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 28px;
-        }
+    .nav-item-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center
+    }
 
-        .doc-card {
-            background: white;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            box-shadow: var(--card-shadow);
-            padding: 22px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: all 0.2s;
-        }
+    .sidebar-footer {
+      padding: 20px 28px;
+      border-top: 1px solid rgba(255, 255, 255, .06)
+    }
 
-        .doc-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(11, 29, 58, 0.12);
-        }
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, .4);
+      font-size: 13px;
+      cursor: pointer;
+      transition: color .2s
+    }
 
-        .doc-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
+    .logout-btn:hover {
+      color: #fc8181
+    }
 
-        .doc-icon.kyc {
-            background: rgba(26, 79, 214, 0.1);
-        }
+    /* MAIN */
+    .main {
+      margin-left: 240px;
+      min-height: 100vh;
+      background: var(--cream)
+    }
 
-        .doc-icon.income {
-            background: rgba(16, 185, 129, 0.1);
-        }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 248, 244, .92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
 
-        .doc-icon.other {
-            background: rgba(245, 166, 35, 0.1);
-        }
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy)
+    }
 
-        .doc-name {
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--navy);
-        }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px
+    }
 
-        .doc-meta {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 2px;
-        }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--navy);
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .2s
+    }
 
-        .doc-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 4px;
-        }
+    .back-btn:hover {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy)
+    }
 
-        .doc-btn {
-            flex: 1;
-            padding: 8px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid var(--border);
-            background: white;
-            color: var(--navy);
-            font-family: 'DM Sans', sans-serif;
-        }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 15px;
+      cursor: pointer
+    }
 
-        .doc-btn:hover {
-            background: var(--navy);
-            color: white;
-            border-color: var(--navy);
-        }
+    /* CONTENT */
+    .content {
+      padding: 32px 40px
+    }
 
-        .doc-btn.danger {
-            color: var(--red);
-        }
+    .page-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px
+    }
 
-        .doc-btn.danger:hover {
-            background: var(--red);
-            color: white;
-            border-color: var(--red);
-        }
+    .page-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px
+    }
 
-        /* REQUIRED LIST */
-        .req-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            box-shadow: var(--card-shadow);
-            overflow: hidden;
-            margin-bottom: 28px;
-        }
+    .page-heading em {
+      font-style: italic;
+      color: var(--blue)
+    }
 
-        .req-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 22px;
-            border-bottom: 1px solid rgba(11, 29, 58, 0.04);
-        }
+    .page-sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 28px
+    }
 
-        .req-item:last-child {
-            border-bottom: none;
-        }
+    /* KPI */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 28px
+    }
 
-        .req-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    .kpi-card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      transition: transform .2s, box-shadow .2s
+    }
 
-        .req-status {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(11, 29, 58, .12)
+    }
 
-        .req-status.done {
-            background: var(--green-light);
-        }
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px
+    }
 
-        .req-status.missing {
-            background: var(--red-light);
-        }
+    .kpi-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px
+    }
 
-        .req-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--navy);
-        }
+    .kpi-icon.navy {
+      background: rgba(11, 29, 58, .08)
+    }
 
-        .req-note {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 2px;
-        }
+    .kpi-icon.gold {
+      background: rgba(245, 166, 35, .12)
+    }
 
-        .upload-trigger-btn {
-            padding: 7px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: white;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--navy);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+    .kpi-icon.green {
+      background: rgba(16, 185, 129, .12)
+    }
 
-        .upload-trigger-btn:hover {
-            background: var(--navy);
-            color: white;
-            border-color: var(--navy);
-        }
+    .kpi-icon.red {
+      background: rgba(239, 68, 68, .08)
+    }
 
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 48px 24px;
-            color: var(--muted);
-        }
+    .kpi-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px
+    }
 
-        .empty-state .empty-icon {
-            font-size: 40px;
-            margin-bottom: 12px;
-        }
+    .kpi-badge.up {
+      background: var(--green-light);
+      color: var(--green)
+    }
 
-        .empty-state p {
-            font-size: 14px;
-        }
+    .kpi-badge.neutral {
+      background: var(--cream-dark);
+      color: var(--muted)
+    }
 
-        /* TOAST */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--navy);
-            color: white;
-            padding: 14px 22px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(11, 29, 58, 0.3);
-            transform: translateY(80px);
-            transition: transform 0.3s;
-            z-index: 9999;
-        }
+    .kpi-badge.red {
+      background: var(--red-light);
+      color: var(--red)
+    }
 
-        .toast.show {
-            transform: translateY(0);
-        }
+    .kpi-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 4px
+    }
 
-        .toast.success {
-            background: #10b981;
-        }
+    .kpi-label {
+      color: var(--muted);
+      font-size: 13px
+    }
 
-        .toast.error {
-            background: #ef4444;
-        }
+    /* UPLOAD ZONE */
+    .upload-zone {
+      border: 2px dashed rgba(26, 79, 214, .25);
+      border-radius: 16px;
+      padding: 36px;
+      text-align: center;
+      background: rgba(26, 79, 214, .02);
+      transition: all .2s;
+      cursor: pointer;
+      margin-bottom: 28px
+    }
 
-        /* UPLOAD PROGRESS */
-        .upload-progress {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            padding: 16px 20px;
-            margin-bottom: 20px;
-        }
+    .upload-zone:hover,
+    .upload-zone.drag-over {
+      border-color: var(--blue);
+      background: rgba(26, 79, 214, .04)
+    }
 
-        .progress-bar-track {
-            background: var(--cream-dark);
-            border-radius: 20px;
-            height: 8px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
+    .upload-zone.drag-over {
+      border-color: var(--gold);
+      background: rgba(245, 166, 35, .04)
+    }
 
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--blue), var(--blue-light));
-            border-radius: 20px;
-            width: 0;
-            transition: width 0.3s;
-        }
+    .upload-icon {
+      font-size: 38px;
+      margin-bottom: 10px
+    }
 
-        @media(max-width:1100px) {
-            .kpi-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+    .upload-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px
+    }
 
-            .doc-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+    .upload-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 18px
+    }
 
-        @media(max-width:768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
+    .upload-controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-items: center
+    }
 
-            .main {
-                margin-left: 0;
-            }
+    .doc-type-select {
+      padding: 10px 14px;
+      border: 1px solid rgba(11, 29, 58, .15);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: white;
+      outline: none;
+      min-width: 200px
+    }
 
-            .doc-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    .upload-btn {
+      padding: 10px 24px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .upload-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(11, 29, 58, .25)
+    }
+
+    .format-tags {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 14px
+    }
+
+    .format-tag {
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--cream-dark);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted)
+    }
+
+    /* SECTION */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px
+    }
+
+    .filter-tab {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .filter-tab.active,
+    .filter-tab:hover {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy)
+    }
+
+    /* DOC GRID */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 28px
+    }
+
+    .doc-card {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all .2s
+    }
+
+    .doc-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(11, 29, 58, .12)
+    }
+
+    .doc-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px
+    }
+
+    .doc-icon.kyc {
+      background: rgba(26, 79, 214, .1)
+    }
+
+    .doc-icon.income {
+      background: rgba(16, 185, 129, .1)
+    }
+
+    .doc-icon.other {
+      background: rgba(245, 166, 35, .1)
+    }
+
+    .doc-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy)
+    }
+
+    .doc-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px
+    }
+
+    .doc-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px
+    }
+
+    .doc-btn {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--navy);
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .doc-btn:hover {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy)
+    }
+
+    .doc-btn.danger {
+      color: var(--red)
+    }
+
+    .doc-btn.danger:hover {
+      background: var(--red);
+      color: white;
+      border-color: var(--red)
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600
+    }
+
+    .pill-green {
+      background: var(--green-light);
+      color: var(--green)
+    }
+
+    .pill-gold {
+      background: rgba(245, 166, 35, .12);
+      color: #d97706
+    }
+
+    .pill-red {
+      background: var(--red-light);
+      color: var(--red)
+    }
+
+    /* REQUIRED LIST */
+    .req-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      margin-bottom: 28px
+    }
+
+    .req-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid rgba(11, 29, 58, .04)
+    }
+
+    .req-item:last-child {
+      border-bottom: none
+    }
+
+    .req-left {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .req-status {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0
+    }
+
+    .req-status.done {
+      background: var(--green-light)
+    }
+
+    .req-status.missing {
+      background: var(--red-light)
+    }
+
+    .req-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--navy)
+    }
+
+    .req-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px
+    }
+
+    .upload-trigger-btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .upload-trigger-btn:hover {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy)
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted)
+    }
+
+    .empty-state .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px
+    }
+
+    .empty-state p {
+      font-size: 14px
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--navy);
+      color: white;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(11, 29, 58, .3);
+      transform: translateY(80px);
+      transition: transform .3s;
+      z-index: 9999
+    }
+
+    .toast.show {
+      transform: translateY(0)
+    }
+
+    .toast.success {
+      background: #10b981
+    }
+
+    .toast.error {
+      background: #ef4444
+    }
+
+    /* UPLOAD PROGRESS */
+    .upload-progress {
+      display: none;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      margin-bottom: 20px
+    }
+
+    .progress-bar-track {
+      background: var(--cream-dark);
+      border-radius: 20px;
+      height: 8px;
+      overflow: hidden;
+      margin-top: 8px
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      border-radius: 20px;
+      width: 0;
+      transition: width .3s
+    }
+
+    @media(max-width:1100px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .doc-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width:768px) {
+      .sidebar {
+        transform: translateX(-100%)
+      }
+
+      .main {
+        margin-left: 0
+      }
+
+      .doc-grid {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <aside class="sidebar sidebar-light">
-        <div class="sidebar-logo">FUND<span>BEE</span></div>
-        <div class="sidebar-user">
-            <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified User</span>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">FUND<span>BEE</span></div>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified
+        User</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div> <a class="nav-item" href="user1.html"><span
+          class="nav-item-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span
+          class="nav-item-icon">📋</span> Apply for Loan</a>
+      <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
+      <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+      <div class="nav-section-label" style="margin-top:10px">Account</div>
+      <a class="nav-item active-gold" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+      <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+      <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+      <div class="nav-section-label" style="margin-top:10px">More</div>
+      <a class="nav-item" href="loan_products.html"><span class="nav-item-icon">💡</span> Loan Products</a>
+      <a class="nav-item" href="Knowledge_hub.html"><span class="nav-item-icon">📚</span> Knowledge Hub</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="logout-btn" onclick="window.location.href='logout.php'">
+        <span>🚪</span> Sign Out
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title">Documents</div>
+      <div class="topbar-right">
+        <a href="user1.html" style="text-decoration:none" class="back-btn">← Dashboard</a>
+        <a href="user_settings.html" style="text-decoration:none">
+          <div class="avatar">{{ session.user.initials }}</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="page-eyebrow">Document Vault</div>
+      <div class="page-heading">Your <em>Documents</em></div>
+      <div class="page-sub">Upload, manage and download all your KYC and income documents securely.</div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon green">✅</div>
+            <span class="kpi-badge up">Verified</span>
+          </div>
+          <div class="kpi-value" id="kpiUploaded">—</div>
+          <div class="kpi-label">Uploaded Docs</div>
         </div>
-        <nav class="sidebar-nav">
-            <div class="nav-section-label">Main</div>
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-            <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
-            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
-            <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
-            <div class="nav-section-label" style="margin-top:10px">Account</div>
-            <a class="nav-item active-gold" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-            <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
-            <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
-            <div class="nav-section-label" style="margin-top:10px">More</div>
-            <a class="nav-item" href="eligibility.html"><span class="nav-item-icon">🔍</span> Check Eligibility</a>
-            <a class="nav-item" href="Advisor.html"><span class="nav-item-icon">📞</span> Contact Advisor</a>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="logout-btn" onclick="window.location.href='logout.php'">🚪 Sign Out</div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon gold">🪪</div>
+            <span class="kpi-badge neutral" id="kycBadge">Pending</span>
+          </div>
+          <div class="kpi-value" id="kpiKYC">—</div>
+          <div class="kpi-label">KYC Status</div>
         </div>
-    </aside>
-
-    <main class="main">
-        <div class="topbar topbar-light">
-            <div class="topbar-title topbar-title-light">Documents</div>
-            <div class="topbar-right">
-                <a href="user1.html" class="back-btn back-btn-light">← Dashboard</a>
-                <div class="avatar avatar-gold">?</div>
-            </div>
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon red">❌</div>
+            <span class="kpi-badge red" id="missingBadge">Action needed</span>
+          </div>
+          <div class="kpi-value" id="kpiMissing">—</div>
+          <div class="kpi-label">Missing Docs</div>
         </div>
-
-        <div class="content">
-            <div class="page-header">
-                <div class="page-eyebrow page-eyebrow-gold">Document Vault</div>
-                <div class="page-heading page-heading-light">Your <em>Documents</em></div>
-                <div class="page-sub">Upload, manage and download all your KYC and income documents securely.</div>
-            </div>
-
-            <!-- KPI Cards -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-header">
-                        <div class="kpi-icon ki-green">✅</div>
-                        <span class="kpi-badge kb-up">Verified</span>
-                    </div>
-                    <div class="kpi-value kv-light" id="kpiUploaded">—</div>
-                    <div class="kpi-label">Uploaded Docs</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-header">
-                        <div class="kpi-icon ki-gold">🪪</div>
-                        <span class="kpi-badge kb-neutral" id="kycBadge">Pending</span>
-                    </div>
-                    <div class="kpi-value kv-light" id="kpiKYC">—</div>
-                    <div class="kpi-label">KYC Status</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-header">
-                        <div class="kpi-icon ki-red">❌</div>
-                        <span class="kpi-badge kb-down" id="missingBadge">Action needed</span>
-                    </div>
-                    <div class="kpi-value kv-light" id="kpiMissing">—</div>
-                    <div class="kpi-label">Missing Docs</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-header">
-                        <div class="kpi-icon ki-navy">📦</div>
-                        <span class="kpi-badge kb-neutral">Required</span>
-                    </div>
-                    <div class="kpi-value kv-light" id="kpiTotal">7</div>
-                    <div class="kpi-label">Total Required</div>
-                </div>
-            </div>
-
-            <!-- Upload Zone -->
-            <div id="uploadProgressBar" class="upload-progress">
-                <div style="font-size:13px;font-weight:600;color:var(--navy)">Uploading document...</div>
-                <div class="progress-bar-track">
-                    <div class="progress-bar-fill" id="progressFill"></div>
-                </div>
-            </div>
-
-            <div class="upload-zone" id="uploadZone" ondragover="dragOver(event)" ondragleave="dragLeave(event)"
-                ondrop="dropFile(event)">
-                <div class="upload-icon">☁️</div>
-                <div class="upload-title">Upload a Document</div>
-                <div class="upload-sub">Select document type then choose your file (PDF, JPG, PNG — max 10MB)</div>
-                <div class="upload-controls">
-                    <select id="docTypeSelect" class="doc-type-select" onclick="event.stopPropagation()">
-                        <option value="">— Select Document Type —</option>
-                        <option value="aadhaar">Aadhaar Card</option>
-                        <option value="pan">PAN Card</option>
-                        <option value="bank_statement">Bank Statement (6 months)</option>
-                        <option value="salary_slip">Salary Slips (3 months)</option>
-                        <option value="it_returns">IT Returns (2 years)</option>
-                        <option value="photo">Passport Photo</option>
-                        <option value="address_proof">Address Proof</option>
-                    </select>
-                    <button class="upload-btn" onclick="triggerUpload(event)">Choose File &amp; Upload</button>
-                </div>
-                <div class="format-tags">
-                    <span class="format-tag">PDF</span>
-                    <span class="format-tag">JPG</span>
-                    <span class="format-tag">PNG</span>
-                    <span class="format-tag">Max 10MB</span>
-                </div>
-                <input type="file" id="fileInput" style="display:none" accept=".pdf,.jpg,.jpeg,.png"
-                    onchange="handleFiles(this.files)">
-            </div>
-
-            <!-- Uploaded Documents -->
-            <div class="section-header">
-                <div class="section-title-light">Uploaded Documents</div>
-                <div class="filter-tabs">
-                    <button class="filter-tab ft-light active" onclick="filterDocs('all',this)">All</button>
-                    <button class="filter-tab ft-light" onclick="filterDocs('kyc',this)">KYC</button>
-                    <button class="filter-tab ft-light" onclick="filterDocs('income',this)">Income</button>
-                </div>
-            </div>
-            <div class="doc-grid" id="docGrid">
-                <div class="empty-state" style="grid-column:1/-1">
-                    <div class="empty-icon">📭</div>
-                    <p>Loading your documents...</p>
-                </div>
-            </div>
-
-            <!-- Required Docs Checklist -->
-            <div class="section-header" style="margin-top:16px">
-                <div class="section-title-light">Required Documents Checklist</div>
-                <span class="pill pill-red" id="missingPill" style="display:none"></span>
-            </div>
-            <div class="req-card" id="checklistContainer">
-                <div style="padding:20px;text-align:center;color:var(--muted)">Loading checklist...</div>
-            </div>
-
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <div class="kpi-icon navy">📦</div>
+            <span class="kpi-badge neutral">Required</span>
+          </div>
+          <div class="kpi-value" id="kpiTotal">7</div>
+          <div class="kpi-label">Total Required</div>
         </div>
-    </main>
+      </div>
 
-    <div class="toast" id="toast"></div>
+      <!-- Upload Zone -->
+      <div id="uploadProgressBar" class="upload-progress">
+        <div style="font-size:13px;font-weight:600;color:var(--navy)">Uploading document...</div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+      </div>
 
-    <script>
-        const DOC_ICONS = {
-            kyc: '🪪', income: '💰', other: '📄'
-        };
-        const ICON_MAP = {
-            aadhaar: '🪪', pan: '📋', bank_statement: '🏦',
-            salary_slip: '💰', it_returns: '📑', photo: '🤳', address_proof: '🏠'
-        };
+      <div class="upload-zone" id="uploadZone" ondragover="dragOver(event)" ondragleave="dragLeave(event)"
+        ondrop="dropFile(event)">
+        <div class="upload-icon">☁️</div>
+        <div class="upload-title">Upload a Document</div>
+        <div class="upload-sub">Select document type then choose your file (PDF, JPG, PNG — max 10MB)</div>
+        <div class="upload-controls">
+          <select id="docTypeSelect" class="doc-type-select" onclick="event.stopPropagation()">
+            <option value="">— Select Document Type —</option>
+            <option value="aadhaar">Aadhaar Card</option>
+            <option value="pan">PAN Card</option>
+            <option value="bank_statement">Bank Statement (6 months)</option>
+            <option value="salary_slip">Salary Slips (3 months)</option>
+            <option value="it_returns">IT Returns (2 years)</option>
+            <option value="photo">Passport Photo</option>
+            <option value="address_proof">Address Proof</option>
+          </select>
+          <button class="upload-btn" onclick="triggerUpload(event)">Choose File &amp; Upload</button>
+        </div>
+        <div class="format-tags">
+          <span class="format-tag">PDF</span>
+          <span class="format-tag">JPG</span>
+          <span class="format-tag">PNG</span>
+          <span class="format-tag">Max 10MB</span>
+        </div>
+        <input type="file" id="fileInput" style="display:none" accept=".pdf,.jpg,.jpeg,.png"
+          onchange="handleFiles(this.files)">
+      </div>
 
-        let allDocs = [];
+      <!-- Uploaded Documents -->
+      <div class="section-header">
+        <div class="section-title">Uploaded Documents</div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterDocs('all',this)">All</button>
+          <button class="filter-tab" onclick="filterDocs('kyc',this)">KYC</button>
+          <button class="filter-tab" onclick="filterDocs('income',this)">Income</button>
+        </div>
+      </div>
+      <div class="doc-grid" id="docGrid">
+        <div class="empty-state" style="grid-column:1/-1">
+          <div class="empty-icon">📭</div>
+          <p>Loading your documents...</p>
+        </div>
+      </div>
 
-        /* ── On Load ── */
-        document.addEventListener('DOMContentLoaded', loadDocuments);
+      <!-- Required Docs Checklist -->
+      <div class="section-header" style="margin-top:8px">
+        <div class="section-title">Required Documents Checklist</div>
+        <span class="status-pill" id="missingPill" style="display:none"></span>
+      </div>
+      <div class="req-card" id="checklistContainer">
+        <div style="padding:20px;text-align:center;color:var(--muted)">Loading checklist...</div>
+      </div>
 
-        function loadDocuments() {
-            fetch('get_documents.php')
-                .then(r => r.json())
-                .then(data => {
-                    if (!data.loggedIn) {
-                        window.location.href = '../Frontend/login.html';
-                        return;
-                    }
+    </div>
+  </main>
 
-                    // User info
-                    const u = data.user;
-                    const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
-                    const initial = ((u.firstName || '?').charAt(0) + (u.lastName || '?').charAt(0)).toUpperCase();
-                    document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
-                    document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+  <div class="toast" id="toast"></div>
 
-                    // Documents grid
-                    allDocs = data.documents || [];
-                    renderDocGrid(allDocs);
+  <script>
+    const DOC_ICONS = {
+      kyc: '🪪', income: '💰', other: '📄'
+    };
+    const ICON_MAP = {
+      aadhaar: '🪪', pan: '📋', bank_statement: '🏦',
+      salary_slip: '💰', it_returns: '📑', photo: '🤳', address_proof: '🏠'
+    };
 
-                    // Checklist
-                    renderChecklist(data.checklist || []);
+    let allDocs = [];
 
-                    // KPI
-                    const s = data.stats;
-                    document.getElementById('kpiUploaded').textContent = s.uploaded;
-                    document.getElementById('kpiMissing').textContent = s.missing;
-                    document.getElementById('kpiTotal').textContent = s.total_req;
+    /* ── On Load ── */
+    document.addEventListener('DOMContentLoaded', loadDocuments);
 
-                    if (s.kyc_done) {
-                        document.getElementById('kpiKYC').textContent = 'Complete';
-                        document.getElementById('kycBadge').textContent = '✓ Done';
-                        document.getElementById('kycBadge').className = 'kpi-badge kb-up';
-                    } else {
-                        document.getElementById('kpiKYC').textContent = 'Incomplete';
-                        document.getElementById('kycBadge').textContent = 'Pending';
-                        document.getElementById('kycBadge').className = 'kpi-badge kb-neutral';
-                    }
+    function loadDocuments() {
+      fetch('get_documents.php')
+        .then(r => r.json())
+        .then(data => {
+          if (!data.loggedIn) {
+            window.location.href = '../Frontend/login.html';
+            return;
+          }
 
-                    if (s.missing === 0) {
-                        document.getElementById('missingBadge').textContent = 'All done ✓';
-                        document.getElementById('missingBadge').className = 'kpi-badge kb-up';
-                    }
+          // User info
+          const u = data.user;
+          const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
+          const initial = ((u.firstName || '?').charAt(0) + (u.lastName || '?').charAt(0)).toUpperCase();
+          document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
+          document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
 
-                    // Missing pill
-                    const pill = document.getElementById('missingPill');
-                    if (s.missing > 0) {
-                        pill.textContent = s.missing + ' missing';
-                        pill.className = 'pill pill-red';
-                        pill.style.display = '';
-                    } else {
-                        pill.style.display = 'none';
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    showToast('Failed to load documents', 'error');
-                });
-        }
+          // Documents grid
+          allDocs = data.documents || [];
+          renderDocGrid(allDocs);
 
-        function renderDocGrid(docs) {
-            const grid = document.getElementById('docGrid');
-            if (!docs || docs.length === 0) {
-                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+          // Checklist
+          renderChecklist(data.checklist || []);
+
+          // KPI
+          const s = data.stats;
+          document.getElementById('kpiUploaded').textContent = s.uploaded;
+          document.getElementById('kpiMissing').textContent = s.missing;
+          document.getElementById('kpiTotal').textContent = s.total_req;
+
+          if (s.kyc_done) {
+            document.getElementById('kpiKYC').textContent = 'Complete';
+            document.getElementById('kycBadge').textContent = '✓ Done';
+            document.getElementById('kycBadge').className = 'kpi-badge up';
+          } else {
+            document.getElementById('kpiKYC').textContent = 'Incomplete';
+            document.getElementById('kycBadge').textContent = 'Pending';
+            document.getElementById('kycBadge').className = 'kpi-badge neutral';
+          }
+
+          if (s.missing === 0) {
+            document.getElementById('missingBadge').textContent = 'All done ✓';
+            document.getElementById('missingBadge').className = 'kpi-badge up';
+          }
+
+          // Missing pill
+          const pill = document.getElementById('missingPill');
+          if (s.missing > 0) {
+            pill.textContent = s.missing + ' missing';
+            pill.className = 'status-pill pill-red';
+            pill.style.display = '';
+          } else {
+            pill.style.display = 'none';
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          showToast('Failed to load documents', 'error');
+        });
+    }
+
+    function renderDocGrid(docs) {
+      const grid = document.getElementById('docGrid');
+      if (!docs || docs.length === 0) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
           <div class="empty-icon">📭</div>
           <p style="font-weight:600;color:var(--navy);font-size:16px">No documents submitted yet</p>
           <p style="font-size:13px;color:var(--muted);margin-top:5px">Select a document type and upload your files above.</p>
         </div>`;
-                return;
-            }
-            grid.innerHTML = docs.map(doc => {
-                const icon = ICON_MAP[doc.type] || '📄';
-                const catClass = doc.category === 'kyc' ? 'kyc' : doc.category === 'income' ? 'income' : 'other';
-                return `<div class="doc-card" data-cat="${doc.category}">
+        return;
+      }
+      grid.innerHTML = docs.map(doc => {
+        const icon = ICON_MAP[doc.type] || '📄';
+        const catClass = doc.category === 'kyc' ? 'kyc' : doc.category === 'income' ? 'income' : 'other';
+        return `<div class="doc-card" data-cat="${doc.category}">
           <div style="display:flex;align-items:center;gap:12px">
             <div class="doc-icon ${catClass}">${icon}</div>
             <div>
@@ -637,7 +1032,7 @@
             </div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <span class="pill pill-green">Uploaded</span>
+            <span class="status-pill pill-green">Uploaded</span>
             <span style="font-size:11px;color:var(--muted)">${doc.uploaded_at} · ${doc.size_label}</span>
           </div>
           <div class="doc-actions">
@@ -645,148 +1040,175 @@
             <button class="doc-btn danger" onclick="deleteDocPrompt('${doc.type}', '${doc.label}')">🗑 Delete</button>
           </div>
         </div>`;
-            }).join('');
-        }
+      }).join('');
+    }
 
-        function renderChecklist(checklist) {
-            const container = document.getElementById('checklistContainer');
-            if (!checklist.length) {
-                container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">No checklist available</div>';
-                return;
-            }
-            container.innerHTML = checklist.map(item => {
-                const icon = item.uploaded ? '✓' : '!';
-                const stClass = item.uploaded ? 'done' : 'missing';
-                const rightHtml = item.uploaded
-                    ? `<span class="pill pill-green">Uploaded</span>`
-                    : `<button class="upload-trigger-btn" onclick="quickUpload('${item.type}')">Upload Now</button>`;
-                return `<div class="req-item">
+    function renderChecklist(checklist) {
+      const container = document.getElementById('checklistContainer');
+      if (!checklist.length) {
+        container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">No checklist available</div>';
+        return;
+      }
+      container.innerHTML = checklist.map(item => {
+        const icon = item.uploaded ? '✓' : '!';
+        const stClass = item.uploaded ? 'done' : 'missing';
+        const rightHtml = item.uploaded
+          ? `<span class="status-pill pill-green">Uploaded</span>`
+          : `<button class="upload-trigger-btn" onclick="quickUpload('${item.type}')">Upload Now</button>`;
+        return `<div class="req-item">
           <div class="req-left">
             <div class="req-status ${stClass}">${icon}</div>
             <div>
               <div class="req-name">${ICON_MAP[item.type] || '📄'} ${item.label}</div>
               <div class="req-note">${item.note}</div>
-            </div>
-          </div>
-          ${rightHtml}
         </div>`;
-            }).join('');
-        }
+      }).join('');
+    }
 
-        function filterDocs(cat, btn) {
-            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const filtered = cat === 'all' ? allDocs : allDocs.filter(d => d.category === cat);
-            renderDocGrid(filtered);
-        }
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('get_user_data.php')
+        .then(res => res.json())
+        .then(data => {
+          if (!data.loggedIn) {
+            window.location.href = '../Frontend/login.html';
+          } else {
+            const u = data.user;
+            const fullName = (u.firstName || '') + ' ' + (u.lastName || '');
+            const initial = ((u.firstName || '?').charAt(0) + (u.lastName || '?').charAt(0)).toUpperCase();
+            document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
+            document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
+          }
+        })
+        .catch(err => console.error(err));
+    });
 
-        /* ── Upload ── */
-        function triggerUpload(e) {
-            if (e) e.stopPropagation();
-            const type = document.getElementById('docTypeSelect').value;
-            if (!type) { showToast('Please select a document type first', 'error'); return; }
-            document.getElementById('fileInput').click();
-        }
+    function switchDocTab(type, el) {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      document.querySelectorAll('.doc-card').forEach(card => {
+        if (type === 'all' || card.dataset.type === type) card.style.display = '';
+        else card.style.display = 'none';
+      });
+    }
+    function uploadDoc() {
+      alert('Redirecting to secure upload portal...');
+    }
 
-        function quickUpload(type) {
-            document.getElementById('docTypeSelect').value = type;
-            document.getElementById('fileInput').click();
-        }
+    function filterDocs(cat, btn) {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filtered = cat === 'all' ? allDocs : allDocs.filter(d => d.category === cat);
+      renderDocGrid(filtered);
+    }
 
-        function handleFiles(files) {
-            if (!files.length) return;
-            const type = document.getElementById('docTypeSelect').value;
-            if (!type) { showToast('Please select a document type first', 'error'); return; }
+    /* ── Upload ── */
+    function triggerUpload(e) {
+      if (e) e.stopPropagation();
+      const type = document.getElementById('docTypeSelect').value;
+      if (!type) { showToast('Please select a document type first', 'error'); return; }
+      document.getElementById('fileInput').click();
+    }
 
-            const file = files[0];
-            if (file.size > 10 * 1024 * 1024) { showToast('File exceeds 10MB limit', 'error'); return; }
+    function quickUpload(type) {
+      document.getElementById('docTypeSelect').value = type;
+      document.getElementById('fileInput').click();
+    }
 
-            const formData = new FormData();
-            formData.append('doc_type', type);
-            formData.append('document', file);
+    function handleFiles(files) {
+      if (!files.length) return;
+      const type = document.getElementById('docTypeSelect').value;
+      if (!type) { showToast('Please select a document type first', 'error'); return; }
 
-            // Show progress
-            const progressBar = document.getElementById('uploadProgressBar');
-            const fill = document.getElementById('progressFill');
-            progressBar.style.display = 'block';
-            let prog = 0;
-            const interval = setInterval(() => { prog = Math.min(prog + 10, 85); fill.style.width = prog + '%'; }, 150);
+      const file = files[0];
+      if (file.size > 10 * 1024 * 1024) { showToast('File exceeds 10MB limit', 'error'); return; }
 
-            fetch('upload_document.php', { method: 'POST', body: formData })
-                .then(r => r.json())
-                .then(data => {
-                    clearInterval(interval);
-                    fill.style.width = '100%';
-                    setTimeout(() => {
-                        progressBar.style.display = 'none';
-                        fill.style.width = '0';
-                    }, 600);
+      const formData = new FormData();
+      formData.append('doc_type', type);
+      formData.append('document', file);
 
-                    if (data.success) {
-                        showToast('Document uploaded successfully!', 'success');
-                        document.getElementById('docTypeSelect').value = '';
-                        document.getElementById('fileInput').value = '';
-                        loadDocuments(); // Refresh
-                    } else {
-                        showToast(data.message || 'Upload failed', 'error');
-                    }
-                })
-                .catch(() => {
-                    clearInterval(interval);
-                    progressBar.style.display = 'none';
-                    showToast('Network error. Make sure XAMPP is running.', 'error');
-                });
-        }
+      // Show progress
+      const progressBar = document.getElementById('uploadProgressBar');
+      const fill = document.getElementById('progressFill');
+      progressBar.style.display = 'block';
+      let prog = 0;
+      const interval = setInterval(() => { prog = Math.min(prog + 10, 85); fill.style.width = prog + '%'; }, 150);
 
-        function dragOver(e) { e.preventDefault(); document.getElementById('uploadZone').classList.add('drag-over'); }
-        function dragLeave() { document.getElementById('uploadZone').classList.remove('drag-over'); }
-        function dropFile(e) {
-            e.preventDefault(); dragLeave();
-            if (e.dataTransfer.files.length) {
-                handleFiles(e.dataTransfer.files);
-            }
-        }
+      fetch('upload_document.php', { method: 'POST', body: formData })
+        .then(r => r.json())
+        .then(data => {
+          clearInterval(interval);
+          fill.style.width = '100%';
+          setTimeout(() => {
+            progressBar.style.display = 'none';
+            fill.style.width = '0';
+          }, 600);
 
-        /* ── Download ── */
-        function downloadDoc(type, label) {
-            showToast('Downloading ' + label + '...', 'success');
-            const link = document.createElement('a');
-            link.href = 'download_document.php?type=' + encodeURIComponent(type);
-            link.download = '';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+          if (data.success) {
+            showToast('Document uploaded successfully!', 'success');
+            document.getElementById('docTypeSelect').value = '';
+            document.getElementById('fileInput').value = '';
+            loadDocuments(); // Refresh
+          } else {
+            showToast(data.message || 'Upload failed', 'error');
+          }
+        })
+        .catch(() => {
+          clearInterval(interval);
+          progressBar.style.display = 'none';
+          showToast('Network error. Make sure XAMPP is running.', 'error');
+        });
+    }
 
-        /* ── Delete ── */
-        function deleteDocPrompt(type, label) {
-            if (!confirm('Are you sure you want to delete "' + label + '"? This action cannot be undone.')) return;
-            fetch('delete_document.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ type })
-            })
-                .then(r => r.json())
-                .then(data => {
-                    if (data.success) {
-                        showToast(label + ' deleted.', 'success');
-                        loadDocuments();
-                    } else {
-                        showToast(data.message || 'Delete failed', 'error');
-                    }
-                })
-                .catch(() => showToast('Network error', 'error'));
-        }
+    function dragOver(e) { e.preventDefault(); document.getElementById('uploadZone').classList.add('drag-over'); }
+    function dragLeave() { document.getElementById('uploadZone').classList.remove('drag-over'); }
+    function dropFile(e) {
+      e.preventDefault(); dragLeave();
+      if (e.dataTransfer.files.length) {
+        // Assign the files to the input and trigger handler
+        handleFiles(e.dataTransfer.files);
+      }
+    }
 
-        /* ── Toast ── */
-        function showToast(msg, type = 'success') {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.className = 'toast ' + type;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
-        }
-    </script>
+    /* ── Download ── */
+    function downloadDoc(type, label) {
+      showToast('Downloading ' + label + '...', 'success');
+      const link = document.createElement('a');
+      link.href = 'download_document.php?type=' + encodeURIComponent(type);
+      link.download = '';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    /* ── Delete (stub — confirm + reload) ── */
+    function deleteDocPrompt(type, label) {
+      if (!confirm('Are you sure you want to delete "' + label + '"? This action cannot be undone.')) return;
+      fetch('delete_document.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type })
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            showToast(label + ' deleted.', 'success');
+            loadDocuments();
+          } else {
+            showToast(data.message || 'Delete failed', 'error');
+          }
+        })
+        .catch(() => showToast('Network error', 'error'));
+    }
+
+    /* ── Toast ── */
+    function showToast(msg, type = 'success') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
 </body>
 
 </html>

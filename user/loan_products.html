@@ -347,23 +347,23 @@
     <aside class="sidebar sidebar-light">
         <div class="sidebar-logo">FUND<span>BEE</span></div>
         <div class="sidebar-user">
-            <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified User</span>
+            <div class="sidebar-user-name">Loading...</div><span class="sidebar-user-tag tag-gold">Verified
+                User</span>
         </div>
         <nav class="sidebar-nav">
             <div class="nav-section-label">Main</div>
-            <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
-            <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span
-                    class="nav-item-icon">📋</span> Apply for Loan</a>
-            <a class="nav-item" href="My_loans.html"><span class="nav-item-icon">🔄</span> My Loans</a>
-            <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
-            <div class="nav-section-label" style="margin-top:10px">Account</div>
-            <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
-            <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
-            <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
+      <a class="nav-item" href="user1.html"><span class="nav-item-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="user1.html" onclick="sessionStorage.setItem('openLoanModal', 'true')"><span class="nav-item-icon">📋</span> Apply for Loan</a>
+      <a class="nav-item" href="user1.html#my-loans-section"><span class="nav-item-icon">🔄</span> My Loans</a>
+      <a class="nav-item" href="Emi_Schedule.html"><span class="nav-item-icon">📅</span> EMI Schedule</a>
+      <div class="nav-section-label" style="margin-top:10px">Account</div>
+      <a class="nav-item" href="Documents.html"><span class="nav-item-icon">📁</span> Documents</a>
+      <a class="nav-item" href="notifications.html"><span class="nav-item-icon">🔔</span> Notifications</a>
+      <a class="nav-item" href="user_settings.html"><span class="nav-item-icon">⚙️</span> Settings</a>
             <div class="nav-section-label" style="margin-top:10px">Explore</div>
-            <a class="nav-item active-gold" href="loan_products.html"><span class="nav-item-icon">💡</span> Loan
+            <a class="nav-item active-gold" href="loan-products.html"><span class="nav-item-icon">💡</span> Loan
                 Products</a>
-            <a class="nav-item" href="Knowledge_hub.html"><span class="nav-item-icon">📚</span> Knowledge Hub</a>
+            <a class="nav-item" href="knowledge-hub.html"><span class="nav-item-icon">📚</span> Knowledge Hub</a>
         </nav>
         <div class="sidebar-footer">
             <div class="logout-btn" onclick="window.location.href='login.html'">🚪 Sign Out</div>
@@ -647,18 +647,18 @@
             <div style="padding:24px 28px">
                 <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
                     <div class="form-group"><label class="form-label">Full Name</label><input
-                            class="form-input fi-light user-name-input" placeholder="Loading..."></div>
+                            class="form-input fi-light user-name-input" value="Arjun Sharma"></div>
                     <div class="form-group"><label class="form-label">Mobile</label><input class="form-input fi-light"
-                            placeholder="+91 00000 00000" id="userPhoneInput"></div>
+                            value="+91 98765 43210"></div>
                     <div class="form-group"><label class="form-label">Loan Amount</label><input
-                            class="form-input fi-light" placeholder="Enter amount" id="applyAmount"></div>
+                            class="form-input fi-light" placeholder="Enter amount"></div>
                     <div class="form-group"><label class="form-label">Tenure (Months)</label><input
-                            class="form-input fi-light" placeholder="e.g. 36" id="applyTenure"></div>
+                            class="form-input fi-light" placeholder="e.g. 36"></div>
                 </div>
                 <div class="form-group" style="margin-top:4px"><label class="form-label">Monthly Income</label><input
-                        class="form-input fi-light" placeholder="Your net monthly income" id="applyIncome"></div>
+                        class="form-input fi-light" placeholder="Your net monthly income"></div>
                 <div class="form-group"><label class="form-label">Purpose</label><input class="form-input fi-light"
-                        placeholder="e.g. Home renovation, Medical, Travel" id="applyPurpose"></div>
+                        placeholder="e.g. Home renovation, Medical, Travel"></div>
             </div>
             <div style="padding:0 28px 26px;display:flex;gap:12px">
                 <button onclick="closeApply()" class="btn-secondary btn-sec-light">Cancel</button>
@@ -669,7 +669,7 @@
 
     <div id="toast"
         style="position:fixed;bottom:28px;right:28px;background:var(--navy);color:white;padding:14px 22px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(11,29,58,0.3);transform:translateY(80px);transition:transform 0.3s;z-index:9999">
-        ✅ Action complete!</div>
+        ✅ Application submitted!</div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -685,12 +685,6 @@
                         document.querySelectorAll('.sidebar-user-name').forEach(el => el.textContent = fullName.trim());
                         document.querySelectorAll('.avatar').forEach(el => el.textContent = initial);
                         document.querySelectorAll('.user-name-input').forEach(el => el.value = fullName.trim());
-                        if(u.phone) document.getElementById('userPhoneInput').value = u.phone;
-                        
-                        if(sessionStorage.getItem('openLoanModal') === 'true'){
-                            sessionStorage.removeItem('openLoanModal');
-                            openApply('Personal Loan','10.5%','₹5L','60');
-                        }
                     }
                 })
                 .catch(err => console.error(err));
@@ -709,19 +703,14 @@
         function submitApply() {
             const data = {
                 loanType: document.getElementById('modalProductName').textContent.replace('Apply for ', ''),
-                amount: document.getElementById('applyAmount').value,
-                tenure: document.getElementById('applyTenure').value,
-                purpose: document.getElementById('applyPurpose').value,
-                income: document.getElementById('applyIncome').value,
-                employment: 'salaried', // Default
+                amount: document.querySelector('.modal-box input[placeholder="Enter amount"]').value,
+                tenure: document.querySelector('.modal-box input[placeholder="e.g. 36"]').value,
+                purpose: document.querySelector('.modal-box input[placeholder*="e.g."]').value,
+                income: document.querySelector('.modal-box input[placeholder*="income"]').value,
+                employment: 'salaried', // Default if not in modal
                 fullName: document.querySelector('.user-name-input').value,
-                phone: document.getElementById('userPhoneInput').value
+                phone: document.querySelector('.modal-box input[value*="+91"]').value
             };
-
-            if(!data.amount || !data.tenure){
-                showToast('Please fill in amount and tenure');
-                return;
-            }
 
             fetch('apply_loan.php', {
                 method: 'POST',
@@ -730,10 +719,11 @@
             })
             .then(res => res.json())
             .then(res => {
-                showToast(res.message);
                 if (res.success) {
+                    showToast(res.message);
                     closeApply();
-                    setTimeout(() => window.location.href = 'user1.html', 1500);
+                } else {
+                    showToast(res.message);
                 }
             })
             .catch(err => {
@@ -742,9 +732,7 @@
             });
         }
         function showToast(msg) {
-            const t = document.getElementById('toast'); 
-            t.textContent = msg; 
-            t.style.transform = 'translateY(0)';
+            const t = document.getElementById('toast'); t.textContent = msg; t.style.transform = 'translateY(0)';
             setTimeout(() => t.style.transform = 'translateY(80px)', 3000);
         }
         document.getElementById('applyModal').addEventListener('click', e => { if (e.target === document.getElementById('applyModal')) closeApply(); });

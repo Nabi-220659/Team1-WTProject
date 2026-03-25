@@ -75,20 +75,12 @@ if (submitBtn) {
     submitBtn.classList.add('loading');
 
     try {
-<<<<<<< HEAD
       // Gather form data manually
       const formData = new FormData();
       
       const fields = [
         'fullName', 'mobile', 'email', 'whatsapp', 'dob',
         'address', 'city', 'state', 'pincode', 
-=======
-      const formData = new FormData();
-
-      const fields = [
-        'fullName', 'mobile', 'email', 'whatsapp', 'dob',
-        'address', 'city', 'state', 'pincode',
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         'profession', 'experience', 'referrals', 'existingPartner',
         'bankName', 'accountHolder', 'accountNo', 'ifsc'
       ];
@@ -105,10 +97,7 @@ if (submitBtn) {
       // Selected Products
       const productLabels = document.querySelectorAll('.checkbox-grid input:checked');
       const products = Array.from(productLabels).map(input => {
-<<<<<<< HEAD
         // Find text node inside the label, ignoring emojis/icons if possible 
-=======
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
         return input.parentElement.textContent.replace(/[^\w\s-]/g, '').trim();
       }).filter(p => p);
       formData.append('products', JSON.stringify(products));
@@ -134,35 +123,11 @@ if (submitBtn) {
         submitBtn.classList.remove('loading');
         formSection.style.display = 'none';
         document.querySelector('.progress-bar-section').style.display = 'none';
-<<<<<<< HEAD
         successScreen.classList.add('show');
 
         // Show the returned reference number
         document.getElementById('refNumber').textContent = 'Reference: ' + result.reference_id;
         successScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
-=======
-
-        if (result.eligible) {
-          // ── ELIGIBLE: show success screen then redirect to partner dashboard ──
-          successScreen.classList.add('show');
-          document.getElementById('refNumber').textContent = 'Reference: ' + result.reference_id;
-          successScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-          localStorage.setItem('partner_approved', 'true'); // mark as approved partner
-          setTimeout(() => {
-            window.location.href = '../partner/partner1.html';
-          }, 2000);
-        } else {
-          // ── NOT ELIGIBLE: show rejection screen ──
-          const rejectionScreen = document.getElementById('rejectionScreen');
-          if (rejectionScreen) {
-            document.getElementById('rejectionReason').textContent =
-              result.reason || 'You do not meet the eligibility criteria at this time.';
-            rejectionScreen.classList.add('show');
-            rejectionScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
       } else {
         throw new Error(result.message || 'Error submitting application.');
       }
@@ -204,14 +169,7 @@ function validateStep(step) {
 
   if (step === 3) {
     valid = validateField('panNumber')   & valid;
-<<<<<<< HEAD
     // At least one upload (PAN is mandatory)
-=======
-<<<<<<< HEAD
-=======
-    // At least one upload (PAN is mandatory)
->>>>>>> e8a84dfef582ad42d309577d464e7b0aa4a02d59
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
     const panFile = document.getElementById('panFile');
     if (!panFile.files.length && !panFile.dataset.uploaded) {
       showToast('Please upload your PAN card document.', 'error');
@@ -366,14 +324,7 @@ const revealObserver = new IntersectionObserver(entries => {
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // ── INCOME CALCULATOR (hero) ──
-<<<<<<< HEAD
 // Animate numbers in hero cards on load
-=======
-<<<<<<< HEAD
-=======
-// Animate numbers in hero cards on load
->>>>>>> e8a84dfef582ad42d309577d464e7b0aa4a02d59
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
 function animateValue(el, from, to, duration, prefix = '₹', suffix = '') {
   const start = performance.now();
   const update = (time) => {
@@ -387,14 +338,7 @@ function animateValue(el, from, to, duration, prefix = '₹', suffix = '') {
   requestAnimationFrame(update);
 }
 
-<<<<<<< HEAD
 // Trigger count-up on hero visible
-=======
-<<<<<<< HEAD
-=======
-// Trigger count-up on hero visible
->>>>>>> e8a84dfef582ad42d309577d464e7b0aa4a02d59
->>>>>>> acd5ce854a5ed811a98a84318fc2c4a7830c81d3
 const heroAmountEl = document.getElementById('heroMonthlyAmount');
 if (heroAmountEl) {
   setTimeout(() => animateValue(heroAmountEl, 0, 45000, 1800), 400);

@@ -1236,6 +1236,7 @@
       <div>Loading Dashboard...</div>
     </div>
   </div>
+
   <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
   <aside class="sidebar">
     <div class="sidebar-logo">FUND<span>BEE</span></div>
@@ -1320,7 +1321,7 @@
         <div class="kpi-card">
           <div class="kpi-header">
             <div class="kpi-icon navy">🏦</div>
-                        <span class="kpi-badge up" id="kpi-badge-active">—</span>
+            <span class="kpi-badge up" id="kpi-badge-active">—</span>
           </div>
           <div class="kpi-value" id="kpi-active-loans">—</div>
           <div class="kpi-label">Active Loans</div>
@@ -1342,7 +1343,7 @@
           <div class="kpi-label">Total Repaid</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-header">
+           <div class="kpi-header">
             <div class="kpi-icon blue">📅</div>
             <span class="kpi-badge neutral">Due this month</span>
           </div>
@@ -1701,6 +1702,7 @@
           window.location.href = '../Frontend/login.html';
         });
     });
+
     function goToPartner() {
       window.location.href = 'partner1.html';
     }
@@ -1849,6 +1851,7 @@
     document.getElementById('loanModal').addEventListener('click', function (e) {
       if (e.target === this) closeLoanModal();
     });
+
   </script>
 </body>
 
