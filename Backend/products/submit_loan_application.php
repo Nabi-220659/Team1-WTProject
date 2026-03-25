@@ -91,6 +91,31 @@ try {
     $db         = getDB();
     $collection = $db->selectCollection('loan_applications');
 
+    // ── Resolve user_id and assigned partner from token (if logged in) ──
+    require_once __DIR__ . '/../index/config/db.php';
+    $userId = null;
+    $partnerId = null;
+    $userToken = isset(getallheaders()['X-User-Token']) ? trim(getallheaders()['X-User-Token']) : '';
+    if (!$userToken && isset($_SERVER['HTTP_X_USER_TOKEN'])) {
+        $userToken = trim($_SERVER['HTTP_X_USER_TOKEN']);
+    }
+    if ($userToken) {
+        use MongoDB\BSON\UTCDateTime as BsonDate;
+        $dbCheck = getDB();
+        $sess    = $dbCheck->selectCollection('user_sessions')->findOne([
+            'token'      => $userToken,
+            'expires_at' => ['$gt' => new BsonDate()],
+        ]);
+        if ($sess) {
+            $userId = $sess['user_id'];
+            // Fetch assigned partner
+            $assignment = $dbCheck->selectCollection('user_agent_assignments')->findOne(['user_id' => $userId]);
+            if ($assignment) {
+                $partnerId = $assignment['partner_reference_id'];
+            }
+        }
+    }
+
     $document = [
         'loan_type'        => $loan_type,
         'loan_label'       => $loan_label,
@@ -99,9 +124,12 @@ try {
         'phone'            => $phone_clean,
         'requested_amount' => $amount !== '' ? (int)$amount : null,
         'message'          => $message,
-        'status'           => 'pending',        // pending | under_review | approved | rejected
-        'source'           => 'products_page',  // originating page
-        'created_at'       => date("Y-m-d H:i:s")
+        'status'           => 'pending',           // pending | under_review | approved | rejected
+        'review_status'    => 'pending_partner',   // pending_partner | partner_reviewed | forwarded_to_admin
+        'user_id'          => $userId,             // null for guest submissions
+        'partner_id'       => $partnerId,          // assigned local agent reference ID
+        'source'           => 'products_page',
+        'created_at'       => date("Y-m-d H:i:s"),
     ];
 
     $result = $collection->insertOne($document);

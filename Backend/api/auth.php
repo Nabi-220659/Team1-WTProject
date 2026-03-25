@@ -169,6 +169,96 @@ if ($action === 'login') {
         'status' => 'Approved'
     ]);
 
+    if ($partnerApp) {
+        $_SESSION['partner_ref'] = $partnerApp['reference_id'] ?? (string)$partnerApp['_id'];
+    }
+
+    // ── Auto-assign a local agent (partner) if not already assigned ──
+    $localAgent = null;
+    $assignment = $db->selectCollection('user_agent_assignments')->findOne(['user_id' => $userId]);
+
+    if (!$assignment) {
+        // Find the best-matching approved partner (geo-match → lightest workload fallback)
+        $approvedPartners = $db->selectCollection('partner_applications')->find(['status' => 'Approved']);
+        $userCity         = strtolower(trim($user['city']  ?? ''));
+        $userState        = strtolower(trim($user['state'] ?? ''));
+        $geoMatch         = null;
+        $fallback         = null;
+        $minWorkload      = PHP_INT_MAX;
+        $assignments      = $db->selectCollection('user_agent_assignments');
+
+        foreach ($approvedPartners as $partner) {
+            $pCity    = strtolower(trim($partner['city']  ?? ''));
+            $pState   = strtolower(trim($partner['state'] ?? ''));
+            $workload = $assignments->countDocuments(['partner_reference_id' => $partner['reference_id'] ?? '']);
+
+            if ($userCity && $pCity && $userCity === $pCity) {
+                if (!$geoMatch || $workload < ($geoMatch['_workload'] ?? PHP_INT_MAX)) {
+                    $geoMatch              = $partner;
+                    $geoMatch['_workload'] = $workload;
+                }
+            } elseif (!$geoMatch && $userState && $pState && $userState === $pState) {
+                if (!$geoMatch || $workload < ($geoMatch['_workload'] ?? PHP_INT_MAX)) {
+                    $geoMatch              = $partner;
+                    $geoMatch['_workload'] = $workload;
+                }
+            }
+
+            if ($workload < $minWorkload) {
+                $minWorkload = $workload;
+                $fallback    = $partner;
+            }
+        }
+
+        $chosenPartner = $geoMatch ?? $fallback;
+
+        if ($chosenPartner) {
+            $refId = $chosenPartner['reference_id'] ?? (string)$chosenPartner['_id'];
+            $db->selectCollection('user_agent_assignments')->insertOne([
+                'user_id'              => $userId,
+                'user_name'            => $fullName,
+                'user_email'           => $user['email'] ?? '',
+                'partner_reference_id' => $refId,
+                'partner_name'         => $chosenPartner['fullName'] ?? '',
+                'partner_email'        => $chosenPartner['email']    ?? '',
+                'match_type'           => $geoMatch ? 'geo' : 'fallback',
+                'assigned_at'          => new UTCDateTime(),
+            ]);
+            $db->selectCollection('users')->updateOne(
+                ['_id' => new ObjectId($userId)],
+                ['$set' => [
+                    'local_agent_ref'   => $refId,
+                    'local_agent_name'  => $chosenPartner['fullName'] ?? '',
+                    'local_agent_email' => $chosenPartner['email']    ?? '',
+                    'agent_assigned_at' => new UTCDateTime(),
+                ]]
+            );
+            $agentDisplayName = $chosenPartner['fullName'] ?? 'a local agent';
+            $db->selectCollection('notifications')->insertOne([
+                'user_id'    => $userId,
+                'title'      => 'Local agent assigned',
+                'body'       => "$agentDisplayName has been assigned as your local FUNDBEE agent and will review your loan applications.",
+                'type'       => 'agent_assignment',
+                'read'       => false,
+                'created_at' => new UTCDateTime(),
+            ]);
+            $localAgent = [
+                'name'         => $chosenPartner['fullName'] ?? '',
+                'email'        => $chosenPartner['email']    ?? '',
+                'mobile'       => $chosenPartner['mobile']   ?? '',
+                'city'         => $chosenPartner['city']     ?? '',
+                'state'        => $chosenPartner['state']    ?? '',
+                'reference_id' => $refId,
+            ];
+        }
+    } else {
+        $localAgent = [
+            'name'         => $assignment['partner_name']  ?? '',
+            'email'        => $assignment['partner_email'] ?? '',
+            'reference_id' => $assignment['partner_reference_id'] ?? '',
+        ];
+    }
+
     respond(true, 'Login successful!', [
         'token'            => $token,
         'user_id'          => $userId,
@@ -180,6 +270,7 @@ if ($action === 'login') {
         'cibil_score'      => $user['cibil_score'] ?? 0,
         'kyc_status'       => $user['kyc_status'] ?? 'pending',
         'partner_approved' => $partnerApp ? true : false,
+        'local_agent'      => $localAgent,
     ]);
 }
 

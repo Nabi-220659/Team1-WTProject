@@ -197,8 +197,10 @@ try {
                     'loan_type' => $doc['loan_type'] ?? '',
                     'amount'    => $doc['amount']    ?? '',
                     'message'   => $doc['message']   ?? '',
-                    'status'    => $doc['status']    ?? 'pending',
-                    'date'      => isset($doc['submitted_at']) ? $doc['submitted_at']->toDateTime()->format('Y-m-d') : '',
+                    'status'        => $doc['status']    ?? 'pending',
+                    'review_status' => $doc['review_status'] ?? 'pending_partner',
+                    'partner_id'    => $doc['partner_id'] ?? '',
+                    'date'          => isset($doc['submitted_at']) ? $doc['submitted_at']->toDateTime()->format('Y-m-d') : '',
                 ];
             }
             respond(true, 'Loan applications fetched', ['applications' => $results, 'count' => count($results)]);

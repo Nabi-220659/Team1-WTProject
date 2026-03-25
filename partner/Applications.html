@@ -212,7 +212,8 @@
             <a class="nav-item" href="Analytics.html"><span class="nav-item-icon">📈</span> Analytics</a>
             <div class="nav-section-label" style="margin-top:10px">Management</div>
             <a class="nav-item" href="Borrowers.html"><span class="nav-item-icon">👥</span> My Borrowers</a>
-            <a class="nav-item active-green" href="Applications.html"><span class="nav-item-icon">📋</span> Applications</a>
+            <a class="nav-item active-green" href="Applications.html"><span class="nav-item-icon">📋</span>
+                Applications</a>
             <a class="nav-item" href="Withdrawls.html"><span class="nav-item-icon">🏦</span> Withdrawals</a>
             <a class="nav-item" href="Statements.html"><span class="nav-item-icon">📄</span> Statements</a>
             <div class="nav-section-label" style="margin-top:10px">Premium</div>
@@ -249,6 +250,27 @@
                         <div class="kpi-icon ki-gold">📋</div><span class="kpi-badge kb-neutral">Pending</span>
                     </div>
                     <div class="kpi-value kv-dark">0</div>
+                    <div class="kpi-label">Open Applications</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-green">✅</div><span class="kpi-badge kb-up">This Month</span>
+                    </div>
+                    <div class="kpi-value kv-dark">0</div>
+                    <div class="kpi-label">Approved</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-red">❌</div>
+                    </div>
+                    <div class="kpi-value kv-dark">0</div>
+                    <div class="kpi-label">Rejected</div>
+                </div>
+                <div class="kpi-card card-dark">
+                    <div class="kpi-header">
+                        <div class="kpi-icon ki-blue">💰</div><span class="kpi-badge kb-up">Funded</span>
+                    </div>
+                    <div class="kpi-value kv-green">₹0</div>
                     <div class="kpi-label">Disbursed This Month</div>
                 </div>
             </div>
@@ -335,20 +357,47 @@
         function approveApp(btn, appId) { updateStatus(btn, appId, 'approved'); }
         function rejectApp(btn, appId) { updateStatus(btn, appId, 'rejected'); }
         
+        async function forwardToAdmin(btn, appId) {
+            try {
+                btn.disabled = true;
+                btn.textContent = 'Verifying...';
+                
+                const response = await fetch('../Backend/partner/api_applications.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'forward_to_admin', app_id: appId })
+                });
+                
+                const res = await response.json();
+                if(res.success) {
+                    toast('✅ Verified & sent to admin!');
+                    setTimeout(() => loadApplications(), 1500);
+                } else {
+                    toast('Error: ' + res.message);
+                    btn.disabled = false;
+                    btn.textContent = '✓ Verify & Send to Admin';
+                }
+            } catch (err) {
+                console.error(err);
+                toast('Network Error');
+                btn.disabled = false;
+                btn.textContent = '✓ Verify & Send to Admin';
+            }
+        }
+        
         async function loadApplications() {
             try {
                 const response = await fetch('../Backend/partner/api_applications.php');
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Update KPIs
+                    // Update KPIs (total logic remains same)
                     const kpiValues = document.querySelectorAll('.kpi-value');
                     kpiValues[0].textContent = data.kpis.pending;
                     kpiValues[1].textContent = data.kpis.approved;
                     kpiValues[2].textContent = data.kpis.rejected;
                     kpiValues[3].textContent = '₹' + data.kpis.disbursed + ' Cr';
                     
-                    // Update filter tabs text
                     const filterTabs = document.querySelectorAll('.filter-tab');
                     const totalApps = data.kpis.pending + data.kpis.approved + data.kpis.rejected;
                     filterTabs[0].textContent = `All (${totalApps})`;
@@ -356,11 +405,12 @@
                     filterTabs[2].textContent = `Approved (${data.kpis.approved})`;
                     filterTabs[3].textContent = `Rejected (${data.kpis.rejected})`;
                     
-                    // Render Applications
                     const appList = document.getElementById('appList');
                     appList.innerHTML = '';
                     
                     data.applications.forEach(app => {
+                        let isVerified = app.review_status === 'forwarded_to_admin' || app.status === 'review' || app.status === 'approved';
+                        
                         let html = `<div class="app-card" data-status="${app.status}" ${app.status === 'approved' ? 'style="border-color:rgba(16,185,129,0.15)"' : ''}>
                     <div class="app-top">
                         <div class="app-applicant">
@@ -371,41 +421,40 @@
                             </div>
                         </div>`;
                         
-                        if(app.status === 'approved') {
+                        if(app.status === 'approved' || app.status === 'disbursed') {
                             html += `<div><span class="pill pill-green">✓ ${app.status_label}</span></div></div>`;
-                            html += `<div class="app-details">
-                                <div><div class="ad-item-label">Approved</div><div class="ad-item-val" style="color:var(--green);font-family:'Playfair Display',serif">₹${app.approved_amount}</div></div>
-                                <div><div class="ad-item-label">Tenure</div><div class="ad-item-val">${app.tenure} months</div></div>
-                                <div><div class="ad-item-label">Your Yield</div><div class="ad-item-val" style="color:var(--green)">${app.yield}% p.a.</div></div>
-                                <div><div class="ad-item-label">CIBIL</div><div class="ad-item-val">${app.cibil}</div></div>
-                                <div><div class="ad-item-label">Disbursed</div><div class="ad-item-val">${app.disbursed_date}</div></div>
-                            </div>`;
+                        } else if(app.review_status === 'forwarded_to_admin' || app.status === 'review') {
+                            html += `<div><span class="pill pill-blue">Sent to Admin (Credit Review)</span></div></div>`;
                         } else {
                             html += `<div style="display:flex;align-items:center;gap:10px">
                             <div class="score-ring ${app.cibil_class}">${app.cibil}<br><span style="font-size:8px">CIBIL</span></div>
                             <span class="pill pill-gold">${app.status_label}</span>
                         </div></div>`;
-                            
-                            html += `<div class="app-details">
-                                <div><div class="ad-item-label">Requested</div><div class="ad-item-val" style="color:var(--gold);font-family:'Playfair Display',serif">₹${app.requested}</div></div>
-                                <div><div class="ad-item-label">Tenure</div><div class="ad-item-val">${app.tenure} months</div></div>
-                                <div><div class="ad-item-label">Monthly Income</div><div class="ad-item-val">₹${app.income}</div></div>
-                                <div><div class="ad-item-label">Existing EMIs</div><div class="ad-item-val">₹${app.emi}</div></div>`;
-                            if(app.missing_doc) {
-                                html += `<div><div class="ad-item-label">Missing Doc</div><div class="ad-item-val" style="color:#fc8181">${app.missing_doc}</div></div>`;
-                            } else {
-                                html += `<div><div class="ad-item-label">Risk Grade</div><div class="ad-item-val" style="color:${app.risk_color}">${app.risk}</div></div>`;
-                            }
-                            html += `</div>`;
-                            
+                        }
+                        
+                        html += `<div class="app-details">
+                            <div><div class="ad-item-label">Requested</div><div class="ad-item-val" style="color:var(--gold);font-family:'Playfair Display',serif">₹${app.requested}</div></div>
+                            <div><div class="ad-item-label">Tenure</div><div class="ad-item-val">${app.tenure || '—'} months</div></div>
+                            <div><div class="ad-item-label">Monthly Income</div><div class="ad-item-val">₹${app.income || '—'}</div></div>
+                            <div><div class="ad-item-label">Existing EMIs</div><div class="ad-item-val">₹${app.emi || '—'}</div></div>`;
+                        
+                        if(app.missing_doc) {
+                            html += `<div><div class="ad-item-label">Missing Doc</div><div class="ad-item-val" style="color:#fc8181">${app.missing_doc}</div></div>`;
+                        } else {
+                            html += `<div><div class="ad-item-label">Status</div><div class="ad-item-val" style="color:var(--gold)">${app.status_label}</div></div>`;
+                        }
+                        html += `</div>`;
+                        
+                        if(app.status === 'pending' && app.review_status !== 'forwarded_to_admin') {
                             html += `<div class="app-actions">
-                                <button class="btn-approve" onclick="approveApp(this, '${app.id}')">✓ Approve${app.missing_doc ? ' Conditionally' : ' & Fund'}</button>
+                                <button class="btn-approve" onclick="forwardToAdmin(this, '${app.id}')">✓ Verify & Send to Admin</button>
                                 <button class="btn-reject" onclick="rejectApp(this, '${app.id}')">✗ Decline</button>
-                                <button class="btn-review">📄 View Documents</button>`;
-                            if(app.missing_doc) {
-                                html += `<button class="btn-review" style="color:#fc8181;border-color:rgba(239,68,68,0.3)">⚠ Request Missing Doc</button>`;
-                            }
-                            html += `</div>`;
+                                <button class="btn-review">📄 View Documents</button>
+                            </div>`;
+                        } else if(app.status === 'review' || app.review_status === 'forwarded_to_admin') {
+                             html += `<div class="app-actions">
+                                <button class="btn-review" disabled style="opacity:0.6">Waiting for Admin Credit Review...</button>
+                            </div>`;
                         }
                         
                         html += `</div>`;
@@ -418,7 +467,7 @@
         }
         
         document.addEventListener('DOMContentLoaded', loadApplications);
- 
+
         function searchApps(query) {
             const q = query.trim().toLowerCase();
             const cards = document.querySelectorAll('.app-card');
@@ -428,7 +477,7 @@
             list.classList.remove('slide-up');
             void list.offsetWidth;
             list.classList.add('slide-up');
- 
+
             cards.forEach(card => {
                 // Gather searchable text from the card
                 const name = (card.querySelector('.app-name')?.textContent || '').toLowerCase();
@@ -437,7 +486,7 @@
                 card.style.display = matches ? '' : 'none';
             });
         }
- 
+
         function goToUser() {
             window.location.href = '../user/user1.html';
         }

@@ -20,6 +20,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use MongoDB\Client;
 use MongoDB\BSON\UTCDateTime;
+use MongoDB\BSON\ObjectId;
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -29,10 +30,18 @@ header('Access-Control-Allow-Headers: Content-Type');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 
 try {
+    session_start();
     $client    = new Client('mongodb://localhost:27017');
     $db        = $client->selectDatabase('fundbee_db');
-    $partnerId = (int)($_SESSION['partner_id'] ?? 1); // Read from session in production
-    $method    = $_SERVER['REQUEST_METHOD'];
+    
+    // Read partner_ref from session (set in auth.php)
+    $partnerRef = $_SESSION['partner_ref'] ?? ''; 
+    $method     = $_SERVER['REQUEST_METHOD'];
+
+    if (!$partnerRef) {
+        // Fallback for demo/testing if session not set
+        $partnerRef = 'P-101'; 
+    }
 
     // ── POST: Update application status ──
     if ($method === 'POST') {
@@ -41,14 +50,61 @@ try {
         $appId  = trim($input['app_id'] ?? '');
         $status = trim($input['status'] ?? '');
 
+        if ($action === 'forward_to_admin') {
+            if (!$appId) { echo json_encode(['success' => false, 'message' => 'app_id required']); exit; }
+            
+            // Try matching with partner_id first
+            $query = ['application_id' => $appId, 'partner_id' => $partnerRef];
+            $update = ['$set' => [
+                'review_status' => 'forwarded_to_admin',
+                'status'        => 'review',
+                'updated_at'    => new UTCDateTime(),
+                'verified_by'   => $partnerRef
+            ]];
+            
+            $result = $db->loan_applications->updateOne($query, $update);
+            
+            if ($result->getMatchedCount() === 0) {
+                // Secondary fallback: Match by _id + partner_id OR check if user is assigned to this partner
+                try {
+                    $oid = new ObjectId($appId);
+                    $app = $db->loan_applications->findOne(['_id' => $oid]);
+                    
+                    if ($app) {
+                        $isAuthorized = (isset($app['partner_id']) && $app['partner_id'] === $partnerRef);
+                        
+                        if (!$isAuthorized && isset($app['user_id'])) {
+                            // Check if this partner is assigned to this user
+                            $assignment = $db->user_agent_assignments->findOne([
+                                'user_id' => $app['user_id'],
+                                'partner_reference_id' => $partnerRef
+                            ]);
+                            if ($assignment) $isAuthorized = true;
+                        }
+                        
+                        if ($isAuthorized) {
+                            $result = $db->loan_applications->updateOne(['_id' => $oid], $update);
+                        }
+                    }
+                } catch (Exception $e) {}
+            }
+
+            if ($result->getMatchedCount() > 0) {
+                echo json_encode(['success' => true, 'message' => "Application verified and forwarded to admin."]);
+            } else {
+                echo json_encode(['success' => false, 'message' => "Authorization failed or application not found."]);
+            }
+            exit;
+        }
+
         if ($action === 'request_docs') {
             if (!$appId) { echo json_encode(['success' => false, 'message' => 'app_id required']); exit; }
             // Log document request action
             $db->application_actions->insertOne([
-                'partner_id' => $partnerId,
-                'app_id'     => $appId,
-                'action'     => 'doc_requested',
-                'timestamp'  => new UTCDateTime(),
+                'partner_ref' => $partnerRef,
+                'app_id'      => $appId,
+                'action'      => 'doc_requested',
+                'timestamp'   => new UTCDateTime(),
             ]);
             echo json_encode(['success' => true, 'message' => "Document request sent for application $appId."]);
             exit;
@@ -61,18 +117,17 @@ try {
             exit;
         }
 
-        // ── THE BUG WAS HERE: This updateOne call was commented out ──
         $result = $db->loan_applications->updateOne(
-            ['application_id' => $appId],
+            ['application_id' => $appId, 'partner_id' => $partnerRef],
             ['$set' => [
                 'status'     => $status,
                 'updated_at' => new UTCDateTime(),
-                'updated_by' => 'partner_' . $partnerId,
+                'updated_by' => 'partner_' . $partnerRef,
             ]]
         );
 
         if ($result->getMatchedCount() === 0) {
-            echo json_encode(['success' => false, 'message' => "Application $appId not found."]);
+            echo json_encode(['success' => false, 'message' => "Application $appId not found or not assigned to you."]);
         } else {
             echo json_encode(['success' => true, 'message' => "Application $appId updated to '$status'."]);
         }
@@ -81,7 +136,8 @@ try {
 
     // ── GET: Fetch applications + KPIs ──
     $statusFilter = $_GET['status'] ?? '';
-    $filter = ['partner_id' => $partnerId];
+    // Filter by assigned partner_id
+    $filter = ['partner_id' => $partnerRef];
     if ($statusFilter && in_array($statusFilter, ['pending', 'approved', 'rejected', 'review', 'disbursed'])) {
         $filter['status'] = $statusFilter;
     }
